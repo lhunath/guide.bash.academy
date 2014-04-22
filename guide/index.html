@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
+        <title>The Bash Guide</title>
+        <meta name="description" content="A complete guide for newcomers and advanced users to correct usage and deep understanding of the bash shell language.">
         <meta name="viewport" content="width=device-width">
 
         <link rel="stylesheet" href="css/normalize.min.css">
@@ -23,48 +23,169 @@
             <h2>by <a href="http://www.lhunath.com">lhunath</a> for <a href="http://bash.academy">The Bash Academy</a></h2>
         </header>
 
-        <article>
-            <header>
-                <h1>Inception</h1>
-                <h2>What is bash, and where does it live?</h2>
-            </header>
+        <section>
+            <p>This guide is an introduction to basic and advanced concepts of the bash shell.</p>
+            <p>It teaches both newcomers and long-time users the best, safest and most robust ways of writing powerful bash scripts as well as making efficient and speedy interactive use of the shell.</p>
+            <p>This guide has gone through several iterations and is the result of a severe lack of consistent, clear and reliable language on the topic on the rest of the Internet as well as the public library or book stores.</p>
+        </section>
 
-            <section>
-                <h1>What is bash, and what do I need it for?</h1>
+        <header>
+            <h1>Inception</h1>
+            <h2>What is bash, and where does it live?</h2>
+        </header>
 
-                <p>Welcome to the bash guide.  You're reading this guide, which means you probably have a vague idea about what bash is and what you might want to do with it.</p>
-                
-                <p>If you've already got a fair notion of what bash is, I'd like to advise you to try and forget everything you think you know before you continue.  There is a dreadful amount of misinformation floating around with regards to bash, its syntax and its place in your computer system.  This guide will be maximally effective if you reset that prior knowledge and begin a clean slate.</p>
+        <section>
+            <h1>What is bash, and what do I need it for?</h1>
 
-                <h2>So what <em>is</em> bash?</h2>
+            <p>Welcome to the bash guide.  You're reading this guide, which means you probably have a vague idea about what bash is and what you might want to do with it.</p>
+            
+            <p>If you've already got a fair notion of what bash is, I'd like to advise you to try and forget everything you think you know before you continue.  There is a dreadful amount of misinformation floating around with regards to bash, its syntax and its place in your computer system.  This guide will be maximally effective if you reset that prior knowledge and begin a clean slate.</p>
 
-                <p>Short answer: Bash is a program on your computer like any other, but designed to be easy for you to talk to.</p>
+            <h2>So what <em>is</em> bash?</h2>
 
-                <p>Every program on your computer has the ability to do a vast amount of different things.  Read files, start other programs, do math, control devices.  The main difference between bash and most other programs is that unlike them, bash was not programmed to perform a certain task.  Bash was programmed to take commands from you, the user.  To do so efficiently, a "language" was created which allows users to "speak" to the bash program and tell it what to do.  This language is
-                the bash shell language and you are about to become intimately familiar with it.</p>
+            <p>Short answer: Bash is a <dfn>program</dfn> on your computer like any other, but designed to be easy for you to talk to.</p>
 
-                <footer>
-                    So bash is a program that listens to me and does what I tell it to.
-                </footer>
+            <p>Every program on your computer has the ability to do a vast amount of different things.  Read files, start other programs, do math, control devices.  The main difference between bash and most other programs is that unlike them, bash was not programmed to perform a certain task.  Bash was programmed to take <dfn>commands</dfn> from you, the user.  To do so efficiently, a "language" was created which allows users to "speak" to the bash program and tell it what to do.  This language is
+            the bash shell language and you are about to become intimately familiar with it.</p>
 
-                <h2>What do I do with it?</h2>
+            <footer>
+            Bash is a <dfn>program</dfn> designed to listen to my <dfn>commands</dfn> and do what I tell it to.
+            </footer>
 
-                <p>Most of you will have quite a bit of experience already using computers.  You probably use your keyboard and your mouse to interact with various programs on your computer.  Most likely, you do this in a visual interface composed of buttons and widgets, text fields and images.  This is the graphical user interface that has become the centerpiece to most users' computer interaction.</p>
+            <h2>What do I do with it?</h2>
 
-                <p>There are other ways of interacting with your computer, though.  Bash uses a method directly counter to the ideas of graphical user interfaces: it runs in a text-only "console" where interaction is mainly limited to displaying characters on your screen and reading them from your keyboard.  If you're not yet familiar in this kind of environment, it will feel exceptionally alien, primitive and limiting to you.</p>
+            <p>Most of you will have quite a bit of experience already using computers.  You probably use your keyboard and your mouse to interact with various programs on your computer.  Most likely, you do this in a visual interface composed of buttons and widgets, text fields and images.  This is the graphical user interface that has become the centerpiece to most users' computer interaction.</p>
 
-                <p>The truth is in fact quite the opposite.  While a text-only interface is certainly less potent in what it can display (it's certainly not well suited for displaying images), its simplicity makes it very easy for us as humans to find consistent structure in how we can interprete the text that appears in it and how we can issue our commands.  You'll find that the most skilled computer users are wildly more efficient in performing tasks through a text-based interface than
-                performing the same tasks using programs with a graphical interface.  You will soon learn that the simplicity of bash's shell language is a key element to this.</p>
+            <p>There are other ways of interacting with your computer, though.  Bash uses a method directly counter to the ideas of graphical user interfaces: it runs in a text-only "console" where interaction is mainly limited to displaying characters on your screen and reading them from your keyboard.  If you're not yet familiar in this kind of environment, it will feel exceptionally alien, primitive and limiting to you.</p>
 
-                <p>So, what do you do with bash?  You will use it to find out what files are on your computer, and what is in them.  You will use it to run programs that can make all sorts of changes to your computer, from editing files and images to converting them.  From moving and copying files around to creating automatic back-ups.  From downloading code of new programs to compiling and running them.  But before you get too excited: it is key that you remember, <strong>bash is a
-                    tool</strong>, a single tool in a huge toolbox of programs.  Bash alone will only let you do basic things with files and other programs.  You will need to understand all the other tools in the toolbox of your system.  This knowledge is vast and will come slowly, it is important that you <strong>take the time to learn them well</strong> rather than try to get the basic idea of most and break a leg tomorrow (or more likely, your music archive or collection of family
-                pictures).</p>
+            <p>The truth is in fact quite the opposite.  While a text-only interface is certainly less potent in what it can display (it's certainly not well suited for displaying images), its simplicity makes it very easy for us as humans to find consistent structure in how we can interprete the text that appears in it and how we can issue our commands.  You'll find that the most skilled computer users are wildly more efficient in performing tasks through a text-based interface than
+            performing the same tasks using programs with a graphical interface.  You will soon learn that the simplicity of bash's shell language is a key element to this.</p>
 
-                <footer>
-                    Bash is a simple tool in a vast toolbox of programs that lets me interact with my system using a text-based interface.
-                </footer>
-            </section>
-        </article>
+            <p>So, what do you do with bash?  You will use it to find out what files are on your computer, and what is in them.  You will use it to run programs that can make all sorts of changes to your computer, from editing files and images to converting them.  From moving and copying files around to creating automatic back-ups.  From downloading code of new programs to compiling and running them.  But before you get too excited: it is key that you remember, <strong>bash is a
+                tool</strong>, a single tool in a huge toolbox of programs.  Bash alone will only let you do basic things with files and other programs.  You will need to understand all the other tools in the toolbox of your system.  This knowledge is vast and will come slowly, it is important that you <strong>take the time to learn them well</strong> rather than try to get the basic idea of most and break a leg tomorrow (or more likely, your music archive or collection of family
+            pictures).</p>
+
+            <footer>
+            Bash is a simple tool in a vast toolbox of programs that lets me interact with my system using a <dfn>text-based interface</dfn>.
+            </footer>
+        </section>
+
+        <section>
+            <h1>Where do I find bash and how is it used?</h1>
+
+            <p>We learned that bash is little more than a program on your computer waiting for you to start it and give it commands to perform.  We learned that interacting with bash generally happens through a text-based interface where you "speak" by writing commands using the bash shell language and receive feedback in the form of textual output or the results of running other programs.</p>
+
+            <p>Before we dive right into the thick of it, let's first get our bearings.  It's important that you understand where the bash program lives, how it's invoked, and what its environment is.  How far does its reach extend and whom are its friends upon which it can call for help in performing the tasks you will instruct it to do.</p>
+            
+            <h2>Where do I find bash?  How do I start using it?</h2>
+
+            <p>Assuming that your operating system came with bash installed, you'll find bash as a simple binary program located in one of your system's standard binary directories.  If you're running a system that does not ship with bash pre-installed, such as FreeBSD or Windows, you'll need to either use a distribution platform to download and install it, or obtain bash's source code and build the binary yourself.  FreeBSD users can use <code>ports</code>, Windows users can use
+            <code>cygwin</code>, but there are alternative distributions.  The source code is available from <a href="http://ftp.gnu.org/gnu/bash/">GNU.org</a>.  If all else fails, employ the powers of the Internet to find a means of installing bash before you continue.</p>
+
+            <p>With bash installed, we can run the binary to start the program.  Before we do so, it's important to take note of the two distinct modes of operation that the bash shell supports:</p>
+            <dl>
+                <dt><dfn>interactive mode</dfn></dt>
+                <dd>In interactive mode, the bash shell waits for your commands before performing them.  Each command you pass it is executed.  While a command is being executed, you cannot interact with the bash shell.  As soon as the command is finished, you can interact with bash again while bash awaits your next command.</dd>
+                <dt><dfn>non-interactive mode</dfn></dt>
+                <dd>The bash shell can also execute <dfn>script</dfn>s.  A script is a pre-written series of commands which bash can execute without needing to ask you what to do next.  Scripts are generally saved in files and subsequently used to automate a wide range of tasks.</dd>
+            </dl>
+
+            <p>Apart from the source of the commands bash executes, these two modes of operation are very similar.  For now, suffice it to say that if bash is asking you for a command to run, you're in <dfn>interactive mode</dfn>.  If it's running commands stored in a file, it's running a script in <dfn>non-interactive mode</dfn>.</p>
+
+            <p>Also recal that the bash program generally runs in a text-based interface.  It has no graphical interface for you to interact with, which means that if you're currently in a graphical interface, you'll first need to open a text-based interface before you can perform any meaningful interaction with the bash program.  The standard way of opening a text-based interface involves opening a <dfn>terminal</dfn>.  In the old days, terminals were the hardware devices we used to
+            connect to a computer and interact with it.  Nowadays, most terminals are "emulated".  That is to say, they are programs on your computer, either graphical or textual, that "emulate" a real terminal in software and create a textual interface for you to use.  There is a wide variety of terminal emulators, and the ones available to you vary depending on what system you're on.  Linux and *BSD users might use <a href="http://rxvt.sourceforge.net/">rxvt</a>, <a
+                href="http://invisible-island.net/xterm/">xterm</a>, <a href="https://help.gnome.org/users/gnome-terminal/stable/">gnome-terminal</a> or <a href="http://konsole.kde.org/">konsole</a>.  OS X users might use <a href="http://en.wikipedia.org/wiki/Terminal_(OS_X)">Terminal</a> or <a href="http://www.iterm2.com/#/section/home">iTerm 2</a>.  Windows users can use programs such as <a href="http://en.wikipedia.org/wiki/Command_Prompt">cmd.exe</a>, <a
+                href="http://sourceforge.net/projects/console/">Console 2</a> and <a href="https://code.google.com/p/mintty/">mintty</a>.  There are many alternatives for each operating system.  Find one you like and read on as soon as it's installed and you're ready to start it.</a>
+
+            <p>Let's start bash!<br>
+            First, make sure you're in a text-based interface by opening your terminal or terminal emulator program.  Once you're in a text-based interface, you'll need to find a way to run programs.  Just like graphical interfaces can vary greatly in how you start programs with them, as can text-based interfaces.  Luckily, however, most terminals are configured to start a shell program as soon as it's ready.  Remember how bash is a shell program?  Chances are, your terminal will start with
+            bash already running in it.  Some terminals, however, won't: some systems may default to shells such as <code>cmd.exe</code>, <code>sh</code>, <code>dash</code>, <code>csh</code> or <code>zsh</code>.  Neither of these shells are <code>bash</code>, and their usage is not covered by this guide (if you need help, I again recommend you turn to the powers of the Internet).  To find out whether or not your terminal is currently running a bash shell, let's try running our <strong>first bash
+                command</strong>!</p>
+
+            <code class="block" lang="bash">
+$ <kbd>echo "$BASH_VERSION"</kbd>
+4.2.45(2)-release
+            </code>
+
+            <p>Since this is our first block of shell code, let's take a moment to point out the syntax we'll be using in this guide.  All code is formatted <code>like this</code>.  When there's a block of code, like above, we'll include both the output that appears on your terminal as well as the text you have typed into the terminal.  We'll make a distinction between the text you type and the other text that appears in the terminal by formatting the text you type
+            <kbd>like this</kbd>.  Text you should type can be easily selected by <kbd>clicking it</kbd>. Looking up at the code block above, you should now understand that the <code>$</code>-sign is not something you should type: it represents the prompt that will appear in your terminal when its shell is ready to receive a command.  The actual prompt in your terminal may look different.  At the prompt, you will enter the following text: <kbd>echo "$BASH_VERSION"</kbd>, followed by hitting the <kbd title="enter">⏎</kbd> (enter/return) key to confirm the command.  As
+            soon as you confirm the command, the bash shell will execute it and produce the output on the line below (or a similar version number).</p>
+
+            <p>If the above command yields no output or results in an error message (assuming you didn't mis-type anything), it means your terminal probably isn't running the bash shell.  You'll need to manually start the bash shell before you can try the command again.  In most shells, starting bash is as simple as executing the <kbd>bash</kbd> command.  If not, you'll need to turn to the documentation of your system, terminal or shell, or activate the power of the Internet to find out
+            how to run the bash shell from your terminal.</p>
+
+            <footer>
+            The bash shell is a binary program that runs either <dfn>interactively</dfn> or <dfn>non-interactively</dfn>, usually in a text-based interface provided by a <dfn>terminal emulator</dfn> program.
+            </footer>
+
+            <h2>What's going on here?  text, terminals, bash, programs, input, output!</h2>
+
+            <p>Near the end of the last section, you might have noticed we accelerated a bit.<br>
+            If you're still a bit dizzy from the speed (and otherwise!), let's take a step back and get a clear picture of what's going on.  Depending on your level of familiarity with the matter, there may be a lot of new concepts here.  Even if these concepts are not new to you, there is a good chance you don't know exactly how to frame them.  If you're going to understand what exactly is going on when you run
+            code on your computer, it's vital that you have a good understanding of how the different concepts interact.</p>
+
+            <img src="img/terminal-bash.png" alt="The terminal program runs in the GUI, the bash program runs in the terminal.">
+
+            <p>When you start a terminal emulator program from your graphical user interface, you'll see a window open up with text in it.  The text that displays in this window is both the output of programs running in the terminal as well as the characters you've sent to those programs using, for instance, your keyboard.  The bash program is only one of many programs that can run in a terminal, so it is important to note that <em>bash is not what's making text appear on your screen</em>.  The
+            terminal program takes care of that, taking text from bash and placing it in its window for you to see.  The terminal may do the same for other terminal programs, completely unrelated to bash, such as a mail program or an IRC client.</p>
+
+            <img src="img/terminal-more.png" alt="The terminal program can run other programs which in turn can run other programs, building a chain.">
+
+            <p>It is sometimes difficult to tell just what programs are currently running in a terminal.  In the example above, text from your keyboard goes through a long chain of programs, passed from one to the other, until it reaches its final destination (the <code>mail</code> program running on another computer at IP address <code>192.168.1.1</code>).<br>
+            I won't describe these programs in depth, the point here is that terminal programs all inter-connect and work together under the hood.  Since there isn't much of a visual reminder about what's happening, it's important that you develop a good understanding of when programs start, communicate and end, so that you can properly understand the effects and side-effects of sending input to or receiving output from various programs in your text based user interface.</p>
+            <p>Briefly, the above example uses the <code>bash</code> program to run the <kbd>ssh</kbd> program, which sets up a connection with another computer.  On the other computer, a new <code>bash</code> shell is started, whose input and output are sent back and forth over the connection.  We then run the <kbd>screen</kbd> program with the remote bash, which is a <dfn>terminal multiplexer</dfn>.  Such a program is a text-based terminal emulator, which can emulate multiple terminals
+            using only one terminal display (by using hotkeys to switch between active emulated terminals or displaying multiple of them using split screens).  The <code>screen</code> program starts a <code>bash</code> shell to run in one of its own emulated terminals.  In this third bash shell, we then run the <kbd>mail</kbd> program, which allows us to type in the mail message that we'd like to send.</p>
+
+            <footer>
+            In a terminal, many terminal-based programs can run simultaneously, forming a chain through which your input and their output flows.
+            </footer>
+
+            <h2>So what exactly is a program and how does it connect to other programs?</h2>
+
+            <p>It may seem obvious at first, but upon second thought it's not immediately clear to most what a program really is.  Additionally, we're going to try and avoid making claims in this guide that aren't explained, at least within our subject scope, such as the fact that programs "connect" with one another.</p>
+            <p>In short, a program is a set of pre-written instructions that can be executed by your system's <dfn>kernel</dfn>.  A program gives instructions to the kernel directly.  The kernel is technically also a program, but one that runs constantly and communicates with your hardware instead.</p>
+
+            <img src="img/process.png" alt="A process is a running program that can relays instructions to the kernel and has input and output connectors called FDs.">
+
+            <p>A program generally lives on your disk, waiting to be started.  When you "run" or "execute" a program, your kernel loads its pre-written instructions (its <dfn>code</dfn>) by creating a <dfn>process</dfn> for your program to work in.  As we briefly saw in the previous section, your program can run many times simultaneously, each of those instances are running processes of your program.  A process relays the instructions in your program to the kernel.  A process also
+            has a few hooks to the outside world via something called <dfn>file descriptor</dfn>s.  These are essentially plugs we use to connect processes to files, devices or other processes.  File descriptors are described by numbers, though the first three also have standard names:</p>
+            <dl>
+                <dt><dfn>standard input</dfn></dt>
+                <dd><strong>File descriptor 0</strong> is also called <dfn>standard input</dfn>.  This is where most processes receive their input from.  By default, processes in your terminal will have their standard input "connected" to your keyboard.  More specifically, to the input your terminal program receives.</dd>
+                <dt><dfn>standard output</dfn></dt>
+                <dd><strong>File descriptor 1</strong> is also called <dfn>standard output</dfn>.  This is where most processes send their output to.  By default, processes in your terminal will have their standard output "connected" to your display.  More specifically, your terminal program will display this output in its window.</dd>
+                <dt><dfn>standard error</dfn></dt>
+                <dd><strong>File descriptor 2</strong> is also called <dfn>standard error</dfn>.  This is where most processes send their error and informational messages to.  By default, processes in your terminal will have their standard error "connected" to your display, just like <dfn>standard output</dfn>.  It's important to understand that standard error is just another plug, just like standard output, which leads to your terminal's display.  It isn't dedicated to errors, in fact
+                bash uses it for most of its informational messages <em>as well as your prompt</em>!</dd>
+            </dl>
+
+            <p>A process isn't limited to just these three file descriptors, it can create new ones with their own number and connect them to other files, devices or processes as it sees fit.</p>
+
+            <p>If a program needs its output to go to another program's input, as opposed to your display, it will instruct the kernel to connect its standard output to the other program's standard input.  Now all the information it sends to its standard output file descriptor will flow into the other program's standard input file descriptor.  These flows of information between files, devices and processes are called <dfn>stream</dfn>s.</p>
+
+            <p>A stream is information (specifically, <dfn>byte</dfn>s) flowing through the links between files, devices and processes in a running system.  They can transport any kind of bytes, and the receiving end can only consume their bytes one-by-one.  If I have a program that outputs names connected to another program, the second program can only see the second name after first reading the first name from the stream.  When it's done reading the second name, the next thing in the
+            stream is the third name.  Once it reads a name from the stream it would do well to save that name somewhere, because it cannot read it from the stream again: reading from a stream consumes those bytes and the stream advances to the next few bytes that haven't been read yet.</p>
+
+            <img src="img/streams.png" alt="Processes have file descriptors that connect to files, devices and other processes via streams.">
+
+            <p>In the above example, two bash processes are linked via a stream.  The first bash process reads its input from the keyboard.  It sends output on both standard output and standard error.  Output on standard error is connected to the terminal display, while output on standard output is connected to the second process.  Notice how the first process' <code>FD 1</code> connects to the second process' <code>FD 0</code>.  The second process therefore consumes the first process'
+            standard output when it reads from its standard input.  The second process' standard output in turn is connected to the terminal's display.  Running this code in a terminal would show us something like this:</p>
+
+            <code class="block" lang="bash">
+Your name?
+<kbd>Maarten Billemont</kbd>
+Hello, Maarten Billemont
+            </code>
+
+            <p>Notice how the only text that appears in the terminal is the output of the commands that are connected to the terminal's display, as well as the input the terminal has sent to the programs.</p>
+
+            <p>It is important to understand that <strong>file descriptors are process specific</strong>: to speak of "standard output" only makes sense when referring to a specific process.  In the example above, you'll notice that the first process' standard input is not the same as the second process' standard input.  You'll also notice that the first process' FD 1 (standard output) is connected to the second process' FD 0 (standard input).  File descriptors do not describe the streams
+            that connect processes, they only describe the process' plugs where these streams can be connected to.</p>
+
+            <footer>
+            Each time a program is started, the system creates a running <dfn>process</dfn> for it.  Processes have plugs, called <dfn>file descriptor</dfn>s which allow them to connect to <dfn>stream</dfn>s that lead to files, devices or other processes.
+            </footer>
+        </section>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
