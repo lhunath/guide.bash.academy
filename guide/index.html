@@ -19,8 +19,10 @@
         <![endif]-->
 
         <header data-stellar-background-ratio="0.4" data-stellar-vertical-offset="-150">
-            <h1>The Bash Guide</h1>
-            <h2>by <a href="http://www.lhunath.com">lhunath</a> for <a href="http://bash.academy">The Bash Academy</a></h2>
+            <div>
+                <h1>The Bash Guide</h1>
+                <h2>by <a href="http://www.lhunath.com">lhunath</a> for <a href="http://bash.academy">The Bash Academy</a></h2>
+            </div>
         </header>
 
         <section>
@@ -30,8 +32,10 @@
         </section>
 
         <header>
-            <h1>Inception</h1>
-            <h2>What is bash, and where does it live?</h2>
+            <div>
+                <h1>Inception</h1>
+                <h2>What is bash, and where does it live?</h2>
+            </div>
         </header>
 
         <section>
@@ -87,7 +91,7 @@
                 <dt><dfn>interactive mode</dfn></dt>
                 <dd>In interactive mode, the bash shell waits for your commands before performing them.  Each command you pass it is executed.  While a command is being executed, you cannot interact with the bash shell.  As soon as the command is finished, you can interact with bash again while bash awaits your next command.</dd>
                 <dt><dfn>non-interactive mode</dfn></dt>
-                <dd>The bash shell can also execute <dfn>script</dfn>s.  A script is a pre-written series of commands which bash can execute without needing to ask you what to do next.  Scripts are generally saved in files and subsequently used to automate a wide range of tasks.</dd>
+                <dd>The bash shell can also execute <dfn>scripts</dfn>.  A script is a pre-written series of commands which bash can execute without needing to ask you what to do next.  Scripts are generally saved in files and subsequently used to automate a wide range of tasks.</dd>
             </dl>
 
             <p>Apart from the source of the commands bash executes, these two modes of operation are very similar.  For now, suffice it to say that if bash is asking you for a command to run, you're in <dfn>interactive mode</dfn>.  If it's running commands stored in a file, it's running a script in <dfn>non-interactive mode</dfn>.</p>
@@ -113,6 +117,8 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
 
             <p>If the above command yields no output or results in an error message (assuming you didn't mis-type anything), it means your terminal probably isn't running the bash shell.  You'll need to manually start the bash shell before you can try the command again.  In most shells, starting bash is as simple as executing the <kbd>bash</kbd> command.  If not, you'll need to turn to the documentation of your system, terminal or shell, or activate the power of the Internet to find out
             how to run the bash shell from your terminal.</p>
+
+            <p>If you're worried that you don't fully understand how this command works, don't.  We'll go in-depth on bash's commands in a later chapter.  Until then, you will see simple code every now and then: it'll be mostly obvious and not critical to understand what the code does.  For now, take it matter-of-factly.  Conveniently, one of the advantages of the bash shell language is that it is fairly easy to understand the simple statements.</p>
 
             <footer>
             The bash shell is a binary program that runs either <dfn>interactively</dfn> or <dfn>non-interactively</dfn>, usually in a text-based interface provided by a <dfn>terminal emulator</dfn> program.
@@ -148,7 +154,7 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
             <img src="img/process.png" alt="A process is a running program that can relays instructions to the kernel and has input and output connectors called FDs.">
 
             <p>A program generally lives on your disk, waiting to be started.  When you "run" or "execute" a program, your kernel loads its pre-written instructions (its <dfn>code</dfn>) by creating a <dfn>process</dfn> for your program to work in.  As we briefly saw in the previous section, your program can run many times simultaneously, each of those instances are running processes of your program.  A process relays the instructions in your program to the kernel.  A process also
-            has a few hooks to the outside world via something called <dfn>file descriptor</dfn>s.  These are essentially plugs we use to connect processes to files, devices or other processes.  File descriptors are described by numbers, though the first three also have standard names:</p>
+            has a few hooks to the outside world via something called <dfn>file descriptors</dfn>.  These are essentially plugs we use to connect processes to files, devices or other processes.  File descriptors are described by numbers, though the first three also have standard names:</p>
             <dl>
                 <dt><dfn>standard input</dfn></dt>
                 <dd><strong>File descriptor 0</strong> is also called <dfn>standard input</dfn>.  This is where most processes receive their input from.  By default, processes in your terminal will have their standard input "connected" to your keyboard.  More specifically, to the input your terminal program receives.</dd>
@@ -161,9 +167,9 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
 
             <p>A process isn't limited to just these three file descriptors, it can create new ones with their own number and connect them to other files, devices or processes as it sees fit.</p>
 
-            <p>If a program needs its output to go to another program's input, as opposed to your display, it will instruct the kernel to connect its standard output to the other program's standard input.  Now all the information it sends to its standard output file descriptor will flow into the other program's standard input file descriptor.  These flows of information between files, devices and processes are called <dfn>stream</dfn>s.</p>
+            <p>If a program needs its output to go to another program's input, as opposed to your display, it will instruct the kernel to connect its standard output to the other program's standard input.  Now all the information it sends to its standard output file descriptor will flow into the other program's standard input file descriptor.  These flows of information between files, devices and processes are called <dfn>streams</dfn>.</p>
 
-            <p>A stream is information (specifically, <dfn>byte</dfn>s) flowing through the links between files, devices and processes in a running system.  They can transport any kind of bytes, and the receiving end can only consume their bytes one-by-one.  If I have a program that outputs names connected to another program, the second program can only see the second name after first reading the first name from the stream.  When it's done reading the second name, the next thing in the
+            <p>A stream is information (specifically, <dfn>bytes</dfn>) flowing through the links between files, devices and processes in a running system.  They can transport any kind of bytes, and the receiving end can only consume their bytes one-by-one.  If I have a program that outputs names connected to another program, the second program can only see the second name after first reading the first name from the stream.  When it's done reading the second name, the next thing in the
             stream is the third name.  Once it reads a name from the stream it would do well to save that name somewhere, because it cannot read it from the stream again: reading from a stream consumes those bytes and the stream advances to the next few bytes that haven't been read yet.</p>
 
             <img src="img/streams.png" alt="Processes have file descriptors that connect to files, devices and other processes via streams.">
@@ -183,8 +189,46 @@ Hello, Maarten Billemont
             that connect processes, they only describe the process' plugs where these streams can be connected to.</p>
 
             <footer>
-            Each time a program is started, the system creates a running <dfn>process</dfn> for it.  Processes have plugs, called <dfn>file descriptor</dfn>s which allow them to connect to <dfn>stream</dfn>s that lead to files, devices or other processes.
+            Each time a program is started, the system creates a running <dfn>process</dfn> for it.  Processes have plugs, called <dfn>file descriptors</dfn> which allow them to connect <dfn>streams</dfn> that lead to files, devices or other processes.
             </footer>
+        </section>
+
+        <header>
+            <div>
+                <h1>Commands And Arguments</h1>
+                <h2>How do I give bash instructions?</h2>
+            </div>
+        </header>
+
+        <section>
+            <h1>What are bash commands and how do I write and issue them?</h1>
+
+            <p>We learned a great deal about how bash and other processes work together in the terminal.  Let's refocus on bash and start figuring out how exactly we get stuff done with it.</p>
+
+            <p>As mentioned earlier, bash waits for instructions from you and then executes them to the best of its abilities.  To get the most out of bash, and especially to avoid damage due to bash misunderstanding your intentions, it's important that you pay close attention to these basics of the bash shell language.  There are many people that consider themselves fluent in bash but fail to understand even these most basic concepts.  As a result, they create programs that can inflict
+            extensive damage to unsuspecting users and systems.  Don't be that guy.</p>
+
+            <h2>So what are bash commands?</h2>
+
+            <p>The core of the bash shell language are its commands.  Your commands tell bash what you need it to do, step-by-step, command-by-command.</p>
+
+            <p>Bash generally takes one command from you at a time, executes the command, and when completed returns to you for the next command.  We call this <dfn>synchronous</dfn> command execution.  It is important to understand that while bash is busy with a command that you give it, there is no way for you to interact with bash: you'll have to wait for bash to get back to you after its job is done.  For most commands, you'll barely notice this: they get executed so fast bash
+            will be back for the next command before you realize.  Some commands can take a long time to complete, though.  In particular, commands that start other programs with which you can interact.  For instance, a command might start a file editor.  While you're interacting with the file editor, bash takes a back-seat and waits for the file editor to end (which generally means you quit it) before it resumes operation and asks you for the next thing to do.  You'll notice that while
+            your editor is running, you are no longer at the bash prompt.  As soon as your editor exits, your bash prompt re-appears:</p>
+
+            <code class="block" lang="bash">
+$ <kbd>ex</kbd><em>bash command to run the "ex" program.</em>
+: <kbd>i</kbd><em>ex command to "insert" some text.</em>
+<kbd>Hello!
+.</kbd><em>A line with just a dot tells ex to stop inserting text.</em>
+: <kbd>w greeting.txt</kbd><em>ex command to "write" the text to a file.</em>
+"greeting.txt" [New] 1L, 7C written
+: <kbd>q</kbd><em>ex command to "quit" the program.</em>
+$ <kbd>cat greeting.txt</kbd><em>And now we're back in bash!</em>
+Hello!<em>The "cat" program shows the contents of the file.</em>
+$ 
+            </code>
+
         </section>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

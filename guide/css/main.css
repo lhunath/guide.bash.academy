@@ -42,15 +42,16 @@ header {
     background: #BBB;
     box-shadow: 0 0 2px black;
 
-    height: 100%;
-    padding: 12em;
+    position: relative;
+    height: 80%;
     margin: 0;
+    padding: 15%;
     box-sizing: border-box;
 }
-header::before {
-    content: "";
-    display: inline-block;
-    height: 100%;
+header>div {
+    position: absolute;
+
+    bottom: 15%;
 }
 header h1 {
     color: white;
@@ -73,24 +74,24 @@ header a:hover {
 }
 
 
-header,
-article,
-section {
-    overflow: hidden;
-}
-
 article {
 }
 section {
     counter-reset: subsection;
 
-    min-height: 100%;
-    padding: 12em;
+    min-height: 80%;
+    max-width: 80%;
+    min-width: 900px;
+    margin: 0 auto;
+    padding: 15% 0;
     box-sizing: border-box;
 }
 section h1,
 section h2 {
-    margin: 3em -1em 1em;
+    margin: 0 -1em 1em;
+}
+section h2 {
+    margin-top: 5em;
 }
 section h1::before,
 section h2::before {
@@ -116,14 +117,18 @@ code.block {
     box-shadow: 0 0 1px #CCC;
     transition: .3s all;
 
-    margin: 0 -15em;
+    margin: 0 -12.5%
+}
+footer, code, kbd {
+    background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
+    background-size:6px 6px;
 }
 footer {
-    background: #EEE;
+    background-color: #EEE;
     font-family: 'Varela Round', sans-serif;
     font-size: 1.1em;
 
-    padding: 1em 16em;
+    padding: 1em 20%;
 }
 footer:hover {
     color: black;
@@ -145,7 +150,7 @@ footer::before {
 }
 code,
 kbd {
-    background: #DDD;
+    background-color:#DDD;
 
     white-space: pre;
     font-family: 'Source Code Pro', monospace;
@@ -157,13 +162,18 @@ kbd {
     text-decoration: underline;
 }
 code.block {
+    position: relative;
+    z-index: 0;
     color: #999;
     border-top-color: #BBB;
     border-bottom-color: #BBB;
 
-    padding: 1em 20em;
+    padding: 1em 20%;
+    overflow: auto;
 }
 code.block kbd {
+    background: transparent;
+
     font-size: inherit;
     text-decoration: none;
 }
@@ -194,6 +204,24 @@ code.block::before {
 }
 code.block:hover::before {
     font-size: 1em;
+}
+code em {
+    background: rgba(255, 255, 255, 0);
+    transition: 0.2s all;
+
+    position: absolute;
+    z-index: -1;
+    left: 15%;
+    padding-left: 50em;
+    width: 40em;
+
+    color: #AAA;
+}
+code em::before {
+    content: "# ";
+}
+code em:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
 img[alt] {
     transition: .3s all;
