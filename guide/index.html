@@ -29,6 +29,9 @@
             <p>This guide is an introduction to basic and advanced concepts of the bash shell.</p>
             <p>It teaches both newcomers and long-time users the best, safest and most robust ways of writing powerful bash scripts as well as making efficient and speedy interactive use of the shell.</p>
             <p>This guide has gone through several iterations and is the result of a severe lack of consistent, clear and reliable language on the topic on the rest of the Internet as well as the public library or book stores.</p>
+            <h2>Authorship</h2>
+            <p>The primary author of this guide is <a href="http://www.lhunath.com">lhunath (Maarten Billemont)</a>.</p>
+            <p>For advice, comments, suggestions or recommendations, contact lhunath or visit the <a href="irc://freenode.org/#bash">freenode.org #bash community on IRC</a>.
         </section>
 
         <header>
@@ -106,10 +109,10 @@
             bash already running in it.  Some terminals, however, won't: some systems may default to shells such as <code>cmd.exe</code>, <code>sh</code>, <code>dash</code>, <code>csh</code> or <code>zsh</code>.  Neither of these shells are <code>bash</code>, and their usage is not covered by this guide (if you need help, I again recommend you turn to the powers of the Internet).  To find out whether or not your terminal is currently running a bash shell, let's try running our <strong>first bash
                 command</strong>!</p>
 
-            <code class="block" lang="bash">
+<code class="block" lang="bash">
 $ <kbd>echo "$BASH_VERSION"</kbd>
 4.2.45(2)-release
-            </code>
+</code>
 
             <p>Since this is our first block of shell code, let's take a moment to point out the syntax we'll be using in this guide.  All code is formatted <code>like this</code>.  When there's a block of code, like above, we'll include both the output that appears on your terminal as well as the text you have typed into the terminal.  We'll make a distinction between the text you type and the other text that appears in the terminal by formatting the text you type
             <kbd>like this</kbd>.  Text you should type can be easily selected by <kbd>clicking it</kbd>. Looking up at the code block above, you should now understand that the <code>$</code>-sign is not something you should type: it represents the prompt that will appear in your terminal when its shell is ready to receive a command.  The actual prompt in your terminal may look different.  At the prompt, you will enter the following text: <kbd>echo "$BASH_VERSION"</kbd>, followed by hitting the <kbd title="enter">⏎</kbd> (enter/return) key to confirm the command.  As
@@ -177,11 +180,11 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
             <p>In the above example, two bash processes are linked via a stream.  The first bash process reads its input from the keyboard.  It sends output on both standard output and standard error.  Output on standard error is connected to the terminal display, while output on standard output is connected to the second process.  Notice how the first process' <code>FD 1</code> connects to the second process' <code>FD 0</code>.  The second process therefore consumes the first process'
             standard output when it reads from its standard input.  The second process' standard output in turn is connected to the terminal's display.  Running this code in a terminal would show us something like this:</p>
 
-            <code class="block" lang="bash">
+<code class="block">
 Your name?
 <kbd>Maarten Billemont</kbd>
 Hello, Maarten Billemont
-            </code>
+</code>
 
             <p>Notice how the only text that appears in the terminal is the output of the commands that are connected to the terminal's display, as well as the input the terminal has sent to the programs.</p>
 
@@ -213,10 +216,10 @@ Hello, Maarten Billemont
             <p>The core of the bash shell language are its commands.  Your commands tell bash what you need it to do, step-by-step, command-by-command.</p>
 
             <p>Bash generally takes one command from you at a time, executes the command, and when completed returns to you for the next command.  We call this <dfn>synchronous</dfn> command execution.  It is important to understand that while bash is busy with a command that you give it, there is no way for you to interact with bash: you'll have to wait for bash to get back to you after its job is done.  For most commands, you'll barely notice this: they get executed so fast bash
-            will be back for the next command before you realize.  Some commands can take a long time to complete, though.  In particular, commands that start other programs with which you can interact.  For instance, a command might start a file editor.  While you're interacting with the file editor, bash takes a back-seat and waits for the file editor to end (which generally means you quit it) before it resumes operation and asks you for the next thing to do.  You'll notice that while
-            your editor is running, you are no longer at the bash prompt.  As soon as your editor exits, your bash prompt re-appears:</p>
+            will be back for the next command before you realize.  Some commands can take a long time to complete, though.  In particular, commands that start other programs with which you can interact.  For instance, a command might start a file editor.  While you're interacting with the file editor, bash takes a back-seat and waits for the file editor to end (which generally means you quit it). When the file editor program stops running, the command ends and bash resumes operation by
+            asking you for the next thing to do.  You'll notice that while your editor is running, you are no longer at the bash prompt.  As soon as your editor exits, your bash prompt re-appears:</p>
 
-            <code class="block" lang="bash">
+<code class="block" lang="bash">
 $ <kbd>ex</kbd><em>bash command to run the "ex" program.</em>
 : <kbd>i</kbd><em>ex command to "insert" some text.</em>
 <kbd>Hello!
@@ -227,8 +230,227 @@ $ <kbd>ex</kbd><em>bash command to run the "ex" program.</em>
 $ <kbd>cat greeting.txt</kbd><em>And now we're back in bash!</em>
 Hello!<em>The "cat" program shows the contents of the file.</em>
 $ 
-            </code>
+</code>
 
+            <p>Notice how in this session, we started out by giving bash the command to start the <kbd>ex</kbd> file editor.  After issuing this command, our prompt changed: any text we enter now is sent to ex, not to bash.  While ex is running, bash is aslumber waiting for your ex session to end.  When you quit ex using the <kbd>q</kbd> command, the <code>ex</code> bash command ends and bash is ready to receive a new command.  To tell you this, it shows you its prompt again, allowing
+            you to enter the next bash command.  We finish the example with a <kbd>cat greetings.txt</kbd> bash command which tells bash to run the cat program.  The cat program is great for outputting file contents (its name is short for con<em>cat</em>enate, because its purpose is to output the contents of all the files you give it, one after the other, effectively concatenating the contents in its output).  The cat command in the example is used to find out what is in our
+            <code>greetings.txt</code> file after we're done editing it with the ex program.</p>
+
+            <footer>
+            A bash command is the smallest unit of code that bash can independently execute.  While executing a command, you cannot interact with the bash shell.  As soon as bash is done executing a command, it returns to you for the next command to execute.
+            </footer>
+
+            <h2>How do I give bash a command?</h2>
+
+            <p>We've been showing quite a few examples now of running commands in bash, so you probably already have a good idea about how one issues basic commands in bash at the prompt.</p>
+
+            <p>Bash is mostly a line-based language.  Accordingly, when bash reads your commands, it does so line-by-line.  Most commands will only constitute one line and, unless the syntax of your bash command explicitly indicates that your command is not yet complete, as soon as you end that line, bash will immediately consider that to be the end of the command.  As a result, typing a line of text and hitting the <kbd title="enter/return">⏎</kbd> key will generally cause bash to start
+            performing the command described by your line of text.</p>
+
+            <p>Some commands however, span multiple lines.  These are usually block commands or commands with quotes in them:</p>
+
+<code class="block" lang="bash">
+$ <kbd>read -p "Your name? " name</kbd><em>This command is complete and can be started immediately.</em>
+Your name? <kbd>Maarten Billemont</kbd>
+$ <kbd>if [[ $name = $USER ]]; then</kbd><em>The "if" block started but wasn't finished.</em>
+&gt; <kbd>    echo "Hello, me."</kbd>
+&gt; <kbd>else</kbd>
+&gt; <kbd>    echo "Hello, $name."</kbd>
+&gt; <kbd>fi</kbd><em>Now the "if" block ends and bash knows enough to start the command.</em>
+Hello, Maarten Billemont.
+</code>
+
+            <p>Logically, bash cannot execute a command until it has enough information to do its job.  The first line of the <code>if</code> command in the example above (we'll cover what these commands do in more detail later on) doesn't contain enough information for bash to know what to do if the test succeeds or if it fails.  As a result, bash shows a special prompt: <code>&gt;</code>.  This prompt essentially means: <q>the command you gave me is not yet at an end</q>.  We keep on
+            providing extra lines for the command, until we reach the <code>fi</code> construct.  When we end that line, bash knows that you're done providing conditional result cases.  It immediately begins running all the code in the entire block, from <code>if</code> to <code>fi</code>.</p>
+
+            <p>In each of these cases, we're passing our commands to an interactive bash session.  As we explained before, bash can also run in non-interactive mode where it reads commands from a file or stream rather than asking you for them.  In non-interactive mode, bash doesn't have a prompt.  Aside from that, it operates pretty much the same.  We could copy the bash code from the example above and put it in a text file instead:</p>
+
+<code class="block" lang="bash">
+<kbd>read -p "Your name? " name
+if [[ $name = $USER ]]; then
+    echo "Hello, me."
+else
+    echo "Hello, $name."
+fi</kbd>
+</code>
+
+            <p>It doesn't matter much what you name the file in which you save the code.  Let's say you saved it in a file called <code>hello.txt</code>, we can now run the commands from that file using bash without it having to ask us for instructions:</p>
+
+<code class="block" lang="bash">
+$ <kbd>bash hello.txt</kbd><em>This starts a new "bash" process.</em>
+Your name? <kbd>Maarten Billemont</kbd>
+Hello, Maarten Billemont.<em>Our new "bash" process ends when there is no code left in the file.</em>
+$ <em>Now that the "bash" command is done, our interactive bash comes back.</em>
+</code>
+
+            <p>Notice that two bash processes are involved in this example.  The bash process we start off from is our regular interactive shell.  We tell that bash process to run a command which will cause it to start a new bash process.  This second bash process will execute all the commands it finds in the file <code>hello.txt</code>, non-interactively.  When it's done (there are no commands left in the file), the non-interactive bash process ends and the interactive bash process is
+            ready with your <kbd>bash hello.txt</kbd> command; it shows a new prompt asking you for the next command to run.</p>
+
+            <p>It's only a small step from a file with a list of commands in it to a veritable <dfn>bash script</dfn>.  Open your <code>hello.txt</code> file again and add a <dfn>hashbang</dfn> to the top of it, as the first line of the script: <kbd>#!/usr/bin/env bash</kbd></p>
+
+<code class="block" lang="bash">
+<kbd><ins>#!/usr/bin/env bash</ins></kbd>
+read -p "Your name? " name
+if [[ $name = $USER ]]; then
+    echo "Hello, me."
+else
+    echo "Hello, $name."
+fi
+</code>
+
+            <p>Congratulations!  You've created your first bash script.  What's a bash script?  It's a file with bash code in it that can be executed by the kernel just like any other program on your computer.  In essence, it is a program in itself, although it does need the bash interpreter to do the work of translating the bash language into instructions the kernel understands.  That's where this "hashbang" line we've just added to the file comes in:  It tells the kernel what interpreter
+            it needs to use to understand the language in this file, and where to find it.  Your hashbang must be an absolute pathname to any program that understands the language in your file.  Our hashbang is a little special, though:  We reference the program <code>/usr/bin/env</code>, which isn't really a program that understands the bash language.  It's a program that can find and start other programs.  In our case, we tell it to find the <code>bash</code> program and use that for
+            interpreting the language in our script.  Why do we use this "inbetween" program called <code>env</code>?  It has everything to do with what comes before the name: the path.  We know with relative certainty that the <code>env</code> program lives in the <code>/usr/bin</code> path.  Given the large variety of operating systems and configurations, however, we don't have any good certainty about where the <code>bash</code> program is installed.  Which is why we use the
+            <code>env</code> program to find it for us.  That was a little complicated!  But now, what's the difference between our file before and after adding the hashbang?</p>
+
+<code class="block" lang="bash">
+$ <kbd>chmod +x hello.txt</kbd><em>Mark hello.txt as an e<strong>x</strong>ecutable program.</em>
+$ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
+</code>
+
+            <p>Most systems require you to mark a file as <dfn>executable</dfn> before the kernel is willing to give you permission to run it as a program, but once we do that, we can start the <code>hello.txt</code> program like we would any other program.  The kernel will look inside the file, find the hashbang, use that to track down the bash interpreter, and use that to start running the instructions in the file.  You have your first real bash program!</p>
+
+            <footer>
+            Bash gets commands by reading lines.  As soon as it's read enough lines to compose a single command, bash begins running that command.  Usually, commands are just a single line long.  An interactive bash session reads lines from you at the prompt.  Non-interactive bash processes read their command lines from a file or stream.  Files with a <dfn>hashbang</dfn> as their first line (and the <dfn>executable</dfn> permission) can be started by your system's kernel like any other
+            program.
+            </footer>
+
+        </section>
+
+        <section>
+            <h1>Learning to speak "bash"</h1>
+
+            <p>If you've been paying close attention to the previous sections, you've got a pretty good introduction to what bash is, where and how it operates within the system and how you use it.</p>
+
+            <p>Time to start talking "bash".  We're going to get introduced to the bash shell language's grammar, and with that, this guide is going to start getting a bit more technical.  Don't worry, focus and you won't get left behind.  If you get a feeling of unease and uncertainty, re-read the section before moving on.  We'll try and cover all the how's and why's of new concepts.  If anything remains unclear, we encourage you to get in touch so that we can improve this guide for you and your
+            fellow students.  Our contact information is at the beginning of the guide.</p>
+
+            <h2>About intentions and ambiguity</h2>
+
+            <p>The biggest difference with speaking to a computer as opposed to speaking to a human is that computer programs are generally terrible at placing your requests in context and figuring out what your intention is.  Those that try are usually called "smart" for being able to take ambiguous input and going to lengths to figure out what the intended result was.  In this context, "smart" is unfortunately not quite in line with what we'd expect from smart humans: the kinds of
+            assumptions computer programs make based on our ambiguous input tend to be miles off and often lead to terrible or even disastrous results.</p>
+
+            <p>Sadly, we, as humans, are used to speaking in ambiguity: we rely on the receiver to understand the context of our requests and figure out what the most likely desirable action is.  When we ask our partner to get the salt, we don't expect her to return with a handful of salt: we expect her to understand that our intention is to use the salt container to sprinkle some salt on our dish and we need her to bring the container to us, filled with at least a minimum amount of
+            salt.</p>
+
+            <p>It is important to recognize the ambiguity in our language and requests before we start talking to computer programs, because we need to learn to get rid of that ambiguity in our language.  If you have little experience with doing this, it will likely be your biggest challenge going forward.  It takes practice to think in such literal terms.  It helps to imagine we're talking to a three-year old and showing them for the first time, each time, how to do the thing you need them to
+            do.  When <q>Bring the animals book</q> doesn't yet cut it, we need to teach them the steps: <q>Look around, do you see the books behind you?</q>, <q>Great!  Can you find the book with the lion and the cow on it?</q>, <q>That's the one, grab it for me!</q>, <q>Good boy, now bring it to daddy!  Come here, you.</q>, <q>Hi!  Look at you.  Give me the book and sit down, let's read it together.</q>; in a way, writing a bash script is similar to teaching your system how to do a task.
+            The difference is your three year old will recognize previous experiences in new requests by himself, your system won't: you'll need to explicitly specify and run previously written job descriptions.</p>
+
+            <p>Some language interpretors (programs, like bash, that understand a certain computer language) try to compensate for this problem by being extremely strict with their grammar and syntax.  The idea is to weed out the ambiguity in your language so as to avoid accidentally doing the wrong thing.  The interpretor enforces correctness to a certain degree: this tends to be a relatively successful strategy and generally results in the least buggy programs.</p>
+
+            <p>Sadly, bash is not a strict interpretor.<br>
+            In fact, bash's latitude is largely at fault for the general ineptitude toward bash scripting with most anyone introduced to the language, novice and professional alike.  The result is not dissimilar to the state of the web around the turn of the century:  Many pages were written so badly that their ability to render properly on any kind of standards-based browser was sufficiently compromised to force these browsers to implement all sorts of "smart" hacks in an attempt
+            to render the pages as they might have been intended to render, rather than what they were written to render.  Similarly, the gross part of the scripts you are going to run into <em>will be buggy</em>.  Sometimes subtly so, often to the point where simply using it with a file whose name is somewhat unexpected may cause irreversible damage to your system.</p>
+            <p><strong>Don't be that person.</strong><br>
+            This guide exists to teach you to write good bash code.  It will empower you to convey your true intentions and have a computer solve your problems.  Since bash is a lax interpreter, <em>the responsibility of discipline lays with you</em>.  If you're not up to honoring this prerequisite, I recommend you stop reading now and find a strict interpreter instead.  There is too much bad bash code in the world, and this guide will not be responsible for empowering people to write
+            more.</p>
+
+            <footer>
+            Bash is a lax language interpreter, which means it will permit you to write ambiguous commands.  Its syntax will not prevent you from writing commands that do things that are not what they seem.  It is solely your responsibility to learn the syntax adequately, recognize the pitfalls and pick up the discipline to stick to the practices that avoid buggy code consistently.
+            </footer>
+
+            <h2>The basic grammar of a bash command</h2>
+
+            <p>At the highest level, there are a few different kinds of commands.  We'll explain each type, give a brief example and go more in depth on each command type in a later section.  Don't worry too much about the syntax of these commands yet:  that'll become clear in each command type's own section.</p>
+
+            <dl>
+                <dt>Simple Commands</dt>
+                <dd>
+                    <p>This is the most common kind of command.  It specifies the name of a command to execute, along with an optional set of <dfn>arguments</dfn>, <dfn>environment variables</dfn> and <dfn>file descriptor redirections</dfn>.</p>
+
+<code class="syntax">
+    [ <var>var1=value</var> ... ] <var>name</var> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
+
+<samp>echo "Hello world!"</samp>
+<samp>IFS=, read -a fields &lt; file</samp>
+</code>
+
+                    <p>Before we command's <code>name</code> you can optionally put a few variable assignments.  These assignments apply only to the command's environment.  We'll go more in depth on variables and environment later on.</p>
+                    <p>The command's name is the first word (after the optional assignments).  Bash finds the command with that name and starts it.  We'll learn more about what kind of named commands there are and how bash finds them later on.</p>
+                    <p>A command's name is optionally followed by a list of <code>arg</code> words, the command arguments.  We'll soon learn what arguments and their syntax are.</p>
+                    <p>Finally, a command can also have a set of <code>redirection</code> operations applied to it.  If you recall our explanation of file descriptors in an earlier section, redirections are the operations that change what the file descriptor plugs point to.  They change the streams that connect to our command processes.  We'll learn about the power of redirections in a future section.</p>
+                </dd>
+                <dt>Pipelines</dt>
+                <dd>
+                    <p>Bash comes with a lot of "syntax sugar" to make common tasks easier to perform than by using just the basic syntax.  Pipelines are an example of sugar that you'll be using a lot.  They are a convenient way of "connecting" two commands by way of linking the first process' standard output to the second process' standard input.  This is the most common way for terminal commands to talk to one another and convey information.</p>
+
+<code class="syntax">
+    [<strong>time</strong> [<strong>-p</strong>]] [ <strong>!</strong> ] <var>command</var> [ [<strong>|</strong>|<strong>|&</strong>] <var>command2</var> ... ]
+
+<samp>echo Hello | rev</samp>
+<samp>! rm greeting.txt</samp>
+</code>
+                
+                    <p>We rarely use the <code>time</code> keyword, but it is convenient for finding out how long it takes to run our commands.</p>
+                    <p>The <code>!</code> keyword is a little odd at first, and just like the time keyword it doesn't have much to do with connecting commands.  We'll learn about what it does when we discuss conditionals and testing the success of commands.</p>
+                    <p>The first <code>command</code> and the second <code>command2</code> can be any type of command from this section.  Bash will create a <dfn>subshell</dfn> for each command and set up the first command's standard output file descriptor such that it points to the second command's standard input file descriptor.  The two commands will run simultaneously and bash will wait for both of them to end.  We'll explain what exactly these "subshells" are in a later chapter.</p>
+                    <p>Inbetween the two commands goes the <code>|</code> symbol.  This is also called the "pipe" symbol, and it tells bash to connect the output of the first to the input of the second command.  Alternatively, we can use the <code>|&amp;</code> symbol inbetween the commands to indicate that we want not only the standard output of the first command, but also its standard error to be connected to the second command's input.  This is usually undesirable since the standard
+                    error file descriptor is normally used to convey messages to the user.  If we send those messages to the second command rather than the terminal display, we need to make sure the second command can handle these messages.</p>
+                </dd>
+                <dt>Lists</dt>
+                <dd>
+                    <p>A list is a sequence of other commands.  In essence, a script is a command list: one command after another.  Commands in lists are separated by a control operator which indicates to bash what to do when executing the command before it.</p>
+
+<code class="syntax">
+    <var>command</var> <var>control-operator</var> [ <var>command2</var> <var>control-operator</var> ... ]
+
+<samp>cd music; mplayer *.mp3</samp>
+<samp>rm hello.txt || echo "Couldn't delete hello.txt." &gt;&amp;2</samp>
+</code>
+                
+                    <p>The command can be any of the other types of commands from this section.</p>
+                    <p>After the command comes the <dfn>control operator</dfn> which tells bash how the command should be executed.  The simplest control operator is just starting a new line, which is equivalent to <code>;</code> and tells bash to just run the command and wait for it to end before advancing to the next command in the list.  The second example uses the <code>||</code> control operator which tells bash to run the command before it as it normally would, but after finishing
+                    that command move to the next command only if the command before it failed.  If the command before it didn't fail, the <code>||</code> operator will make bash skip the command after it.  This is useful for showing error messages when a command fails.  We'll go more in depth on all the control operators in later sections.</p>
+                </dd>
+                <dt>Compound Commands</dt>
+                <dd>
+                    <p>Compound commands are commands with special syntax inside them.  They can do a lot of different things but behave as a single command in a command list.  The most obvious example is a block of commands: The block itself behaves as a single big command but inside it are a bunch of "sub" commands.  There are a lot of different kinds of compound commands and we will cover them all in-depth later.</p>
+
+<code class="syntax">
+    <strong>if</strong> <var>list</var> [ <strong>;</strong>|<strong>&lt;newline&gt;</strong> ] <strong>then</strong> <var>list</var> [ <strong>;</strong>|<strong>&lt;newline&gt;</strong> ] <strong>fi</strong>
+    <strong>{</strong> <var>list</var> <strong>;</strong> <strong>}</strong>
+
+<samp>if ! rm hello.txt; then echo "Couldn't delete hello.txt." &gt;&amp;2; exit 1; fi</samp>
+<samp>rm hello.txt || { echo "Couldn't delete hello.txt." &gt;&amp;2; exit 1; }</samp>
+</code>
+                
+                    <p>Both examples perform the same operation.  The first example is a compound command, the second is a compound command in a command list.  We discussed the <code>||</code> operator briefly before:  The command on the right side of it is skipped unless the command before it fails.  This is a good example to illustrate an important property of compound commands: they behave as one command in a command list.  The compound command in the second example begins at
+                    <code>{</code> and continues until the next <code>}</code>, as a result everything inside the braces is considered a single command, meaning we have a command list of two commands: the <code>rm</code> command followed by the <code>{ ... }</code> compound.  If we leave out the braces, we get a list of <em>three</em> commands: the <code>rm</code> command followed by the <code>echo</code> command, followed by the <code>exit</code> command.  The difference is mainly important to
+                    the <code>||</code> operator in deciding what to do when the <code>rm</code> command before it succeeds.  If the <code>rm</code> succeeds, <code>||</code> will skip the command after it, which, if we leave out the braces, would be only the <code>echo</code> command.  As a result, a successful <code>rm</code> will lead to an <code>exit</code>.  If we leave in the braces, <code>||</code> will skip the entire compound on a successful <code>rm</code>, including both its
+                    <code>echo</code> and <code>exit</code>, and move on with the rest of the script instead.</p>
+                </dd>
+                <dt>Coprocesses</dt>
+                <dd>
+                    <p>A coprocess is some more bash syntax sugar: it allows you to easily run a command asynchronously (without making bash wait for it to end, also said to be "in the background") and also set up some new file descriptor plugs that connect directly to the new command's input and output.  You won't be using coprocess too often, but they're a nice convenience for those times you're doing advanced things.</p>
+
+<code class="syntax">
+    <strong>coproc</strong> [ <var>name</var> ] <var>command</var> [ <var>redirection</var> ... ]
+
+<samp>coproc auth { tail -n1 -f /var/log/auth.log; }
+read latestAuth &lt;&amp;"${auth[0]}"
+echo "Latest authentication attempt: $latestAuth"</samp>
+</code>
+                
+                    <p>The example starts an asynchronous <code>tail</code> command.  While it runs in the background, the rest of the script continues.  First the script reads a line of output from the coprocess called <code>auth</code> (which is the first line the <code>tail</code> command output).  Next, we write a message showing the latest authentication attempt we read from the coprocess.  The script can continue and each time it reads from the coprocess pipe, it will get the next line from the
+                    <code>tail</code> command.</p>
+                </dd>
+                <dt>Functions</dt>
+                <dd>
+                    <p>When you declare a function in bash, you're essentially creating a temporary new command which you can invoke later in the script.  Functions are a great way to group a list of commands under a custom name for convenience if you perform similar tasks regularly in your script.</p>
+
+<code class="syntax">
+    <var>name</var> <strong>()</strong> <var>compound-command</var> [ <var>redirection</var> ]
+
+<samp>exists() { [[ -x $(type -P "$1" 2&gt;/dev/null) ]]; }
+exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
+</code>
+                                    
+                    <p>You begin by specifying a <code>name</code> for your function.  This is the name of your new command, you'll be able to run it later on by writing a simple command with that name.</p>
+                    <p>After the command name go the <code>()</code> paranthesis.  Some languages use these paranthesis to declare the arguments the function accepts: <strong>bash does not</strong>.  The paranthesis should always be empty.  They simply denote the fact that you're declaring a function.</p>
+                    <p>Next comes the compound command that will be executed each time you run the function.</p>
+                    <p>To change the file descriptors of the script for the duration of running the function, you can optionally specify the function's custom file redirections.</p>
+                </dd>
         </section>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -238,10 +460,14 @@ $
         <script src="js/main.js"></script>
 
         <script>
-            var _gaq=[['_setAccount','UA-24338692-1'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-24338692-4', 'bash.academy');
+          ga('send', 'pageview');
+
         </script>
     </body>
 </html>

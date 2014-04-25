@@ -15,6 +15,7 @@ html, body {
     padding: 0;
 }
 body {
+    counter-reset: section;
     color: #555;
 
     font-family: "Hoefler Text", Garamond, Baskerville, "Baskerville Old Face", "Times New Roman", serif;
@@ -30,10 +31,25 @@ a:link, a:visited {
 a:hover {
     color: #888;
 }
+q {
+    color: #999;
+    font-style: oblique;
+}
+q::before {
+    content: "“";
+}
+q::after {
+    content: "”";
+}
 h1, h2 {
     color: #333;
     font-family: "Myriad Pro", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
     font-family: 'Quicksand', sans-serif;
+}
+dd {
+    margin: 1ex 4%;
+    outline: 5px solid #FAFAFA;
+    padding: 0 1%;
 }
 
 
@@ -101,14 +117,15 @@ section h2::before {
 }
 section h1::before {
     counter-increment: section;
-    content: "⌗" counters(section,".");
+    content: "⌗" counters(section,".") " ";
 }
 section h2::before {
     counter-increment: subsection;
-    content: "❡" counters(subsection, ".");
+    content: "⌗" counters(section,".") " ❡" counters(subsection, ".") " ";
 }
 footer,
-code.block {
+code.block,
+code.syntax {
     display: block;
     position: relative;
 
@@ -118,6 +135,11 @@ code.block {
     transition: .3s all;
 
     margin: 0 -12.5%
+}
+dd footer,
+dd code.block,
+dd code.syntax {
+    margin: 0 -19.5%
 }
 footer, code, kbd {
     background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
@@ -149,7 +171,8 @@ footer::before {
     font-size: 0.6em;
 }
 code,
-kbd {
+kbd,
+var {
     background-color:#DDD;
 
     white-space: pre;
@@ -159,33 +182,43 @@ kbd {
 kbd {
     color: black;
     cursor: pointer;
+}
+kbd, kbd:hover,
+code.block:hover kbd,
+code.syntax:hover kbd {
     text-decoration: underline;
 }
-code.block {
+var, var:hover
+code.block:hover var,
+code.syntax:hover var {
+    border-bottom: 3px double red;
+}
+code kbd,
+code var {
+    background: transparent;
+    border-bottom: none;
+
+    font-size: inherit;
+    text-decoration: none;
+}
+code.block,
+code.syntax {
     position: relative;
     z-index: 0;
     color: #999;
     border-top-color: #BBB;
     border-bottom-color: #BBB;
 
-    padding: 1em 20%;
+    padding: 0 20% 1em;
     overflow: auto;
 }
-code.block kbd {
-    background: transparent;
-
-    font-size: inherit;
-    text-decoration: none;
-}
-code.block:hover {
+code.block:hover,
+code.syntax:hover {
     color: #666;
     box-shadow: 0 0 15px #CCC;
 }
-kbd:hover,
-code.block:hover kbd {
-    text-decoration: underline;
-}
-code.block::before {
+code.block[lang]::before,
+code.syntax::before {
     content: "code";
     content: attr(lang);
     content: attr(lang, "code");
@@ -202,6 +235,9 @@ code.block::before {
 
     font-size: 0.6em;
 }
+code.syntax::before {
+    content: "syntax";
+}
 code.block:hover::before {
     font-size: 1em;
 }
@@ -212,7 +248,7 @@ code em {
     position: absolute;
     z-index: -1;
     left: 15%;
-    padding-left: 50em;
+    padding-left: 40em;
     width: 40em;
 
     color: #AAA;
@@ -225,13 +261,19 @@ code em:hover {
 }
 img[alt] {
     transition: .3s all;
+    background:
+    radial-gradient(rgba(255,255,255,.3) 15%, transparent 16%) 0 0,
+    radial-gradient(rgba(255,255,255,.3) 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-size:16px 16px;
 
     display: block;
     margin: 1em auto;
     padding: 1em;
 }
 img[alt]:hover {
-    background: #EEE;
+    background-color: #EEE;
     border-radius: 5px;
     box-shadow: 0 0 15px #CCC;
 }
