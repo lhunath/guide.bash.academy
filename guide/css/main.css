@@ -123,6 +123,32 @@ section h2::before {
     counter-increment: subsection;
     content: "⌗" counters(section,".") " ❡" counters(subsection, ".") " ";
 }
+aside {
+    background: #FAFAFA;
+    border: 3px solid #EEE;
+    transition: .3s all;
+
+    display: block;
+    position: relative;
+    margin: 1em 0 1em 7em;
+    padding: 1ex;
+}
+aside:hover {
+    background: #EEE;
+    border-color: #CCC;
+}
+aside::before {
+    content: "note";
+    color: #CCC;
+    transition: .3s all;
+
+    position: absolute;
+    right: 100%;
+    padding: 0 1ex;
+}
+aside:hover::before {
+    color: #AAA;
+}
 footer,
 code.block,
 code.syntax {
@@ -142,6 +168,8 @@ dd code.syntax {
     margin: 0 -19.5%
 }
 footer, code, kbd {
+    counter-reset: samp;
+
     background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
     background-size:6px 6px;
 }
@@ -172,7 +200,8 @@ footer::before {
 }
 code,
 kbd,
-var {
+var,
+samp {
     background-color:#DDD;
 
     white-space: pre;
@@ -188,18 +217,24 @@ code.block:hover kbd,
 code.syntax:hover kbd {
     text-decoration: underline;
 }
-var, var:hover
-code.block:hover var,
-code.syntax:hover var {
-    border-bottom: 3px double red;
+var {
+    border-bottom: 1px dashed;
+}
+var:hover {
+    color: black;
 }
 code kbd,
-code var {
-    background: transparent;
-    border-bottom: none;
+code var,
+code samp {
+    background: rgba(255, 255, 255, 0);
+    transition: 0.2s all;
 
     font-size: inherit;
     text-decoration: none;
+}
+code samp {
+    display: inline-block;
+    width: 100%;
 }
 code.block,
 code.syntax {
@@ -241,6 +276,20 @@ code.syntax::before {
 code.block:hover::before {
     font-size: 1em;
 }
+code samp:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+code samp::before {
+    counter-increment: samp;
+    content: "#" counter(samp);
+
+    color: #999;
+
+    position: absolute;
+    margin-left: -2em;
+
+    font-size: 0.7em;
+}
 code em {
     background: rgba(255, 255, 255, 0);
     transition: 0.2s all;
@@ -258,6 +307,9 @@ code em::before {
 }
 code em:hover {
     background: rgba(255, 255, 255, 0.5);
+}
+samp {
+    font-weight: inherit;
 }
 img[alt] {
     transition: .3s all;

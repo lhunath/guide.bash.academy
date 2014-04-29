@@ -352,7 +352,8 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 
             <h2>The basic grammar of a bash command</h2>
 
-            <p>At the highest level, there are a few different kinds of commands.  We'll explain each type, give a brief example and go more in depth on each command type in a later section.  Don't worry too much about the syntax of these commands yet:  that'll become clear in each command type's own section.</p>
+            <p>At the highest level, there are a few different kinds of commands.  We'll explain each type, give a brief example and go more in depth on each command type in a later section.  Don't worry too much about the syntax of these commands yet:  that'll become clear when we focus on the different command types later on.  What you should take away from this is a high-level understanding that bash commands come in different shapes and sizes, and a rough understanding of different
+            syntaxes.</p>
 
             <dl>
                 <dt>Simple Commands</dt>
@@ -360,7 +361,7 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
                     <p>This is the most common kind of command.  It specifies the name of a command to execute, along with an optional set of <dfn>arguments</dfn>, <dfn>environment variables</dfn> and <dfn>file descriptor redirections</dfn>.</p>
 
 <code class="syntax">
-    [ <var>var1=value</var> ... ] <var>name</var> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
+    [ <var>var</var>=<var>value</var> ... ] <var>name</var> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
 
 <samp>echo "Hello world!"</samp>
 <samp>IFS=, read -a fields &lt; file</samp>
@@ -451,6 +452,167 @@ exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
                     <p>Next comes the compound command that will be executed each time you run the function.</p>
                     <p>To change the file descriptors of the script for the duration of running the function, you can optionally specify the function's custom file redirections.</p>
                 </dd>
+            </dl>
+
+            <footer>
+            Bash commands tell bash to perform a certain unit of work.  These units of work cannot be subdivided: bash needs to know the whole command to be able to execute it.  There are different kinds of commands for different types of operations.  Some commands group other commands into blocks or test their result.  Many command types are syntax sugar: their effect can be achieved differently, but they exist to make the job easier.
+            </footer>
+
+        </section>
+
+        <section>
+            <h1>Simple commands: The foundation of every bash command</h1>
+
+            <p>Phew!  That was a lot all at once.  Most of this might have gone over your head - that's fine.  We'll get back to the simple stuff and let you build up your knowledge with a thorough understanding.  But it's important to take away that bash has different kinds of commands, and most of the syntax is actually pretty similar:  Most commands take <dfn>redirections</dfn>, <dfn>control operators</dfn> and accept "subcommands" somehow.  We'll explain these concepts, but first
+            let's make sure we understand <dfn>simple commands</dfn> well.</p>
+
+            <p>It is vital that you understand simple commands well because they are the foundation of everything you will do in bash.  You might have noticed in the previous section that all other bash commands are composed of at least one simple command: they merely take simple commands and perform special operations with them.</p>
+
+            <h2>Command names and running programs.</h2>
+
+<code class="syntax">
+    [ <var>var</var>=<var>value</var> ... ] <mark><var>name</var></mark> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
+</code>
+
+            <p>Let's have another look at the definition of a simple command.  We're going to take it step by step, because although the definition seems short, there's a lot going on here.<br>
+            We're first going to focus on the command's name.  The name tells bash what the job is that you want this command to perform.  To figure out what you want your command to do, bash performs a <em>search</em> to find out what to execute.  In order, bash uses the <code>name</code> to try and find a:</p>
+
+            <dl>
+                <dt><dfn>function</dfn></dt>
+                <dd>Functions are previously declared blocks of commands that were given a name.  You briefly saw how we declare a function in the previous section.  All declared functions are put in a list and bash searches this list to see if any of them have the same name as the name of the command it's trying to execute.</dd>
+                <dt><dfn>builtin</dfn></dt>
+                <dd>Builtins are tiny procedures built into bash.  They are small operations that were programmed into bash and bash doesn't need to run a special program to be able to perform them.  We will look into what builtins bash provides, along with their names and what their effect is.</dd>
+                <dt><dfn>program</dfn>, also called an <dfn>external command</dfn></dt>
+                <dd>Your system has a great many programs installed, some of them do little tasks, some of them do big tasks.  Some of them run in the terminal, some of them run invisibly, others run in your graphical interface.  Bash finds programs by looking into your system's configured <code>PATH</code> (which we'll explain in a moment).</dd>
+            </dl>
+
+            <p>If bash finds no way to execute a command by the name you gave it, your command will result in an error and bash will show an error message:</p>
+
+<code lang="bash" class="block">
+$ <kbd>buy beer</kbd>
+bash: buy: command not found
+</code>
+
+            <p>I'll make only brief mention of <dfn>aliasses</dfn>: before bash performs this search, it first checks if you've declared any aliasses by the name of the command.  If you did, it will replace the name by the value of the alias before proceeding.  Aliasses are only rarely useful, only work in interactive sessions and are almost completely superceded by functions.  You should avoid using them in almost all cases.</p>
+
+            <footer>
+            To run a command, bash uses the name of your command and performs a search for how to execute that command.  In order, bash will check whether it has a <dfn>function</dfn> or <dfn>builtin</dfn> by that name.  Failing that, it will try to run the name as a program.  If bash finds no way to run your command, it will output an error message.
+            </footer>
+
+            <h2>The <code>PATH</code> to a program.</h2>
+
+            <p>We have all sorts of programs installed on our computer.  Different programs are installed in different places.  Some programs shipped with our OS, others were added by our distribution and yet others were installed by us or our systems administrator.  On a standard UNIX system, there are <a href="http://www.pathname.com/fhs/">a few standardized locations</a> for programs to go.  Some programs will be installed in <code>/bin</code>, others in <code>/usr/bin</code>,
+            yet others in <code>/sbin</code> and so on.  It would be a real bother if we had to remember the exact location of our programs, especially since they may vary between systems.  To the rescue comes the <code>PATH</code> <dfn>environment variable</dfn>.  Your <code>PATH</code> variable contains a set of directories that should be searched for programs.</p>
+
+<code class="block">
+$ <kbd>ping 127.0.0.1</kbd>
+
+    <strong>PATH=</strong>/bin<strong>:</strong>/sbin<strong>:</strong>/usr/bin<strong>:</strong>/usr/sbin
+           │     │
+           │     ╰──▶ <mark>/sbin</mark>/ping ?  <strong>found!</strong>
+           ╰──▶ <mark>/bin</mark>/ping ?  not found.
+</code>
+            <p>Bash honors this variable by looking through its listed directories whenever you try to to start a program it doesn't yet know the location of.  Say you're trying to start the <code>ping</code> program which is installed at <code>/sbin/ping</code>.  If your <code>PATH</code> is set to <code>/bin:/sbin:/usr/bin:/usr/sbin</code> then bash will first try to start <code>/bin/ping</code>, which doesn't exist.  Failing that, it will try <code>/sbin/ping</code>.  It finds the
+            <code>ping</code> program, records its location in case you need <code>ping</code> again in the future and goes ahead and runs the program for you.</p>
+
+            <p>If you're ever curious about exactly where bash finds the program to run for a command name, you can use the <code>type</code> built-in to find out:</p>
+
+<code lang="bash" class="block">
+$ <kbd>type ping</kbd>
+ping is /sbin/ping
+$ <kbd>type -a echo</kbd><em>The -a switch tells type to show us all the possibilities</em>
+echo is a shell builtin<em>If we just run 'echo', bash will use the first possibility</em>
+echo is /bin/echo<em>We have an echo built-in but also a program called echo!</em>
+</code>
+
+            <p>Remember from the previous section how bash has some functionality built into it?  One of those is the functionality of the <code>echo</code> program.  If you run the <kbd>echo</kbd> command in bash, even before bash tries a <code>PATH</code> search, it will notice there's a built-in by that name and use it.  <code>type</code> is a great way to visualize this lookup process.  Note that it's much faster to execute a command that's built-in than it is to start an extra program.  But if
+            you're ever in need of <code>echo</code>'s functionality without being in bash, you'll be able to use the <code>echo</code> program instead.</p>
+
+            <p>Sometimes you'll need to run a program that isn't installed in any of the <code>PATH</code> directories.  In that case, you'll have to manually specify the path to where bash can find the program, rather than just its name:</p>
+            
+<code lang="bash" class="block">
+$ <kbd>/sbin/ping -c 1 127.0.0.1</kbd>
+PING 127.0.0.1 (127.0.0.1): 56 data bytes
+64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=0.075 ms
+
+--- 127.0.0.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 0.075/0.075/0.075/0.000 ms
+$ <kbd>./hello.txt</kbd><em>Remember our hello.txt script?</em>
+Your name? <em>We use the path "." which means "our current directory"</em>
+</code>
+
+            <aside>Bash only performs a <code>PATH</code> search on command names that do not contain a <kbd title="slash">/</kbd> character.  Command names with a slash are always considered direct pathnames to the program to execute.</aside>
+
+            <p>You can add more directories to your <code>PATH</code>.  A common practice is to have a <code>/usr/local/bin</code> and a <code>~/bin</code> (where <code>~</code> represents your user's home directory).  Remember that <code>PATH</code> is an <dfn>environment variable</dfn>: you can update it like this:</p>
+            
+<code lang="bash" class="block">
+$ <kbd>PATH=~/bin:/usr/local/bin:/bin:/usr/bin</kbd>
+$ 
+</code>
+
+            <p>This will change the variable in your current bash shell.  As soon as you close the shell, the change will be lost, though.  We'll go more in-depth on how environment variables work and how you should configure them in a later section.</p>
+
+            <footer>
+            When bash needs to run a program, it uses the command name to perform a search.  Bash searches the directories in your <code>PATH</code> <dfn>environment variable</dfn>, one by one, until it finds a directory that contains a program with the name of your command.  To run a program that is not installed in a <code>PATH</code> directory, use the path to that program as your command's name.
+            </footer>
+
+            <h2>Command arguments and quoting literals</h2>
+
+<code class="syntax">
+    [ <var>var</var>=<var>value</var> ... ] <var>name</var> <mark>[ <var>arg</var> ... ]</mark> [ <var>redirection</var> ... ]
+</code>
+
+            <p>Now that you understand how bash finds and runs your command, let's learn how to pass our instructions to those commands.  These instructions tell our command what exactly it needs to do.  We might run the <code>rm</code> command to delete a file, or the <code>cp</code> command to copy a file, we might run the <code>echo</code> command to output a string or the <code>read</code> command to read a line of text.  But these commands generally can't do much without more
+            details, more context.  We need to tell <code>rm</code> what file to delete, <code>cp</code> what file to copy and where to put the copy.  <code>echo</code> wants to know what you want it to output and <code>read</code> can be told where to put the line of text it's read.  We provide this kind of context using arguments.</p>
+
+            <aside>It is important that you pay close attention to the following information.  <strong>The gross part of all bugs in bash shell scripts are the direct result of their authors not properly understanding command arguments.</strong>  Reliance on intuition rather than an understanding of the rules is usually to blame.</aside>
+
+            <p>As you can see from the command syntax, arguments come after the command's <var>name</var>.  They are <dfn>words</dfn> separated by blank space.  <strong>When we say <dfn>words</dfn> in the context of bash, we do NOT mean linguistic words.</strong>  In bash, a word is defined as <em>a sequence of characters considered as a single unit by the shell.</em>  A <dfn>word</dfn> is also known as a <dfn>token</dfn>.  A bash word can contain <em>many</em> linguistic words, in
+            fact it could contain prose.  For sake of clarity, the rest of this guide will use the term <dfn>arguments</dfn> wherever applicable to avoid the ambiguity of the term <dfn>words</dfn>.  What's important is that the word or argument is a single unit to the shell: it could be a filename, a variable name, the name of a program or the name of a person:</p>
+
+<code lang="bash" class="block">
+$ <kbd>rm <mark>hello.txt</mark></kbd>
+$ <kbd>mplayer <mark>"05 Between Angels and Insects.ogg"</mark> <mark>"07 Wake Up.ogg"</mark></kbd>
+</code>
+
+            <p>In the above examples, the words are highlighted.  Notice how they aren't linguistic words, but meaningful units.  In this case, they're all file names.  To separate multiple arguments we use blank space.  That can be both spaces and tabs.  Usually you will use a single space between arguments.</p>
+
+            <aside>To the bash shell, <dfn>blank space</dfn> is syntax just like anything else.  It means: <q>break the previous apart from the next thing</q>.  Bash calls this: <dfn>word splitting</dfn>.</aside>
+
+            <p>A problem now arises: how should the shell know that you mean for your filename to be <code>05 Between Angels and Insects.ogg</code> and not <code>05</code>?  We have a space after <code>05</code>, separating it from <code>Between</code> with blank space.  But our intention is for those two to remain "together".  That is: <em>the blank space between them should not split them into separate arguments</em>.  What we need is a way to tell the shell that it should treat something
+            <dfn>literally</dfn>: that means, use it as-is, taking away its syntactical meaning.  If we can make the spaces literal, they will no longer tell bash to split the <code>05</code> from the <code>Between</code>, and bash will use it as a normal ordinary space character.</p>
+
+            <p>There are two ways in bash to make characters literal: <dfn>quoting</dfn> and <dfn>escaping</dfn>.  Quoting is the practice of wrapping <kbd title="double quote">"</kbd> or <kbd title="single quote">'</kbd> characters around the text that we want to make literal.  Escaping is the practice of placing a single <kbd title="backslash">\</kbd> character in front of the character that we want to make literal.  The example above uses quotes to make the entire filename
+            literal, but not the space inbetween the filenames.  We strongly recommend you use quotes over escaping, since it results in much clearer and more readable code.  More importantly: it makes it much more difficult to tell exactly which parts of your code are literal and which aren't.  Using escaping rather than quoting, our example would look like this:</p>
+
+<code lang="bash" class="block">
+$ <kbd>mplayer <mark>05\ Between\ Angels\ and\ Insects.ogg</mark> <mark>07\ Wake\ Up.ogg</mark></kbd>
+</code>
+
+            <p>Quoting is one of the most important skills you will need to master as a bash user.  Its importance cannot be understated.  The nice thing about quotes is that while it is sometimes unnecessary, it is rarely ever wrong to quote your data.  These are both perfectly valid:</p>
+
+<code lang="bash" class="block">
+$ <kbd>ls -l <mark>hello.txt</mark></kbd>
+-rw-r--r--  1 lhunath  staff  131 29 Apr 17:07 hello.txt
+$ <kbd>ls -l <mark>"hello.txt"</mark></kbd>
+-rw-r--r--  1 lhunath  staff  131 29 Apr 17:07 hello.txt
+$ <kbd>ls -l <mark>"05 Between Angels and Insects.ogg"</mark> <mark>"07 Wake Up.ogg"</mark></kbd>
+</code>
+
+            <p>But don't be caught off-guard!  This is definitely not correct:</p>
+
+<code lang="bash" class="block">
+$ <kbd>ls -l <mark>05</mark> <mark>Between</mark> <mark>Angels</mark> <mark>and</mark> <mark>Insects.ogg</mark></kbd>
+ls: 05: No such file or directory
+ls: Angels: No such file or directory
+ls: Between: No such file or directory
+ls: Insects.ogg: No such file or directory
+ls: and: No such file or directory
+</code>
+
+            <p>You will not have these handy yellow markers in your shell.  Try to make a habit of mentally picturing them so that you keep yourself from making mistakes.  You definitely won't be the first to have accidentally destroyed all the files in their home directory as a result of a stray or unquoted space character.</p>
+
         </section>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
