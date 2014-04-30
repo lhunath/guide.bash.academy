@@ -2,7 +2,6 @@
   "name": "guide.bash.academy",
   "version": "0.0.1",
   "dependencies": {
-    "annotator": "~1.2.9"
   },
   "devDependencies": {}
 }
