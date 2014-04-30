@@ -21,4 +21,5 @@ $(function(){
         selectText(this);
     });
 });
+$(document.body).annotator()
 
