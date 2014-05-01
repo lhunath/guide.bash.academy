@@ -615,6 +615,142 @@ ls: and: No such file or directory
 
             <p>You will not have these handy yellow markers in your shell.  Try to make a habit of mentally picturing them so that you keep yourself from making mistakes.  You definitely won't be the first to have accidentally destroyed all the files in their home directory as a result of a stray or unquoted space character.</p>
 
+            <footer>
+            To tell a command what to do, we pass it <dfn>arguments</dfn>.  In bash, arguments are <dfn>tokens</dfn>, also called <dfn>words</dfn>, that are separated from each other by blank space.  To include blank space in an argument's value, you need to either <dfn>quote</dfn> the argument or <dfn>escape</dfn> the blank space within.  Failing that, bash will break your argument apart into multiple arguments at its blank space.
+            </footer>
+
+            <h2>Managing a command's input and output using redirection</h2>
+
+<code class="syntax">
+    [ <var>var</var>=<var>value</var> ... ] <var>name</var> [ <var>arg</var> ... ] <mark>[ <var>redirection</var> ... ]</mark>
+</code>
+
+            <p>We've already been briefly introduced to the concept of <dfn>file descriptors</dfn> and how they can be used to connect processes to each other.  Let's find out how that's done in bash.</p>
+
+            <p>Recall that processes use file descriptors to connect to streams.  Each processes will generally have three standard file descriptors: <dfn>standard input</dfn> (FD 0), <dfn>standard output</dfn> (FD 1) and <dfn>standard error</dfn> (FD 2).  When bash starts a program, it sets up a set of file descriptors for that program first.  It does this by looking at its own file descriptors and setting up an identical set of descriptors for the new process: we say new processes
+            "<strong>inherit</strong>" bash's file descriptors.  When you open your terminal to a new bash shell, the terminal will have set bash up by connecting bash's input and output to the terminal.  This is how the characters from your keyboard end up in bash and bash's messages end up in your terminal window.  Each time bash starts a program of its own, it gives that program a set of file descriptors that match its own.  This way, a bash command's messages end up on your terminal
+            as well and your keyboard input ends up with the program (the command's output and input is connected to your terminal):</p>
+
+<code class="block">
+                 ╭──────────╮
+    Keyboard ╾──╼│0  bash  1│╾─┬─╼ Display
+                 │         2│╾─┘
+                 ╰──────────╯
+
+$ <kbd>ls -l a b</kbd><em>Imagine we have a file called "a", but not a file called "b".</em>
+ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
+-rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>Results are emit on FD 1</em>
+
+                 ╭──────────╮
+    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
+               │ │         2│╾─┤ 
+               │ ╰─────┬────╯  │
+               │       ┆       │
+               │ ╭─────┴────╮  │
+               └╼│0  ls    1│╾─┤
+                 │         2│╾─┘
+                 ╰──────────╯
+</code>
+
+            <p>When <code>bash</code> starts an <code>ls</code> process, it first looks at its own file descriptors.  It then creates file descriptors for the <code>ls</code> process, connected to the same streams as its own: FD 1 and FD 2 leading to the <code>Display</code>, FD 0 coming from the <code>Keyboard</code>.  As a result, <code>ls</code>' error message (emit on FD 2) and its regular output (emit on FD 1) both end up on your terminal display.</p>
+
+            <p>If we want to gain control over where our commands connect to, we need to employ <dfn>redirection</dfn>: it is the practice of changing the source or destination of a file descriptor.  One thing we could do with redirection is write <code>ls</code>' result to a file instead of to the terminal display:</p>
+
+<code class="block">
+
+                 ╭──────────╮
+    Keyboard ╾──╼│0  bash  1│╾─┬─╼ Display
+                 │         2│╾─┘
+                 ╰──────────╯
+
+$ <kbd>ls -l a b &gt; myfiles.ls</kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
+ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
+
+                 ╭──────────╮
+    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
+               │ │         2│╾─┤
+               │ ╰─────┬────╯  │
+               │       ┆       │
+               │ ╭─────┴────╮  │
+               └╼│0  ls    1│╾─╌─╼ myfiles.ls
+                 │         2│╾─┘
+                 ╰──────────╯
+
+$ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</em>
+-rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>The result is now in myfiles.ls</em>
+</code>
+
+            <p>You've just performed file redirection by redirecting the command's standard output to a file.  Redirecting standard output is done using the <code>&gt;</code> operator.  Envision it as an arrow sending output from the command to the file.  This is by far the most common and useful form of redirection.</p>
+
+            <p>Another common thing redirection is used for is hiding error messages.  You'll notice that our redirected <code>ls</code> command is still displaying an error message.  Usually this is a good thing.  Sometimes, though, we might find that error messages produced by some commands in our scripts are unimportant to the user and should be hidden.  To do this, we can use file redirection again, in a similar fashion as redirecting standard output caused <code>ls</code>' result to
+            disappear:</p>
+
+<code class="block">
+
+                 ╭──────────╮
+    Keyboard ╾──╼│0  bash  1│╾─┬─╼ Display
+                 │         2│╾─┘
+                 ╰──────────╯
+
+$ <kbd>ls -l a b &gt; myfiles.ls 2&gt; /dev/null</kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
+<em>and FD 2 to the file "/dev/null"</em>
+
+                 ╭──────────╮
+    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
+               │ │         2│╾─┘
+               │ ╰─────┬────╯
+               │       ┆
+               │ ╭─────┴────╮
+               └╼│0  ls    1│╾───╼ myfiles.ls
+                 │         2│╾───╼ /dev/null
+                 ╰──────────╯
+
+$ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</em>
+-rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>The result is now in myfiles.ls</em>
+$ <kbd>cat /dev/null</kbd><em>The /dev/null file is empty?</em>
+$ 
+</code>
+
+            <p>Our <code>ls</code> command no longer showed an error message and the results were properly stored in <code>myfiles.ls</code>.  Where has the error message gone?  We've written it to the file <code>/dev/null</code>.  But when we show the contents of that file, we don't see our error message.  Did something go wrong?</p>
+
+            <p>The clue for this little mystery is in the directory name.  The file <code>null</code> is in the <code>/dev</code> directory:  This is a special directory for <dfn>device files</dfn>.  Device files are special files that represent devices in our system.  When we write to or read from them, we're communicating directory with those devices through the kernel.  The <code>null</code> device is a special device that is always empty.  Anything you write to it will be lost
+            and nothing can be read from it.  That makes it a very useful device for discarting information.  We stream our unwanted error message to the <code>null</code> device and it disappears.</p>
+
+            <p>What if we wanted everything we used to see on the terminal to appear in our <code>myfiles.ls</code>, including both results and error messages?  Your instincts might suggest:</p>
+
+<code class="bad block">
+$ <kbd>ls -l a b &gt; myfiles.ls 2&gt; myfiles.ls</kbd><em>Redirect both file descriptors to myfiles.ls?</em>
+
+                 ╭──────────╮
+    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
+               │ │         2│╾─┘
+               │ ╰─────┬────╯
+               │       ┆
+               │ ╭─────┴────╮
+               └╼│0  ls    1│╾───╼ myfiles.ls
+                 │         2│╾───╼ myfiles.ls
+                 ╰──────────╯
+</code>
+
+            <p>But you'd be <strong>wrong!</strong>  Why is this not correct?  Upon inspection of the <code>myfiles.ls</code> it may appear as though things worked out, but there is actually something very dangerous going on here.  If you're lucky, you'll see the output of the file isn't exactly as you might expect, it might be a little garbled, out of order, or it might be just right.  The problem is, you can't predict and no less guarantee the result of this command.</p>
+
+            <p>What's going on here?  The problem is that you have two separate file descriptors that lead to the file.  That means you have two separate streams leading to the file.  The reason why this is problematic is very much an artifact of how streams and buffering work, but we're not going to cover buffering in-depth in this guide.  Suffice it to know that when the bytes written to these separate streams arrive in the file, they get mixed together and their ordering becomes
+            indeterminate.  To solve this problem, you need to send your output and error bytes both on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:
+
+<code class="good block">
+$ <kbd>ls -l a b &gt; myfiles.ls 2&gt;&amp;1</kbd><em>Copy FD 1's stream to FD 2</em>
+
+                 ╭──────────╮
+    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
+               │ │         2│╾─┘
+               │ ╰─────┬────╯
+               │       ┆
+               │ ╭─────┴────╮
+               └╼│0  ls    1│╾─┬─╼ myfiles.ls
+                 │         2│╾─┘
+                 ╰──────────╯
+</code>
+
         </section>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

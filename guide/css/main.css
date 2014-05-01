@@ -313,12 +313,7 @@ samp {
 }
 img[alt] {
     transition: .3s all;
-    background:
-    radial-gradient(rgba(255,255,255,.3) 15%, transparent 16%) 0 0,
-    radial-gradient(rgba(255,255,255,.3) 15%, transparent 16%) 8px 8px,
-    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
-    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-    background-size:16px 16px;
+    border-radius: 5px;
 
     display: block;
     margin: 1em auto;
@@ -326,7 +321,6 @@ img[alt] {
 }
 img[alt]:hover {
     background-color: #EEE;
-    border-radius: 5px;
     box-shadow: 0 0 15px #CCC;
 }
 
