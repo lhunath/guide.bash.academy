@@ -663,7 +663,7 @@ ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
                  │         2│╾─┘
                  ╰──────────╯
 
-$ <kbd>ls -l a b &gt; myfiles.ls</kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
+$ <kbd>ls -l a b &gt;myfiles.ls</kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
 ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
 
                  ╭──────────╮
@@ -692,7 +692,7 @@ $ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</
                  │         2│╾─┘
                  ╰──────────╯
 
-$ <kbd>ls -l a b &gt; myfiles.ls 2&gt; /dev/null</kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
+$ <kbd>ls -l a b &gt;myfiles.ls 2&gt;/dev/null</kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
 <em>and FD 2 to the file "/dev/null"</em>
 
                  ╭──────────╮
@@ -716,10 +716,10 @@ $
             <p>The clue for this little mystery is in the directory name.  The file <code>null</code> is in the <code>/dev</code> directory:  This is a special directory for <dfn>device files</dfn>.  Device files are special files that represent devices in our system.  When we write to or read from them, we're communicating directory with those devices through the kernel.  The <code>null</code> device is a special device that is always empty.  Anything you write to it will be lost
             and nothing can be read from it.  That makes it a very useful device for discarting information.  We stream our unwanted error message to the <code>null</code> device and it disappears.</p>
 
-            <p>What if we wanted everything we used to see on the terminal to appear in our <code>myfiles.ls</code>, including both results and error messages?  Your instincts might suggest:</p>
+            <p>What if we wanted to save all the output that would normally appear on the terminal to our <code>myfiles.ls</code> file; both the results and error messages?  Intuition might suggest:</p>
 
 <code class="bad block">
-$ <kbd>ls -l a b &gt; myfiles.ls 2&gt; myfiles.ls</kbd><em>Redirect both file descriptors to myfiles.ls?</em>
+$ <kbd>ls -l a b &gt;myfiles.ls 2&gt;myfiles.ls</kbd><em>Redirect both file descriptors to myfiles.ls?</em>
 
                  ╭──────────╮
     Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
@@ -732,13 +732,13 @@ $ <kbd>ls -l a b &gt; myfiles.ls 2&gt; myfiles.ls</kbd><em>Redirect both file de
                  ╰──────────╯
 </code>
 
-            <p>But you'd be <strong>wrong!</strong>  Why is this not correct?  Upon inspection of the <code>myfiles.ls</code> it may appear as though things worked out, but there is actually something very dangerous going on here.  If you're lucky, you'll see the output of the file isn't exactly as you might expect, it might be a little garbled, out of order, or it might be just right.  The problem is, you can't predict and no less guarantee the result of this command.</p>
+            <p>But you'd be <strong>wrong!</strong>  Why is this not correct?  Upon inspection of the <code>myfiles.ls</code> it may appear as though things worked out, but there is actually something very dangerous going on here.  If you're lucky, you'll see the output of the file isn't exactly as you might expect: it might be a little garbled, out of order, or it might even be just right.  The problem is, you can't predict and no less guarantee the result of this command.</p>
 
             <p>What's going on here?  The problem is that you have two separate file descriptors that lead to the file.  That means you have two separate streams leading to the file.  The reason why this is problematic is very much an artifact of how streams and buffering work, but we're not going to cover buffering in-depth in this guide.  Suffice it to know that when the bytes written to these separate streams arrive in the file, they get mixed together and their ordering becomes
-            indeterminate.  To solve this problem, you need to send your output and error bytes both on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:
+            indeterminate.  To solve this problem, you need to send your output and error bytes both on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:</p>
 
 <code class="good block">
-$ <kbd>ls -l a b &gt; myfiles.ls 2&gt;&amp;1</kbd><em>Copy FD 1's stream to FD 2</em>
+$ <kbd>ls -l a b &gt;myfiles.ls 2&gt;&amp;1</kbd><em>Make FD 2 write to where FD 1 is writing</em>
 
                  ╭──────────╮
     Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
@@ -750,6 +750,144 @@ $ <kbd>ls -l a b &gt; myfiles.ls 2&gt;&amp;1</kbd><em>Copy FD 1's stream to FD 2
                  │         2│╾─┘
                  ╰──────────╯
 </code>
+
+            <p>Duplicating file descriptors, otherwise referred to as "copying" file descriptors, is the act of making a file descriptor's target the same as another file descriptor's target.  We use the <code>&gt;&amp;</code> operator, before it we put the file descriptor we want to change and after it we put the file descriptor whose target we need to "copy".  You will use this operator fairly frequently, and in most cases it'll be to copy FD 1 to FD 2 as is done above.</p>
+
+            <p>We've seen quite a few redirection operations now, and we've even combined them.  Before you go wild, there is one more important rule you need to understand:  redirections are evaluated from left to right, conveniently the same way as we read them.  This might seem obvious, but neglect for this has caused many of your predecessors to make this mistake:</p>
+
+<code class="bad block">
+    $ <kbd>ls -l a b 2&gt;&amp;1 &gt;myfiles.ls</kbd><em>Make FD 2 go to FD 1 and FD 1 go to myfiles.ls?</em>
+</code>
+
+            <p>Somebody who writes this code might assume that since FD 2's output is going to FD 1, and FD 1 is going to <code>myfiles.ls</code>, errors should end up in the file.  The logical error in their reasoning is the assumption that <code>2&gt;&amp;1</code> sends FD 2's output to FD 1.  <strong>It does NOT.</strong>  It sends FD 2's output to FD 1's <strong><em>target</em></strong>, which is probably the <strong>terminal</strong> and not the file, because FD 1 hasn't been
+            redirected to the file yet.  The result of the above command might frustrate, because it will appear as though the redirection of standard error isn't taking effect, when in reality, you've merely redirected standard error to the terminal (standard output's target), which is where it was already pointing.</p>
+
+            <p>If we fix the order of the redirections:</p>
+
+<code class="good block">
+    $ <kbd>ls -l a b &gt;myfiles.ls 2&gt;&amp;1</kbd><em>Make FD 1 target myfiles.ls and FD 2 target FD 1's target</em>
+</code>
+
+            <p>We now first change FD 1's target to stream to <code>myfiles.ls</code>.  Then, we make FD 2 target the same stream FD 1 is currently using, which is the new stream to <code>myfiles.ls</code>.  Both file descriptors are now targetting <code>myfiles.ls</code> and any output written by <code>ls</code> on either FD 1 or FD 2 will end up in the file.</p>
+
+            <p>There are quite a few other redirection operators, but most of them aren't as useful as the ones you've just learned.  What has proven useful, though, is for people to learn to read their command redirections in English.  I'm going to enumerate bash's redirection operators now, along with a short description and a sentence you can use to translate the operation into plain English.</p>
+
+            <dl>
+                <dt><dfn>File redirection</dfn></dt>
+                <dd>
+<code class="syntax">
+    [<var>x</var>]<strong>&gt;</strong><var>file</var>, [<var>x</var>]<strong>&lt;</strong><var>file</var>
+
+<samp>echo Hello &gt;~/world</samp>
+<samp>rm file 2&gt;/dev/null</samp>
+<samp>read line &lt;file</samp>
+</code>
+                Make FD <var>x</var> write to / read from <var>file</var>.
+                <p>A stream to <var>file</var> is opened for either writing or reading and connected to file descriptor <var>x</var>.  When <var>x</var> is omitted, it defaults to standard output when writing and standard input when reading.</p>
+                </dd>
+
+                <dt><dfn>File descriptor copying</dfn></dt>
+                <dd>
+<code class="syntax">
+    [<var>x</var>]<strong>&gt;&amp;</strong><var>y</var>, [<var>x</var>]<strong>&lt;&amp;</strong><var>y</var>
+
+<samp>ping 127.0.0.1 &gt;results 2&gt;&amp;1</samp>
+<samp>exec 3&gt;&amp;1 &gt;mylog; echo moo; exec 1&gt;&amp;3 3&gt;&amp;-</samp>
+</code>
+                Make FD <var>x</var> write to / read from FD <var>y</var>'s stream.
+                <p>The connection to the stream used by FD <var>y</var> is copied to FD <var>x</var>.  The second example is quite advanced: to understand it you need to know that <code>exec</code> can be used to change the file descriptors of bash itself (rather than those of a new command) and if you use an <var>x</var> that doesn't yet exist, bash will create a new file descriptor ("plug") for you with that number.</p>
+                </dd>
+
+                <dt><dfn>Appending file redirection</dfn></dt>
+                <dd>
+<code class="syntax">
+    [<var>x</var>]<strong>&gt;&gt;</strong><var>file</var>
+
+<samp>echo Hello &gt;~/world; echo World &gt;&gt;~/world</samp>
+</code>
+                Make FD <var>x</var> append to the end of <var>file</var>.
+                <p>A stream to <var>file</var> is opened for writing in append mode and is connected to file descriptor <var>x</var>.  The regular file redirection operator <code>&gt;</code> empties the file's contents when it opens the file so that only your bytes will be in the file.  In append mode (<code>&gt;&gt;</code>), the file's existing contents is left and your stream's bytes are added to the end of it.</p>
+                </dd>
+
+                <dt><dfn>Redirecting standard output and standard error</dfn></dt>
+                <dd>
+<code class="syntax">
+    <strong>&amp;&gt;</strong><var>file</var>
+
+<samp>ping 127.0.0.1 &amp;&gt;results</samp>
+</code>
+                Make both FD 1 and FD 2 write to <var>file</var>.
+                <p>This is a convenience operator which does the same thing as <code>&gt;<var>file</var> 2&gt;&amp;1</code> but is more concise.  Again, you can append rather than truncate by doubling the arrow: <code>&amp;&gt;&gt;<var>file</var></code></p>
+                </dd>
+
+                <dt><dfn>Here Documents</dfn></dt>
+                <dd>
+<code class="syntax">
+    <strong>&lt;&lt;</strong>[<strong>-</strong>]<var>delimiter</var>
+        <var>here-document</var>
+    <var>delimiter</var>
+
+<samp>cat &lt;&lt;.
+Hello world.
+Since I started learning bash, you suddenly seem so much bigger than you were before.
+.</samp>
+</code>
+                Make standard input read from the string between the <var>delimiter</var>s.
+                <p>Here documents are a great way to feed large blocks of text to a command's input.  They begin on the line after your delimiter and end when bash encounters a line with <em>just</em> your delimiter on it.  It is important to remember that your terminating delimiter cannot indented, because then it is no longer <em>just</em> your delimiter.</p>
+                <e>You can prefix your initial delimiter declaration with a <code>-</code>, this will tell bash to ignore any tabs you put in front of your heredoc.  That way, you can indent the heredoc without the intenting showing in your input string.  It also allows you to indent the terminating delimiter with tabs.</p>
+                <p>Finally, it is possible to put <dfn>variable expansions</dfn> within the here document's string.  This allows you to inject variable data into the here document.  We'll learn more about variables and expansions later on, but suffice it to say that if expansion is not desired, you need to put quotes around your <code>"<var>delimiter</var>"</code>'s initial declaration.</p>
+                </dd>
+
+                <dt><dfn>Here Strings</dfn></dt>
+                <dd>
+<code class="syntax">
+    <strong>&lt;&lt;&lt;</strong><var>string</var>
+
+<samp>cat &lt;&lt;&lt;"Hello World
+Since I started learning bash, you suddenly seem so much bigger than you were before."</samp>
+</code>
+                Make standard input read from the <var>string</var>.
+                <p>Here strings are very similar to here documents but more concise.  They are generally preferred over here documents.</p>
+                </dd>
+
+                <dt><dfn>Closing file descriptors</dfn></dt>
+                <dd>
+<code class="syntax">
+    <var>x</var><strong>&gt;&amp;-</strong>, <var>x</var><strong>&lt;&amp;-</strong>
+
+<samp>exec 3&gt;&amp;1 &gt;mylog; echo moo; exec 1&gt;&amp;3 3&gt;&amp;-</samp>
+</code>
+                Close FD <var>x</var>.
+                <p>The stream is unlinked from file descriptor <var>x</var> and the file descriptor is removed from the process.  It cannot be used again until it is recreated.  When <var>x</var> is omitted, <code>&gt;&amp;-</code> defaults to closing standard output and <code>&lt;&amp;-</code> defaults to closing standard input.  You will rarely use this operator.</p>
+                </dd>
+
+                <dt><dfn>Moving file descriptors</dfn></dt>
+                <dd>
+<code class="syntax">
+    [<var>x</var>]<strong>&gt;&amp;</strong><var>y</var><strong>-</strong>, [<var>x</var>]<strong>&lt;&amp;</strong><var>y</var><strong>-</strong>
+
+<samp>exec 3&gt;&amp;1- &gt;mylog; echo moo; exec 1&gt;&amp;3-</samp>
+</code>
+                Replace FD <var>x</var> by FD <var>y</var>.
+                <p>The file descriptor at <var>y</var> is copied to <var>x</var> and <var>y</var> is closed.  Effectively, it replaces <var>x</var> by <var>y</var>.  It is a convenience operator for <code>[<var>x</var>]&gt;&amp;<var>y</var> <var>y</var>&gt;&amp;-</code>.  Again, you will rarely use this operator.</p>
+                </dd>
+
+                <dt><dfn>Reading and writing with a file descriptor</dfn></dt>
+                <dd>
+<code class="syntax">
+    [<var>x</var>]<strong>&lt;&gt;</strong><var>file</var>
+
+<samp>exec 5&lt;&gt;/dev/tcp/ifconfig.me/80
+echo "GET /ip HTTP/1.1
+Host: ifconfig.me
+" &gt;&amp;5
+cat &lt;&amp;5</samp>
+</code>
+                Open an FD for both reading and writing to <var>file</var>.
+                <p>The file descriptor at <var>x</var> is opened with a stream to the file that can be used for writing as well as reading bytes. Usually you'll use two file descriptors for this. One of the rare cases where this is useful is when setting up a stream with a read/write device such as a network socket. The example above writes a few lines in the HTTP protocol to <code>ifconfig.me:80</code> and subsequently reads the bytes coming back from the device, both using the same file
+                descriptor <code>5</code> set up for this by <code>exec</code>.</p>
+                </dd>
+            </dl>
 
         </section>
 

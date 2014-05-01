@@ -246,13 +246,25 @@ code.syntax {
 
     padding: 0 20% 1em;
     overflow: auto;
+
+    font-size: 0.65em;
 }
 code.block:hover,
 code.syntax:hover {
     color: #666;
     box-shadow: 0 0 15px #CCC;
 }
+code.bad, kbd.bad, var.bad, samp.bad {
+    background-color: #E3DDDD;
+    border-color: #A66;
+}
+code.good, kbd.good, var.good, samp.good {
+    background-color: #DDE3DD;
+    border-color: #6A6;
+}
 code.block[lang]::before,
+code.block.bad::before,
+code.block.good::before,
 code.syntax::before {
     content: "code";
     content: attr(lang);
@@ -272,6 +284,20 @@ code.syntax::before {
 }
 code.syntax::before {
     content: "syntax";
+}
+code.block.bad::before,
+code.syntax.bad::before {
+    content: "broken!";
+
+    color: #A66;
+    font-weight: bold;
+}
+code.block.good::before,
+code.syntax.good::before {
+    content: "correct";
+
+    color: #6A6;
+    font-weight: bold;
 }
 code.block:hover::before {
     font-size: 1em;
@@ -297,7 +323,7 @@ code em {
     position: absolute;
     z-index: -1;
     left: 15%;
-    padding-left: 40em;
+    padding-left: 35em;
     width: 40em;
 
     color: #AAA;

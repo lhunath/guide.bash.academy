@@ -20,6 +20,8 @@ $(function(){
     $("kbd").on('click', function() {
         selectText(this);
     });
-    $("#toc").toc();
+    $("#toc").toc({
+        'selectors': 'section>h1,section>h2,section>h3'
+    });
 });
 
