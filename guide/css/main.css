@@ -24,7 +24,7 @@ body {
 }
 a:link, a:visited {
     color: #333;
-    transition: .3s all;
+    transition: .2s all;
 
     font-weight: bolder;
 }
@@ -330,6 +330,94 @@ img[alt]:hover {
     box-shadow: 0 0 15px #CCC;
 }
 
+#toc {
+    counter-reset: toc-section;
+
+    position: fixed;
+    top: 0;
+    right: -50%;
+    z-index: 9;
+    width: 50%;
+    height: 100%;
+    margin-right: 3em;
+    transition-duration: 0.3s,0.3s;
+    transition-property: right,margin-right,background-color;
+    background: rgba(255, 255, 255, 0.5);
+
+    overflow: auto;
+}
+#toc::before {
+    content: "≣";
+    content: "≡";
+    line-height: 0.33;
+
+    position: fixed;
+    top: 0.2em;
+    right: 0.2em;
+    z-index: 10;
+
+    font-size: 3em;
+}
+#toc:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 2px black;
+
+    right: 0;
+    margin-right: 0;
+}
+#toc ul {
+    opacity: 0;
+    transition: 0.3s opacity;
+
+    display: block;
+    margin: 0;
+    padding: 1em 0;
+}
+#toc:hover ul {
+    opacity: 1;
+}
+#toc li a {
+    display: block;
+    padding: 1ex 1em;
+
+    text-decoration: none;
+}
+#toc li a:hover {
+    background: #EEE;
+}
+#toc li.toc-active a {
+    background: #DDD;
+}
+#toc li.toc-h1 {
+    counter-reset: toc-subsection;
+
+    margin-top: 1ex;
+
+    font-size: 1em;
+}
+#toc li.toc-h2 a {
+    font-size: 0.7em;
+    text-indent: 1em;
+}
+#toc li a::before {
+    color: #BBB;
+    opacity: 0;
+    transition: 0.2s all;
+
+    font-size: 0.5em;
+}
+#toc li:hover a::before,
+#toc li.toc-active a::before {
+    opacity: 1;
+}
+#toc li.toc-h1 a::before {
+    counter-increment: toc-section;
+    content: "⌗" counters(toc-section,".") " ";
+}
+#toc li.toc-h2 a::before {
+    counter-increment: toc-subsection;
+    content: " ❡" counters(toc-subsection, ".") " ";
+}
 
 
 

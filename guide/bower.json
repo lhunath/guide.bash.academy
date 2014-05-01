@@ -2,6 +2,7 @@
   "name": "guide.bash.academy",
   "version": "0.0.1",
   "dependencies": {
+    "toc": "~0.2.0"
   },
   "devDependencies": {}
 }

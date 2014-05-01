@@ -20,5 +20,6 @@ $(function(){
     $("kbd").on('click', function() {
         selectText(this);
     });
+    $("#toc").toc();
 });
 
