@@ -83,7 +83,7 @@ header h1 {
     color: white;
 
     margin: 0.5em 0;
-    font-size: 2em;
+    font-size: 3em;
 }
 header h2 {
     color: white;
@@ -455,6 +455,29 @@ nav li.toc-h1 a::before {
 nav li.toc-h2 a::before {
     counter-increment: toc-subsection;
     content: " ❡" counters(toc-subsection, ".") " ";
+}
+#chapter_list li {
+    padding: 1ex;
+    min-height: 7em;
+}
+#chapter_list p {
+    margin: 1em 0 0;
+}
+#chapter_list li:hover {
+    background: rgba(0, 0, 0, .1);
+}
+#chapter_list label {
+    float: right;
+}
+#chapter_list input::before {
+    content: "✓";
+    opacity: .2;
+
+    position: absolute;
+    z-index: -1;
+    margin-left: 0.5em;
+
+    font-size: 5em;
 }
 
 

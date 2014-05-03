@@ -15,13 +15,38 @@ function selectText(element) {
 }
 
 $(function(){
-    $.stellar();
+    var currentChapter = $('body').attr('id');
 
-    $("kbd").on('click', function() {
+    // Make kbd clickable to select the text.
+    $('kbd').on('click', function() {
         selectText(this);
     });
-    $("#toc").toc({
+
+    // Build the ToC.
+    $('#toc').toc({
         'selectors': 'section>h1,section>h2,section>h3'
     });
+
+    // Make the current chapter active in the ToC.
+    $('nav li').each(function() {
+        var id = $(this).attr('id');
+        if (id) {
+            var idFields = id.split('_');
+            if (idFields[0] == 'chapter' && idFields[1] == currentChapter)
+                $(this).addClass('toc-active');
+        }
+    });
+
+    // User's chapter completion checkboxes.
+    $('#chapter_list input').each(function() {
+        var wasDone = localStorage.getItem($(this).attr('id'));
+        this.checked = wasDone == 'true';
+    });
+    $('#chapter_list input').change(function() {
+        localStorage.setItem($(this).attr('id'), this.checked);
+    });
+
+    // Enable parallax backgrounds.
+    $.stellar();
 });
 
