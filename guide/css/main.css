@@ -56,13 +56,23 @@ dd {
 /* Headers */
 header {
     background: #BBB;
-    box-shadow: 0 0 2px black;
+    background-size: cover;
+    box-shadow: 0 0 50px black;
 
     position: relative;
     height: 80%;
     margin: 0;
     padding: 15%;
     box-sizing: border-box;
+}
+#cover header {
+    background-image: url("../img/cover.jpg");
+}
+#inception header {
+    background-image: url("../img/inception.jpg");
+}
+#commands header {
+    background-image: url("../img/commands.jpg");
 }
 header>div {
     position: absolute;
@@ -121,7 +131,7 @@ section h1::before {
 }
 section h2::before {
     counter-increment: subsection;
-    content: "⌗" counters(section,".") " ❡" counters(subsection, ".") " ";
+    content: " ❡" counters(subsection, ".") " ";
 }
 aside {
     background: #FAFAFA;
@@ -350,7 +360,7 @@ img[alt]:hover {
     box-shadow: 0 0 15px #CCC;
 }
 
-#toc {
+nav {
     counter-reset: toc-section;
 
     position: fixed;
@@ -366,7 +376,7 @@ img[alt]:hover {
 
     overflow: auto;
 }
-#toc::before {
+nav::before {
     content: "≣";
     content: "≡";
     line-height: 0.33;
@@ -378,63 +388,71 @@ img[alt]:hover {
 
     font-size: 3em;
 }
-#toc:hover {
+nav:hover {
     background: rgba(255, 255, 255, 1);
     box-shadow: 0 0 2px black;
 
     right: 0;
     margin-right: 0;
 }
-#toc ul {
+nav h1,
+nav ul {
     opacity: 0;
     transition: 0.3s opacity;
-
+}
+nav:hover h1,
+nav:hover ul {
+    opacity: 1;
+}
+nav h1 {
+    padding: 0 1ex;
+    margin: 1em 0 0;
+}
+nav ul {
     display: block;
     margin: 0;
     padding: 1em 0;
 }
-#toc:hover ul {
-    opacity: 1;
-}
-#toc li a {
+nav li a {
     display: block;
     padding: 1ex 1em;
+    border-left: 1ex solid transparent;
 
     text-decoration: none;
 }
-#toc li a:hover {
+nav li a:hover {
     background: #EEE;
 }
-#toc li.toc-active a {
-    background: #DDD;
+nav li.toc-active a {
+    border-left: 1ex solid #DDD;
 }
-#toc li.toc-h1 {
+nav li.toc-h1 {
     counter-reset: toc-subsection;
 
     margin-top: 1ex;
 
     font-size: 1em;
 }
-#toc li.toc-h2 a {
+nav li.toc-h2 a {
     font-size: 0.7em;
     text-indent: 1em;
 }
-#toc li a::before {
+nav li a::before {
     color: #BBB;
     opacity: 0;
     transition: 0.2s all;
 
     font-size: 0.5em;
 }
-#toc li:hover a::before,
-#toc li.toc-active a::before {
+nav li:hover a::before,
+nav li.toc-active a::before {
     opacity: 1;
 }
-#toc li.toc-h1 a::before {
+nav li.toc-h1 a::before {
     counter-increment: toc-section;
     content: "⌗" counters(toc-section,".") " ";
 }
-#toc li.toc-h2 a::before {
+nav li.toc-h2 a::before {
     counter-increment: toc-subsection;
     content: " ❡" counters(toc-subsection, ".") " ";
 }
