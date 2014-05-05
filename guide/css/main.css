@@ -469,7 +469,7 @@ nav li.toc-h2 a::before {
 #chapter_list label {
     float: right;
 }
-#chapter_list input::before {
+#chapter_list input:checked::before {
     content: "✓";
     opacity: .2;
 
