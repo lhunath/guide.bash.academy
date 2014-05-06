@@ -161,14 +161,13 @@ aside:hover::before {
 }
 footer,
 pre {
-    display: block;
-    position: relative;
-
     border-top: 1px dashed #DDD;
     border-bottom: 1px dashed #DDD;
     box-shadow: 0 0 1px #CCC;
     transition: .3s all;
 
+    display: block;
+    position: relative;
     margin: 0 -12.5%
 }
 dd footer,
@@ -178,8 +177,9 @@ dd pre {
 footer, code, pre, kbd {
     counter-reset: samp;
 
-    background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
-    background-size:6px 6px;
+    background-image: url("../img/stripes.png"); /* Performs better, maybe not as pretty. */
+    /*background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
+    background-size:6px 6px;*/
 }
 footer {
     background-color: #EEE;
@@ -337,7 +337,7 @@ pre em:hover, code em:hover {
 samp {
     font-weight: inherit;
 }
-img[alt] {
+section img[alt] {
     transition: .3s all;
     border-radius: 5px;
 
@@ -345,7 +345,7 @@ img[alt] {
     margin: 1em auto;
     padding: 1em;
 }
-img[alt]:hover {
+section img[alt]:hover {
     background-color: #EEE;
     box-shadow: 0 0 15px #CCC;
 }
@@ -353,18 +353,18 @@ img[alt]:hover {
 nav {
     counter-reset: toc-section;
 
+    transition-duration: 0.3s,0.3s;
+    transition-property: left,margin-left,background-color;
+    background: rgba(255, 255, 255, 0);
+
     position: fixed;
     top: 0;
-    right: -50%;
+    left: -50%;
     z-index: 9;
     width: 50%;
     height: 100%;
-    margin-right: 3em;
-    transition-duration: 0.3s,0.3s;
-    transition-property: right,margin-right,background-color;
-    background: rgba(255, 255, 255, 0.5);
-
-    overflow: auto;
+    margin-left: 3em;
+    overflow: hidden;
 }
 nav::before {
     content: "≣";
@@ -373,7 +373,7 @@ nav::before {
 
     position: fixed;
     top: 0.2em;
-    right: 0.2em;
+    left: 0.2em;
     z-index: 10;
 
     font-size: 3em;
@@ -382,8 +382,9 @@ nav:hover {
     background: rgba(255, 255, 255, 1);
     box-shadow: 0 0 2px black;
 
-    right: 0;
-    margin-right: 0;
+    left: 0;
+    margin-left: 0;
+    overflow: auto;
 }
 nav h1,
 nav ul {
