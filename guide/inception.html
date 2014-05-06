@@ -54,8 +54,11 @@
             <p>Every program on your computer has the ability to do a vast amount of different things.  Read files, start other programs, do math, control devices.  The main difference between bash and most other programs is that unlike them, bash was not programmed to perform a certain task.  Bash was programmed to take <dfn>commands</dfn> from you, the user.  To do so efficiently, a "language" was created which allows users to "speak" to the bash program and tell it what to do.  This language is
             the bash shell language and you are about to become intimately familiar with it.</p>
 
+            <p>In essence, a <dfn>shell</dfn> program is one that provides users with an interface to interact with other programs.  There is a large variety of shell programs, each with their own language.  Some popular ones are the <dfn>C shell (csh)</dfn>, <dfn>Z shell (zsh)</dfn>, <dfn>Korn shell (ksh)</dfn>, <dfn>Bourne shell</dfn>, <dfn>Debian's Almquist shell (dash)</dfn>, etc.  Bash (also called the <dfn>Bourne Again shell</dfn>) is currently the most popular and ubiquitously
+            available shell.  Even though all of these shells use seemingly similar syntax, it is important to be fully aware of what shell you're actually writing code for.  Often, you'll hear people refer to their code as "shell code", which is about as specific as "source code" is when referring to your Java code.  This guide will teach you how to write bash shell code: you should use it only with the bash shell, not any other.</p>
+
             <footer>
-            Bash is a <dfn>program</dfn> designed to listen to my <dfn>commands</dfn> and do what I tell it to.
+            Bash is a <dfn>shell program</dfn> designed to listen to my <dfn>commands</dfn> and do what I tell it to.
             </footer>
 
             <h2>What do I do with it?</h2>
@@ -85,7 +88,7 @@
             
             <h2>Where do I find bash?  How do I start using it?</h2>
 
-            <p>Assuming that your operating system came with bash installed, you'll find bash as a simple binary program located in one of your system's standard binary directories.  If you're running a system that does not ship with bash pre-installed, such as FreeBSD or Windows, you'll need to either use a distribution platform to download and install it, or obtain bash's source code and build the binary yourself.  FreeBSD users can use <code>ports</code>, Windows users can use
+            <p>Assuming that your operating system came with bash installed, you'll find bash as a simple executable program located in one of your system's standard binary directories.  A binary is an executable program that contains "binary code" which is executed directly by the system's kernel.  If you're running a system that does not ship with bash pre-installed, such as FreeBSD or Windows, you'll need to either use a distribution platform to download and install it, or obtain bash's source code and build the binary yourself.  FreeBSD users can use <code>ports</code>, Windows users can use
             <code>cygwin</code>, but there are alternative distributions.  The source code is available from <a href="http://ftp.gnu.org/gnu/bash/">GNU.org</a>.  If all else fails, employ the powers of the Internet to find a means of installing bash before you continue.</p>
 
             <p>With bash installed, we can run the binary to start the program.  Before we do so, it's important to take note of the two distinct modes of operation that the bash shell supports:</p>
@@ -108,14 +111,14 @@
             bash already running in it.  Some terminals, however, won't: some systems may default to shells such as <code>cmd.exe</code>, <code>sh</code>, <code>dash</code>, <code>csh</code> or <code>zsh</code>.  Neither of these shells are <code>bash</code>, and their usage is not covered by this guide (if you need help, I again recommend you turn to the powers of the Internet).  To find out whether or not your terminal is currently running a bash shell, let's try running our <strong>first bash
                 command</strong>!</p>
 
-<code class="block" lang="bash">
+<pre lang="bash">
 $ <kbd>echo "$BASH_VERSION"</kbd>
 4.2.45(2)-release
-</code>
+</pre>
 
-            <p>Since this is our first block of shell code, let's take a moment to point out the syntax we'll be using in this guide.  All code is formatted <code>like this</code>.  When there's a block of code, like above, we'll include both the output that appears on your terminal as well as the text you have typed into the terminal.  We'll make a distinction between the text you type and the other text that appears in the terminal by formatting the text you type
+            <aside>Since this is our first block of shell code, let's take a moment to point out the syntax we'll be using in this guide.  All code is formatted <code>like this</code>.  When there's a block of code, like above, we'll include both the output that appears on your terminal as well as the text you have typed into the terminal.  We'll make a distinction between the text you type and the other text that appears in the terminal by formatting the text you type
             <kbd>like this</kbd>.  Text you should type can be easily selected by <kbd>clicking it</kbd>. Looking up at the code block above, you should now understand that the <code>$</code>-sign is not something you should type: it represents the prompt that will appear in your terminal when its shell is ready to receive a command.  The actual prompt in your terminal may look different.  At the prompt, you will enter the following text: <kbd>echo "$BASH_VERSION"</kbd>, followed by hitting the <kbd title="enter">⏎</kbd> (enter/return) key to confirm the command.  As
-            soon as you confirm the command, the bash shell will execute it and produce the output on the line below (or a similar version number).</p>
+            soon as you confirm the command, the bash shell will execute it and produce the output on the line below (or a similar version number).</aside>
 
             <p>If the above command yields no output or results in an error message (assuming you didn't mis-type anything), it means your terminal probably isn't running the bash shell.  You'll need to manually start the bash shell before you can try the command again.  In most shells, starting bash is as simple as executing the <kbd>bash</kbd> command.  If not, you'll need to turn to the documentation of your system, terminal or shell, or activate the power of the Internet to find out
             how to run the bash shell from your terminal.</p>
@@ -135,7 +138,7 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
             <img src="img/terminal-bash.png" alt="The terminal program runs in the GUI, the bash program runs in the terminal.">
 
             <p>When you start a terminal emulator program from your graphical user interface, you'll see a window open up with text in it.  The text that displays in this window is both the output of programs running in the terminal as well as the characters you've sent to those programs using, for instance, your keyboard.  The bash program is only one of many programs that can run in a terminal, so it is important to note that <em>bash is not what's making text appear on your screen</em>.  The
-            terminal program takes care of that, taking text from bash and placing it in its window for you to see.  The terminal may do the same for other terminal programs, completely unrelated to bash, such as a mail program or an IRC client.</p>
+            terminal program takes care of that, taking text from bash and placing it in its window for you to see.  The terminal may do the same for other programs running in the terminal, completely unrelated to bash, such as a mail program or an IRC client.</p>
 
             <img src="img/terminal-more.png" alt="The terminal program can run other programs which in turn can run other programs, building a chain.">
 
@@ -179,11 +182,11 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
             <p>In the above example, two bash processes are linked via a stream.  The first bash process reads its input from the keyboard.  It sends output on both standard output and standard error.  Output on standard error is connected to the terminal display, while output on standard output is connected to the second process.  Notice how the first process' <code>FD 1</code> connects to the second process' <code>FD 0</code>.  The second process therefore consumes the first process'
             standard output when it reads from its standard input.  The second process' standard output in turn is connected to the terminal's display.  Running this code in a terminal would show us something like this:</p>
 
-<code class="block">
+<pre>
 Your name?
 <kbd>Maarten Billemont</kbd>
 Hello, Maarten Billemont
-</code>
+</pre>
 
             <p>Notice how the only text that appears in the terminal is the output of the commands that are connected to the terminal's display, as well as the input the terminal has sent to the programs.</p>
 
@@ -211,6 +214,7 @@ Hello, Maarten Billemont
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
           ga('create', 'UA-24338692-4', 'bash.academy');
+          ga('require', 'displayfeatures');
           ga('send', 'pageview');
 
         </script>

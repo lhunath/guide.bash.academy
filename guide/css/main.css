@@ -160,8 +160,7 @@ aside:hover::before {
     color: #AAA;
 }
 footer,
-code.block,
-code.syntax {
+pre {
     display: block;
     position: relative;
 
@@ -173,11 +172,10 @@ code.syntax {
     margin: 0 -12.5%
 }
 dd footer,
-dd code.block,
-dd code.syntax {
+dd pre {
     margin: 0 -19.5%
 }
-footer, code, kbd {
+footer, code, pre, kbd {
     counter-reset: samp;
 
     background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
@@ -208,10 +206,7 @@ footer::before {
 
     font-size: 0.6em;
 }
-code,
-kbd,
-var,
-samp {
+pre, code, kbd, var, samp {
     background-color:#DDD;
 
     white-space: pre;
@@ -223,8 +218,7 @@ kbd {
     cursor: pointer;
 }
 kbd, kbd:hover,
-code.block:hover kbd,
-code.syntax:hover kbd {
+pre:hover kbd {
     text-decoration: underline;
 }
 var {
@@ -233,49 +227,47 @@ var {
 var:hover {
     color: black;
 }
-code kbd,
-code var,
-code samp {
+pre kbd, pre var, pre samp,
+code kbd, code var, code samp {
     background: rgba(255, 255, 255, 0);
     transition: 0.2s all;
 
     font-size: inherit;
     text-decoration: none;
 }
+pre samp,
 code samp {
     display: inline-block;
     width: 100%;
 }
-code.block,
-code.syntax {
+pre {
     position: relative;
     z-index: 0;
     color: #999;
     border-top-color: #BBB;
     border-bottom-color: #BBB;
 
-    padding: 0 20% 1em;
+    padding: 1em 20%;
     overflow: auto;
 
     font-size: 0.65em;
 }
-code.block:hover,
-code.syntax:hover {
+pre:hover {
     color: #666;
     box-shadow: 0 0 15px #CCC;
 }
-code.bad, kbd.bad, var.bad, samp.bad {
+code.bad, pre.bad, kbd.bad, var.bad, samp.bad {
     background-color: #E3DDDD;
     border-color: #A66;
 }
-code.good, kbd.good, var.good, samp.good {
+code.good, pre.good, kbd.good, var.good, samp.good {
     background-color: #DDE3DD;
     border-color: #6A6;
 }
-code.block[lang]::before,
-code.block.bad::before,
-code.block.good::before,
-code.syntax::before {
+pre[lang]::before,
+pre.bad::before,
+pre.good::before,
+pre.syntax::before {
     content: "code";
     content: attr(lang);
     content: attr(lang, "code");
@@ -292,30 +284,28 @@ code.syntax::before {
 
     font-size: 0.6em;
 }
-code.syntax::before {
+pre.syntax::before {
     content: "syntax";
 }
-code.block.bad::before,
-code.syntax.bad::before {
+pre.bad::before {
     content: "broken!";
 
     color: #A66;
     font-weight: bold;
 }
-code.block.good::before,
-code.syntax.good::before {
+pre.good::before {
     content: "correct";
 
     color: #6A6;
     font-weight: bold;
 }
-code.block:hover::before {
+pre:hover::before {
     font-size: 1em;
 }
-code samp:hover {
+pre samp:hover, code samp:hover {
     background: rgba(255, 255, 255, 0.5);
 }
-code samp::before {
+pre samp::before, code samp::before {
     counter-increment: samp;
     content: "#" counter(samp);
 
@@ -326,7 +316,7 @@ code samp::before {
 
     font-size: 0.7em;
 }
-code em {
+pre em, code em {
     background: rgba(255, 255, 255, 0);
     transition: 0.2s all;
 
@@ -338,10 +328,10 @@ code em {
 
     color: #AAA;
 }
-code em::before {
+pre em::before, code em::before {
     content: "# ";
 }
-code em:hover {
+pre em:hover, code em:hover {
     background: rgba(255, 255, 255, 0.5);
 }
 samp {
