@@ -553,7 +553,7 @@ $
 
             <p>What if we wanted to save all the output that would normally appear on the terminal to our <code>myfiles.ls</code> file; both the results and error messages?  Intuition might suggest:</p>
 
-<code class="bad block">
+<pre class="bad">
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;myfiles.ls</mark></kbd><em>Redirect both file descriptors to myfiles.ls?</em>
 
                  ╭──────────╮
@@ -565,14 +565,14 @@ $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;myfiles.ls</mark></kbd><
                └╼│0  ls    1│╾───╼ myfiles.ls
                  │         2│╾───╼ myfiles.ls
                  ╰──────────╯
-</code>
+</pre>
 
             <p>But you'd be <strong>wrong!</strong>  Why is this not correct?  Upon inspection of the <code>myfiles.ls</code> it may appear as though things worked out, but there is actually something very dangerous going on here.  If you're lucky, you'll see the output of the file isn't exactly as you might expect: it might be a little garbled, out of order, or it might even be just right.  The problem is, you can't predict and no less guarantee the result of this command.</p>
 
             <p>What's going on here?  The problem is that you have two separate file descriptors that lead to the file.  That means you have two separate streams leading to the file.  The reason why this is problematic is very much an artifact of how streams and buffering work, but we're not going to cover buffering in-depth in this guide.  Suffice it to know that when the bytes written to these separate streams arrive in the file, they get mixed together and their ordering becomes
             indeterminate.  To solve this problem, you need to send your output and error bytes both on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:</p>
 
-<code class="good block">
+<pre class="good">
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 2 write to where FD 1 is writing</em>
 
                  ╭──────────╮
@@ -584,24 +584,24 @@ $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>M
                └╼│0  ls    1│╾─┬─╼ myfiles.ls
                  │         2│╾─┘
                  ╰──────────╯
-</code>
+</pre>
 
             <p>Duplicating file descriptors, otherwise referred to as "copying" file descriptors, is the act of copying one file descriptor's stream connection to another file descriptor.  As a result, both file descriptors are connected to the same stream.  We use the <code>&gt;&amp;</code> operator, prefixing it with the file descriptor we want to change and following it with the file descriptor whose stream we need to "copy".  You will use this operator fairly frequently, and in most cases it'll be to copy FD 1 to FD 2 as is done above.</p>
 
             <p>We've seen quite a few redirection operations now, and we've even combined them.  Before you go wild, there is one more important rule you need to understand:  redirections are evaluated from left to right, conveniently the same way as we read them.  This might seem obvious, but neglect for this has caused many of your predecessors to make this mistake:</p>
 
-<code class="bad block">
+<pre class="bad">
     $ <kbd>ls -l a b <mark>2&gt;&amp;1</mark> <mark>&gt;myfiles.ls</mark></kbd><em>Make FD 2 go to FD 1 and FD 1 go to myfiles.ls?</em>
-</code>
+</pre>
 
             <p>Somebody who writes this code might assume that since FD 2's output is going to FD 1, and FD 1 is going to <code>myfiles.ls</code>, errors should end up in the file.  The logical error in their reasoning is the assumption that <code>2&gt;&amp;1</code> sends FD 2's output to FD 1.  <strong>It does NOT.</strong>  It sends FD 2's output to FD 1's <strong><em>stream</em></strong>, which is probably to the <strong>terminal</strong> and not the file, because FD 1 hasn't been
             redirected to the file yet.  The result of the above command might frustrate, because it will appear as though the redirection of standard error isn't taking effect, when in reality, you've merely redirected standard error to the terminal (standard output's target), which is where it was already pointing before.</p>
 
             <p>If we fix the order of the redirections:</p>
 
-<code class="good block">
+<pre class="good">
     $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 1 target myfiles.ls and FD 2 target FD 1's target</em>
-</code>
+</pre>
 
             <p>We now first change FD 1's target to stream to <code>myfiles.ls</code>.  Then, we make FD 2 target the same stream FD 1 is currently using, which is the new stream to <code>myfiles.ls</code>.  Both file descriptors are now targetting <code>myfiles.ls</code> and any output written by <code>ls</code> on either FD 1 or FD 2 will end up in the file.</p>
 

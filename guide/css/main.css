@@ -20,7 +20,7 @@ body {
 
     font-family: "Hoefler Text", Garamond, Baskerville, "Baskerville Old Face", "Times New Roman", serif;
     font-family: 'Maven Pro', sans-serif;
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 a:link, a:visited {
     color: #333;
@@ -203,14 +203,14 @@ footer::before {
     left: 0;
     padding: 1ex;
 
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 pre, code, kbd, var, samp {
     background-color:#DDD;
 
     white-space: pre;
     font-family: 'Source Code Pro', monospace;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 kbd {
     color: black;
@@ -249,7 +249,7 @@ pre {
     padding: 1em 20%;
     overflow: auto;
 
-    font-size: 0.65em;
+    font-size: 0.8em;
 }
 pre:hover {
     color: #666;
@@ -281,7 +281,7 @@ pre.syntax::before {
     left: 0;
     padding: 1ex;
 
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 pre.syntax::before {
     content: "syntax";
@@ -298,9 +298,6 @@ pre.good::before {
     color: #6A6;
     font-weight: bold;
 }
-pre:hover::before {
-    font-size: 1em;
-}
 pre samp:hover, code samp:hover {
     background: rgba(255, 255, 255, 0.5);
 }
@@ -313,7 +310,7 @@ pre samp::before, code samp::before {
     position: absolute;
     margin-left: -2em;
 
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 pre em, code em {
     background: rgba(255, 255, 255, 0);
