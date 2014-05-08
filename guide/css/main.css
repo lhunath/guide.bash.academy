@@ -192,7 +192,7 @@ footer:hover {
     color: black;
     box-shadow: 0 0 15px #CCC;
 }
-footer::before {
+section>footer::before {
     content: "TL;DR";
 
     background: white;
@@ -466,6 +466,12 @@ nav li.toc-h2 a::before {
     margin-left: 0.5em;
 
     font-size: 5em;
+}
+body>footer {
+    text-align: center;
+    font-size: 0.7em;
+    font-weight: 100;
+    padding: 3em 0 1ex;
 }
 
 
