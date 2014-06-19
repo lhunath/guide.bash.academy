@@ -93,6 +93,10 @@ header h2 {
     margin: 0;
     font-size: 1em;
 }
+header h2 cite {
+    font-weight: 100;
+    font-size: 0.7em;
+}
 header a:link, header a:visited {
     color: #EEE;
     font-weight: bolder;
