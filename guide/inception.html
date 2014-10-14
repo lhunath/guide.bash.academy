@@ -158,8 +158,9 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
 
             <img src="img/process.png" alt="A process is a running program that can relays instructions to the kernel and has input and output connectors called FDs.">
 
-            <p>A program generally lives on your disk, waiting to be started.  When you "run" or "execute" a program, your kernel loads its pre-written instructions (its <dfn>code</dfn>) by creating a <dfn>process</dfn> for your program to work in.  As we briefly saw in the previous section, your program can run many times simultaneously, each of those instances are running processes of your program.  A process relays the instructions in your program to the kernel.  A process also
-            has a few hooks to the outside world via something called <dfn>file descriptors</dfn>.  These are essentially plugs we use to connect processes to files, devices or other processes.  File descriptors are described by numbers, though the first three also have standard names:</p>
+            <p>A program generally lives on your disk, waiting to be started.  When you "run" or "execute" a program, your kernel loads its pre-written instructions (its <dfn>code</dfn>) by creating a <dfn>process</dfn> for your program to work in.  As we briefly saw in the previous section, your program can run many times simultaneously, each of those instances are running processes of your program.  If a chocolate cake recipe is a program, then your process of baking a chocolate
+            cake with it is the program's process.  A process relays the instructions in your program to the kernel.  A process also
+            has a few hooks to the outside world via something called <dfn>file descriptors</dfn>.  These are essentially plugs we use to connect processes to files, devices or other processes.  Most chocolate cake recipes won't, but some might have, for instance, a table for looking up the amount of ingredients based on the desired amount of servings.  These recipes take input and their output will differ depending on the input given.  File descriptors are identified by numbers, though the first three also have standard names:</p>
             <dl>
                 <dt><dfn>standard input</dfn></dt>
                 <dd><strong>File descriptor 0</strong> is also called <dfn>standard input</dfn>.  This is where most processes receive their input from.  By default, processes in your terminal will have their standard input "connected" to your keyboard.  More specifically, to the input your terminal program receives.</dd>
@@ -174,8 +175,8 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
 
             <p>If a program needs its output to go to another program's input, as opposed to your display, it will instruct the kernel to connect its standard output to the other program's standard input.  Now all the information it sends to its standard output file descriptor will flow into the other program's standard input file descriptor.  These flows of information between files, devices and processes are called <dfn>streams</dfn>.</p>
 
-            <p>A stream is information (specifically, <dfn>bytes</dfn>) flowing through the links between files, devices and processes in a running system.  They can transport any kind of bytes, and the receiving end can only consume their bytes one-by-one.  If I have a program that outputs names connected to another program, the second program can only see the second name after first reading the first name from the stream.  When it's done reading the second name, the next thing in the
-            stream is the third name.  Once it reads a name from the stream it would do well to save that name somewhere, because it cannot read it from the stream again: reading from a stream consumes those bytes and the stream advances to the next few bytes that haven't been read yet.</p>
+            <p>A stream is information (specifically, <dfn>bytes</dfn>) flowing through the links between files, devices and processes in a running system.  They can transport any kind of bytes, and the receiving end can only consume their bytes in the order they were sent.  If I have a program that outputs names connected to another program, the second program can only see the second name after first reading the first name from the stream.  When it's done reading the second name, the next thing in the
+            stream is the third name.  Once a name is read from the stream, the program can store it somewhere if it may need it again later.  Reading a name from the stream consumes those bytes from the stream and the stream advances.  The stream cannot be rewound and the name cannot be re-read.</p>
 
             <img src="img/streams.png" alt="Processes have file descriptors that connect to files, devices and other processes via streams.">
 
@@ -197,6 +198,11 @@ Hello, Maarten Billemont
             Each time a program is started, the system creates a running <dfn>process</dfn> for it.  Processes have plugs, called <dfn>file descriptors</dfn> which allow them to connect <dfn>streams</dfn> that lead to files, devices or other processes.
             </footer>
         </section>
+
+        <aside class="nav">
+            <h1><a href="commands.html">Next up: Commands And Arguments</a></h1>
+            <h2><a href="index.html">Back track: Cover</a></h1>
+        </aside>
 
         <footer>
         <a href="http://lhunath.com">Maarten Billemont (lhunath)</a> (<a href="http://thanks.lhunath.com">thanks</a>) — <a href="attributions.html">Attributions</a>

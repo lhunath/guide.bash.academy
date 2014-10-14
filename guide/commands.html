@@ -46,14 +46,16 @@
             <p>We learned a great deal about how bash and other processes work together in the terminal.  Let's refocus on bash and start figuring out how exactly we get stuff done with it.</p>
 
             <p>As mentioned earlier, bash waits for instructions from you and then executes them to the best of its abilities.  To get the most out of bash, and especially to avoid damage due to bash misunderstanding your intentions, it's important that you pay close attention to these basics of the bash shell language.  There are many people that consider themselves fluent in bash but fail to understand even these most basic concepts.  As a result, they create programs that can inflict
-            extensive damage to unsuspecting users and systems.  Don't be that guy.</p>
+            extensive damage to unsuspecting users and systems.  <em>Don't be that guy</em>.</p>
 
             <h2>So what are bash commands?</h2>
 
-            <p>The core of the bash shell language are its commands.  Your commands tell bash what you need it to do, step-by-step, command-by-command.</p>
+            <p>At the core of the bash shell language are its commands.  Your commands tell bash what you need it to do, step-by-step, command-by-command.</p>
 
             <p>Bash generally takes one command from you at a time, executes the command, and when completed returns to you for the next command.  We call this <dfn>synchronous</dfn> command execution.  It is important to understand that while bash is busy with a command that you give it, there is no way for you to interact with bash: you'll have to wait for bash to get back to you after its job is done.  For most commands, you'll barely notice this: they get executed so fast bash
-            will be back for the next command before you realize.  Some commands can take a long time to complete, though.  In particular, commands that start other programs with which you can interact.  For instance, a command might start a file editor.  While you're interacting with the file editor, bash takes a back-seat and waits for the file editor to end (which generally means you quit it). When the file editor program stops running, the command ends and bash resumes operation by
+            will be back for the next command before you realize.</p>
+
+            <p>Some commands can take a long time to complete, though.  In particular, commands that start other programs with which you can interact.  For instance, a command might start a file editor.  While you're interacting with the file editor, bash takes a back-seat and waits for the file editor to end (which generally means you quit it). When the file editor program stops running, the command ends and bash resumes operation by
             asking you for the next thing to do.  You'll notice that while your editor is running, you are no longer at the bash prompt.  As soon as your editor exits, your bash prompt re-appears:</p>
 
 <pre lang="bash">
@@ -98,7 +100,8 @@ Hello, Maarten Billemont.
 </pre>
 
             <p>Logically, bash cannot execute a command until it has enough information to do its job.  The first line of the <code>if</code> command in the example above (we'll cover what these commands do in more detail later on) doesn't contain enough information for bash to know what to do if the test succeeds or if it fails.  As a result, bash shows a special prompt: <code>&gt;</code>.  This prompt essentially means: <q>the command you gave me is not yet at an end</q>.  We keep on
-            providing extra lines for the command, until we reach the <code>fi</code> construct.  When we end that line, bash knows that you're done providing conditional result cases.  It immediately begins running all the code in the entire block, from <code>if</code> to <code>fi</code>.</p>
+            providing extra lines for the command, until we reach the <code>fi</code> construct.  When we end that line, bash knows that you're done providing conditional result cases.  It immediately begins running all the code in the entire block, from <code>if</code> to <code>fi</code>.  We will soon see the different kinds of commands defined in bash's grammar, but the <code>if</code> command we just saw is called a <dfn>Compound Command</dfn>, because it compounds a bunch of
+            basic commands into a larger logical block.</p>
 
             <p>In each of these cases, we're passing our commands to an interactive bash session.  As we explained before, bash can also run in non-interactive mode where it reads commands from a file or stream rather than asking you for them.  In non-interactive mode, bash doesn't have a prompt.  Aside from that, it operates pretty much the same.  We could copy the bash code from the example above and put it in a text file instead:</p>
 
@@ -136,7 +139,8 @@ fi
 </pre>
 
             <p>Congratulations!  You've created your first bash script.  What's a bash script?  It's a file with bash code in it that can be executed by the kernel just like any other program on your computer.  In essence, it is a program in itself, although it does need the bash interpreter to do the work of translating the bash language into instructions the kernel understands.  That's where this "hashbang" line we've just added to the file comes in:  It tells the kernel what interpreter
-            it needs to use to understand the language in this file, and where to find it.  Your hashbang must be an absolute pathname to any program that understands the language in your file.  Our hashbang is a little special, though:  We reference the program <code>/usr/bin/env</code>, which isn't really a program that understands the bash language.  It's a program that can find and start other programs.  In our case, we tell it to find the <code>bash</code> program and use that for
+            it needs to use to understand the language in this file, and where to find it.  We call it a "hashbang" because it always begins with a "hash" <code>#</code> followed by a "bang" <code>!</code>. Your hashbang must then specify an absolute pathname to any program that understands the language in your file and can take a single argument.  Our hashbang is a little special, though:  We reference the program <code>/usr/bin/env</code>, which isn't really a program that understands the
+            bash language.  It's a program that can find and start other programs.  In our case, we use an argument to tell it to find the <code>bash</code> program and use that for
             interpreting the language in our script.  Why do we use this "inbetween" program called <code>env</code>?  It has everything to do with what comes before the name: the path.  We know with relative certainty that the <code>env</code> program lives in the <code>/usr/bin</code> path.  Given the large variety of operating systems and configurations, however, we don't have any good certainty about where the <code>bash</code> program is installed.  Which is why we use the
             <code>env</code> program to find it for us.  That was a little complicated!  But now, what's the difference between our file before and after adding the hashbang?</p>
 
@@ -145,7 +149,7 @@ $ <kbd>chmod +x hello.txt</kbd><em>Mark hello.txt as an e<strong>x</strong>ecuta
 $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 </pre>
 
-            <p>Most systems require you to mark a file as <dfn>executable</dfn> before the kernel is willing to give you permission to run it as a program, but once we do that, we can start the <code>hello.txt</code> program like we would any other program.  The kernel will look inside the file, find the hashbang, use that to track down the bash interpreter, and use that to start running the instructions in the file.  You have your first real bash program!</p>
+            <p>Most systems require you to mark a file as <dfn>executable</dfn> before the kernel is willing to allow you to run it as a program.  Once we do that, we can start the <code>hello.txt</code> program like we would any other program.  The kernel will look inside the file, find the hashbang, use that to track down the bash interpreter, and use that to start running the instructions in the file.  You have your first real bash program!</p>
 
             <footer>
             Bash gets commands by reading lines.  As soon as it's read enough lines to compose a single command, bash begins running that command.  Usually, commands are just a single line long.  An interactive bash session reads lines from you at the prompt.  Non-interactive bash processes read their command lines from a file or stream.  Files with a <dfn>hashbang</dfn> as their first line (and the <dfn>executable</dfn> permission) can be started by your system's kernel like any other
@@ -159,7 +163,7 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 
             <p>If you've been paying close attention to the previous sections, you've got a pretty good introduction to what bash is, where and how it operates within the system and how you use it.</p>
 
-            <p>Time to start talking "bash".  We're going to get introduced to the bash shell language's grammar, and with that, this guide is going to start getting a bit more technical.  Don't worry, focus and you won't get left behind.  If you get a feeling of unease and uncertainty, re-read the section before moving on.  We'll try and cover all the how's and why's of new concepts.  If anything remains unclear, we encourage you to get in touch so that we can improve this guide for you and your
+            <p>Time to start speaking "bash".  We're going to get introduced to the bash shell language's grammar, and with that, this guide is going to start getting a bit more technical.  Don't worry, focus and you won't get left behind.  If you get a feeling of unease and uncertainty, re-read the section before moving on to avoid getting completely lost.  We'll try and cover all the how's and why's of new concepts.  If anything remains unclear, we encourage you to get in touch so that we can improve this guide for you and your
             fellow students.  Our contact information is at the beginning of the guide.</p>
 
             <h2>About intentions and ambiguity</h2>
@@ -410,18 +414,19 @@ $
 
 <pre lang="bash">
 $ <kbd>rm <mark>hello.txt</mark></kbd>
-$ <kbd>mplayer <mark>"05 Between Angels and Insects.ogg"</mark> <mark>"07 Wake Up.ogg"</mark></kbd>
+$ <kbd>mplayer <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake Up.ogg'</mark></kbd>
 </pre>
 
-            <p>In the above examples, the words are highlighted.  Notice how they aren't linguistic words, but meaningful units.  In this case, they're all file names.  To separate multiple arguments we use blank space.  That can be both spaces and tabs.  Usually you will use a single space between arguments.</p>
+            <p>In the above examples, the words are highlighted.  Notice how they aren't linguistic words, but meaningful units.  In this case, they all refer to file names.  To separate multiple arguments we use blank space.  That can be either or both spaces and tabs.  Usually you will use a single space between arguments.</p>
 
             <aside>To the bash shell, <dfn>blank space</dfn> is syntax just like anything else.  It means: <q>break the previous apart from the next thing</q>.  Bash calls this: <dfn>word splitting</dfn>.</aside>
 
-            <p>A problem now arises: how should the shell know that you mean for your filename to be <code>05 Between Angels and Insects.ogg</code> and not <code>05</code>?  We have a space after <code>05</code>, separating it from <code>Between</code> with blank space.  But our intention is for those two to remain "together".  That is: <em>the blank space between them should not split them into separate arguments</em>.  What we need is a way to tell the shell that it should treat something
-            <dfn>literally</dfn>: that means, use it as-is, taking away its syntactical meaning.  If we can make the spaces literal, they will no longer tell bash to split the <code>05</code> from the <code>Between</code>, and bash will use it as a normal ordinary space character.</p>
+            <p>A problem now arises: we have a space after <code>05</code>, separating it from <code>Between</code>.  How should the shell know that you mean for your filename to be <code>05 Between Angels and Insects.ogg</code> and not <code>05</code>?  How do we tell the shell that the blank space after <code>05</code> is <dfn>literal</dfn> and not intended as <dfn>syntax</dfn> for "split the word now"?  Our intention is for the whole file name to remain "together".  That is:
+            <em>the blank spaces in it should not split it into separate arguments</em>.  What we need is a way to tell the shell that it should treat something
+            literally; meaning, use it as-is, ignoring any syntactical meaning.  If we can make the spaces literal, they will no longer tell bash to split the <code>05</code> from the <code>Between</code>, and bash will use it as a normal ordinary space character.</p>
 
             <p>There are two ways in bash to make characters literal: <dfn>quoting</dfn> and <dfn>escaping</dfn>.  Quoting is the practice of wrapping <kbd title="double quote">"</kbd> or <kbd title="single quote">'</kbd> characters around the text that we want to make literal.  Escaping is the practice of placing a single <kbd title="backslash">\</kbd> character in front of the character that we want to make literal.  The example above uses quotes to make the entire filename
-            literal, but not the space inbetween the filenames.  We strongly recommend you use quotes over escaping, since it results in much clearer and more readable code.  More importantly: it makes it much more difficult to tell exactly which parts of your code are literal and which aren't.  Using escaping rather than quoting, our example would look like this:</p>
+            literal, but not the space inbetween the filenames.  We strongly recommend you use quotes over escaping, since it results in much clearer and more readable code.  More importantly: escaping makes it much more difficult to tell exactly which parts of your code are literal and which aren't.  It also becomes more pecarious to edit the literal text later on without introducing mistakes.  Using escaping rather than quoting, our example would look like this:</p>
 
 <pre lang="bash">
 $ <kbd>mplayer <mark>05\ Between\ Angels\ and\ Insects.ogg</mark> <mark>07\ Wake\ Up.ogg</mark></kbd>
@@ -432,12 +437,22 @@ $ <kbd>mplayer <mark>05\ Between\ Angels\ and\ Insects.ogg</mark> <mark>07\ Wake
 <pre lang="bash">
 $ <kbd>ls -l <mark>hello.txt</mark></kbd>
 -rw-r--r--  1 lhunath  staff  131 29 Apr 17:07 hello.txt
-$ <kbd>ls -l <mark>"hello.txt"</mark></kbd>
+$ <kbd>ls -l <mark>'hello.txt'</mark></kbd>
 -rw-r--r--  1 lhunath  staff  131 29 Apr 17:07 hello.txt
-$ <kbd>ls -l <mark>"05 Between Angels and Insects.ogg"</mark> <mark>"07 Wake Up.ogg"</mark></kbd>
+$ <kbd>ls -l <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake Up.ogg'</mark></kbd>
 </pre>
 
-            <p>But don't be caught off-guard!  This is definitely not correct:</p>
+            <p>So, if in doubt: quote your data.  And never remove quotes in an attempt to make something work.</p>
+
+            <p>You should use <mark>"<dfn>double quotes</dfn>"</mark> for any argument that contains expansions (such as <code>$variable</code> or <code>$(command)</code> expansions) and <mark>'<dfn>single quotes</dfn>'</mark> for any other arguments.  Single quotes make sure that everything in the quotes remains literal, while double quotes still allow some bash syntax such as expansions:</p>
+
+<pre lang="bash">
+echo <mark>"Good morning, $USER."</mark><em>Double quotes allow bash to expand <code>$USER</code></em>
+echo <mark>'You have won SECOND PRIZE in a beauty contest.'</mark> \<em>Single quotes prevent even the <code>$</code>-syntax</em>
+     <mark>'Collect $10'</mark><em>from triggering expansion.</em>
+</pre>
+
+            <p>Don't be caught off-guard!  This is definitely not correct:</p>
 
 <pre lang="bash">
 $ <kbd>ls -l <mark>05</mark> <mark>Between</mark> <mark>Angels</mark> <mark>and</mark> <mark>Insects.ogg</mark></kbd>
@@ -450,8 +465,46 @@ ls: and: No such file or directory
 
             <p>You will not have these handy yellow markers in your shell.  Try to make a habit of mentally picturing them so that you keep yourself from making mistakes.  You definitely won't be the first to have accidentally destroyed all the files in their home directory as a result of a stray or unquoted space character.</p>
 
+            <p>You'll find it good practice to develop a sense of pragmatism with regards to quoting: for any glance upon a block of bash code, unquoted arguments should immediately jump out at you, and you should feel a compulsion to resolve these before you can allow yourself to proceed with anything else.  Quoting issues are at the core of at least nine out of ten bash problems, and the vast majority of causes for issues people seek help with.  Seeing as quoting is actually very easy,
+            a disciplined quoter has that much less to worry about.</p>
+
+            <aside class="rule">
+                <p>The golden rule on quoting is very simple:<br>
+                <q>If there is whitespace or a symbol in your argument, you <strong>must</strong> quote it.<br>
+                If there isn't, quotes are usually optional, but you can still quote it to be safe.</q></p>
+
+                <p>It is <strong>extremely rare</strong> for arguments to <em>require</em> no quoting, primarily inside <code>[[</code> tests and around <code>${..+..}</code> expansions.  Do not remove or omit quotes from your arguments to try and make something work in any other case; you are much more likely to introduce a terrible and difficult to detect bug instead.</p>
+            </aside>
+
+            <aside class="warn">
+                <p>The dangers of missing quotes are many, but as a very simple example, consider this:</p>
+
+<pre lang="bash" class="bad">
+$ <kbd>read -p 'Which user would you like to remove from your system? ' username</kbd>
+Which user would you like to remove from your system? <kbd> lhunath</kbd>
+$ <kbd>rm -vr /home/$username</kbd>
+removed '/home/lhunath/somefile'
+removed directory: '/home/lhunath'
+removed '/home/bob/bobsfiles'
+removed directory: '/home/bob'
+removed '/home/victor/victorsfiles'
+removed directory: '/home/victor'
+removed directory: '/home'
+rm: cannot remove 'lhunath': No such file or directory
+</pre>
+
+                <p>What happened here, is that on input, you accidentally put a <code>space</code> character before the name of the user to delete.  As a result, the <code>rm</code> command expanded into <code>rm -vr <mark>/home/</mark> <mark>lhunath</mark></code>, which resulted in a situation that is likely to upset both Victor and Bob.  If you had quoted the <code>rm</code> command properly, the bad input would have resulted in an error message and no damage instead:</p>
+
+<pre lang="bash" class="good">
+$ <kbd>rm -vr "/home/$username"</kbd>
+rm: cannot remove '/home/ lhunath': No such file or directory
+</pre>
+
+            </aside>
+
             <footer>
-            To tell a command what to do, we pass it <dfn>arguments</dfn>.  In bash, arguments are <dfn>tokens</dfn>, also called <dfn>words</dfn>, that are separated from each other by blank space.  To include blank space in an argument's value, you need to either <dfn>quote</dfn> the argument or <dfn>escape</dfn> the blank space within.  Failing that, bash will break your argument apart into multiple arguments at its blank space.
+            To tell a command what to do, we pass it <dfn>arguments</dfn>.  In bash, arguments are <dfn>tokens</dfn>, also called <dfn>words</dfn>, that are separated from each other by blank space.  To include blank space in an argument's value, you need to either <dfn>quote</dfn> the argument or <dfn>escape</dfn> the blank space within.  Failing that, bash will break your argument apart into multiple arguments at its blank space.  Quoting arguments also prevents other symbols in it from
+            being accidentally interpreted as bash code, such as <code>'$10 USD'</code> (variable expansions), <code>"*** NOTICE ***"</code> (filename expansions), etc.
             </footer>
 
             <h2>Managing a command's input and output using redirection</h2>

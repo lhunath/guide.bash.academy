@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Quicksand:300,700|Source+Code+Pro:300,600|Maven+Pro:400,700|Varela+Round);
+@import url('http://fonts.googleapis.com/css?family=Quicksand:300,700|Maven+Pro:400,700|Varela+Round');
 
 .chromeframe {
     margin: 0.2em 0;
@@ -144,7 +144,7 @@ aside {
     display: block;
     position: relative;
     margin: 1em 0 1em 7em;
-    padding: 1ex;
+    padding: 10px;
 }
 aside:hover {
     background: #EEE;
@@ -159,8 +159,19 @@ aside::before {
     right: 100%;
     padding: 0 1ex;
 }
+aside.nav::before {
+    content: "navigation";
+}
 aside:hover::before {
     color: #AAA;
+}
+aside.warn::before {
+    content: "warning";
+    color: #A66;
+}
+aside.rule::before {
+    content: "rule";
+    color: #6A6;
 }
 footer,
 pre {
@@ -171,11 +182,15 @@ pre {
 
     display: block;
     position: relative;
-    margin: 0 -12.5%
+    margin: 0 -12.5%;
 }
 dd footer,
 dd pre {
-    margin: 0 -19.5%
+    margin: 0 -19.5%;
+}
+aside footer,
+aside pre {
+    margin: 0 -10px;
 }
 footer, code, pre, kbd {
     counter-reset: samp;
@@ -259,11 +274,11 @@ pre:hover {
     color: #666;
     box-shadow: 0 0 15px #CCC;
 }
-code.bad, pre.bad, kbd.bad, var.bad, samp.bad {
+code.bad, pre.bad, kbd.bad, var.bad, samp.bad, aside.warn {
     background-color: #E3DDDD;
     border-color: #A66;
 }
-code.good, pre.good, kbd.good, var.good, samp.good {
+code.good, pre.good, kbd.good, var.good, samp.good, aside.rule  {
     background-color: #DDE3DD;
     border-color: #6A6;
 }
