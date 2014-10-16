@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'SourceCodeProBold';
+    src: url('sourcecodepro-bold.eot');
+    src: url('sourcecodepro-bold.eot') format('embedded-opentype'),
+         url('sourcecodepro-bold.woff2') format('woff2'),
+         url('sourcecodepro-bold.woff') format('woff'),
+         url('sourcecodepro-bold.ttf') format('truetype'),
+         url('sourcecodepro-bold.svg#SourceCodeProBold') format('svg');
+}

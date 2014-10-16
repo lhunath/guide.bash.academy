@@ -1,4 +1,24 @@
 @import url('http://fonts.googleapis.com/css?family=Quicksand:300,700|Maven+Pro:400,700|Varela+Round');
+@font-face {
+    font-family: 'Source Code Pro Light';
+    src: url('../fnt/sourcecodepro-light.eot');
+    src: url('../fnt/sourcecodepro-light.eot?#iefix') format('embedded-opentype'),
+         url('../fnt/sourcecodepro-light.woff') format('woff'),
+         url('../fnt/sourcecodepro-light.ttf') format('truetype'),
+         url('../fnt/sourcecodepro-light.svg#SourceCodeProLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Code Pro Bold';
+    src: url('../fnt/sourcecodepro-bold.eot');
+    src: url('../fnt/sourcecodepro-bold.eot?#iefix') format('embedded-opentype'),
+         url('../fnt/sourcecodepro-bold.woff') format('woff'),
+         url('../fnt/sourcecodepro-bold.ttf') format('truetype'),
+         url('../fnt/sourcecodepro-bold.svg#SourceCodeProBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 
 .chromeframe {
     margin: 0.2em 0;
@@ -230,7 +250,7 @@ pre, code, kbd, var, samp {
     background-color:#DDD;
 
     white-space: pre;
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'Source Code Pro Light', monospace;
     font-size: 0.9em;
 }
 kbd {

@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'SourceCodeProLight';
+    src: url('sourcecodepro-light.eot');
+    src: url('sourcecodepro-light.eot') format('embedded-opentype'),
+         url('sourcecodepro-light.woff2') format('woff2'),
+         url('sourcecodepro-light.woff') format('woff'),
+         url('sourcecodepro-light.ttf') format('truetype'),
+         url('sourcecodepro-light.svg#SourceCodeProLight') format('svg');
+}

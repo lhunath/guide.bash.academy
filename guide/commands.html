@@ -12,6 +12,8 @@
 
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
         <script src="js/vendor/prefixfree.min.js"></script>
+        <!--script src="//use.typekit.net/cey7qim.js"></script>
+        <script>try{Typekit.load();}catch(e){}</script-->
     </head>
     <body id="commands">
         <!--[if lt IE 7]>
@@ -521,8 +523,8 @@ rm: cannot remove '/home/ lhunath': No such file or directory
 
 <pre>
                  ╭──────────╮
-    Keyboard ╾──╼│0  bash  1│╾─┬─╼ Display
-                 │         2│╾─┘
+    Keyboard ╾──╼┥0  bash  1┝╾─┬─╼ Display
+                 │         2┝╾─┘
                  ╰──────────╯
 
 $ <kbd>ls -l a b</kbd><em>Imagine we have a file called "a", but not a file called "b".</em>
@@ -530,13 +532,13 @@ ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
 -rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>Results are emit on FD 1</em>
 
                  ╭──────────╮
-    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
-               │ │         2│╾─┤ 
-               │ ╰─────┬────╯  │
-               │       ┆       │
-               │ ╭─────┴────╮  │
-               └╼│0  ls    1│╾─┤
-                 │         2│╾─┘
+    Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
+              │  │         2┝╾─┤ 
+              │  ╰─────┬────╯  │
+              │        ╎       │
+              │  ╭─────┴────╮  │
+              └─╼┥0  ls    1┝╾─┤
+                 │         2┝╾─┘
                  ╰──────────╯
 </pre>
 
@@ -547,21 +549,21 @@ ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
 <pre>
 
                  ╭──────────╮
-    Keyboard ╾──╼│0  bash  1│╾─┬─╼ Display
-                 │         2│╾─┘
+    Keyboard ╾──╼┥0  bash  1┝╾─┬─╼ Display
+                 │         2┝╾─┘
                  ╰──────────╯
 
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark></kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
 ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
 
                  ╭──────────╮
-    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
-               │ │         2│╾─┤
-               │ ╰─────┬────╯  │
-               │       ┆       │
-               │ ╭─────┴────╮  │
-               └╼│0  ls    1│╾─╌─╼ myfiles.ls
-                 │         2│╾─┘
+    Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
+              │  │         2┝╾─┤
+              │  ╰─────┬────╯  │
+              │        ╎       │
+              │  ╭─────┴────╮  │
+              └─╼┥0  ls    1┝╾─╌─╼ myfiles.ls
+                 │         2┝╾─┘
                  ╰──────────╯
 
 $ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</em>
@@ -576,21 +578,21 @@ $ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</
 <pre>
 
                  ╭──────────╮
-    Keyboard ╾──╼│0  bash  1│╾─┬─╼ Display
-                 │         2│╾─┘
+    Keyboard ╾──╼┥0  bash  1┝╾─┬─╼ Display
+                 │         2┝╾─┘
                  ╰──────────╯
 
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;/dev/null</mark></kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
 <em>and FD 2 to the file "/dev/null"</em>
 
                  ╭──────────╮
-    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
-               │ │         2│╾─┘
-               │ ╰─────┬────╯
-               │       ┆
-               │ ╭─────┴────╮
-               └╼│0  ls    1│╾───╼ myfiles.ls
-                 │         2│╾───╼ /dev/null
+    Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
+              │  │         2┝╾─┘
+              │  ╰─────┬────╯
+              │        ╎
+              │  ╭─────┴────╮
+              └─╼┥0  ls    1┝╾───╼ myfiles.ls
+                 │         2┝╾───╼ /dev/null
                  ╰──────────╯
 
 $ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</em>
@@ -598,6 +600,8 @@ $ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</
 $ <kbd>cat /dev/null</kbd><em>The /dev/null file is empty?</em>
 $ 
 </pre>
+
+            <p>Notice how you can redirect any FD by prefixing the <code>&gt;</code> operator with the number of the FD.  We used <code>2&gt;</code> to redirect FD 2 to <code>/dev/null</code> while <code>&gt;</code> still redirects FD 1 to <code>myfiles.ls</code>.  If you omit the number, output redirections default to redirecting FD 1 (standard output).</p>
 
             <p>Our <code>ls</code> command no longer showed an error message and the results were properly stored in <code>myfiles.ls</code>.  Where has the error message gone?  We've written it to the file <code>/dev/null</code>.  But when we show the contents of that file, we don't see our error message.  Did something go wrong?</p>
 
@@ -610,36 +614,45 @@ $
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;myfiles.ls</mark></kbd><em>Redirect both file descriptors to myfiles.ls?</em>
 
                  ╭──────────╮
-    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
-               │ │         2│╾─┘
-               │ ╰─────┬────╯
-               │       ┆
-               │ ╭─────┴────╮
-               └╼│0  ls    1│╾───╼ myfiles.ls
-                 │         2│╾───╼ myfiles.ls
+    Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
+              │  │         2┝╾─┘
+              │  ╰─────┬────╯
+              │        ╎
+              │  ╭─────┴────╮
+              └─╼┥0  ls    1┝╾───╼ myfiles.ls
+                 │         2┝╾───╼ myfiles.ls
                  ╰──────────╯
+
+$ <kbd>cat myfiles.ls</kbd><em>Contents may be garbled depending on how streams were flushed</em>
+-rw-r--r--  1 lhunath  stls: b: No such file or directoryaff  0 30 Apr 14:43 a
 </pre>
 
             <p>But you'd be <strong>wrong!</strong>  Why is this not correct?  Upon inspection of the <code>myfiles.ls</code> it may appear as though things worked out, but there is actually something very dangerous going on here.  If you're lucky, you'll see the output of the file isn't exactly as you might expect: it might be a little garbled, out of order, or it might even be just right.  The problem is, you can't predict and no less guarantee the result of this command.</p>
 
-            <p>What's going on here?  The problem is that you have two separate file descriptors that lead to the file.  That means you have two separate streams leading to the file.  The reason why this is problematic is very much an artifact of how streams and buffering work, but we're not going to cover buffering in-depth in this guide.  Suffice it to know that when the bytes written to these separate streams arrive in the file, they get mixed together and their ordering becomes
-            indeterminate.  To solve this problem, you need to send your output and error bytes both on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:</p>
+            <p>What's going on here?  The problem is that both file descriptors now have their own stream to the file.  This is problematic because of the way streams work internally, a topic which is out-of-scope for this guide, but suffice it to say that when both streams are merged into the file, the results are an arbitrary mix-together of the streams.</p>
+
+            <p>To solve this problem, you need to send both your output and error bytes on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:</p>
 
 <pre class="good">
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 2 write to where FD 1 is writing</em>
 
                  ╭──────────╮
-    Keyboard ╾─┬╼│0  bash  1│╾─┬─╼ Display
-               │ │         2│╾─┘
-               │ ╰─────┬────╯
-               │       ┆
-               │ ╭─────┴────╮
-               └╼│0  ls    1│╾─┬─╼ myfiles.ls
-                 │         2│╾─┘
+    Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
+              │  │         2┝╾─┘
+              │  ╰─────┬────╯
+              │        ╎
+              │  ╭─────┴────╮
+              └─╼┥0  ls    1┝╾─┬─╼ myfiles.ls
+                 │         2┝╾─┘
                  ╰──────────╯
+
+$ <kbd>cat myfiles.ls</kbd>
+ls: b: No such file or directory
+-rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a
 </pre>
 
-            <p>Duplicating file descriptors, otherwise referred to as "copying" file descriptors, is the act of copying one file descriptor's stream connection to another file descriptor.  As a result, both file descriptors are connected to the same stream.  We use the <code>&gt;&amp;</code> operator, prefixing it with the file descriptor we want to change and following it with the file descriptor whose stream we need to "copy".  You will use this operator fairly frequently, and in most cases it'll be to copy FD 1 to FD 2 as is done above.</p>
+            <p>Duplicating file descriptors, otherwise referred to as "copying" file descriptors, is the act of copying one file descriptor's stream connection to another file descriptor.  As a result, both file descriptors are connected to the same stream.  We use the <code>&gt;&amp;</code> operator, prefixing it with the file descriptor we want to change and following it with the file descriptor whose stream we need to "copy".  You will use this operator fairly frequently, and in most
+            cases it'll be to copy FD 1 to FD 2 as is done above.  You can translate the syntax <code>2&gt;&amp;1</code> as <q>Make FD <code>2</code> write(<code>&gt;</code>) to where FD(<code>&amp;</code>) <code>1</code> is currently writing.</q></p>
 
             <p>We've seen quite a few redirection operations now, and we've even combined them.  Before you go wild, there is one more important rule you need to understand:  redirections are evaluated from left to right, conveniently the same way as we read them.  This might seem obvious, but neglect for this has caused many of your predecessors to make this mistake:</p>
 
@@ -647,8 +660,8 @@ $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>M
     $ <kbd>ls -l a b <mark>2&gt;&amp;1</mark> <mark>&gt;myfiles.ls</mark></kbd><em>Make FD 2 go to FD 1 and FD 1 go to myfiles.ls?</em>
 </pre>
 
-            <p>Somebody who writes this code might assume that since FD 2's output is going to FD 1, and FD 1 is going to <code>myfiles.ls</code>, errors should end up in the file.  The logical error in their reasoning is the assumption that <code>2&gt;&amp;1</code> sends FD 2's output to FD 1.  <strong>It does NOT.</strong>  It sends FD 2's output to FD 1's <strong><em>stream</em></strong>, which is probably to the <strong>terminal</strong> and not the file, because FD 1 hasn't been
-            redirected to the file yet.  The result of the above command might frustrate, because it will appear as though the redirection of standard error isn't taking effect, when in reality, you've merely redirected standard error to the terminal (standard output's target), which is where it was already pointing before.</p>
+            <p>Somebody who writes this code might assume that since FD 2's output is going to FD 1, and FD 1 is going to <code>myfiles.ls</code>, errors should end up in the file.  The logical error in their reasoning is the assumption that <code>2&gt;&amp;1</code> sends FD 2's output to FD 1.  <strong>It does NOT.</strong>  It sends FD 2's output to the <strong><em>stream</em></strong> FD 1 is connected to, which at the time is probably the <strong>terminal</strong> and not the file, because FD 1 hasn't been
+            redirected yet.  The result of the above command might frustrate, because it will appear as though the redirection of standard error isn't taking effect, when in reality, you've merely redirected standard error to the terminal (standard output's target), which is where it was already pointing before.</p>
 
             <p>If we fix the order of the redirections:</p>
 
@@ -671,7 +684,7 @@ $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>M
 <samp>read line <mark>&lt;file</mark></samp>
 </pre>
                 Make FD <var>x</var> write to / read from <var>file</var>.
-                <p>A stream to <var>file</var> is opened for either writing or reading and connected to file descriptor <var>x</var>.  When <var>x</var> is omitted, it defaults to standard output when writing and standard input when reading.</p>
+                <p>A stream to <var>file</var> is opened for either writing or reading and connected to file descriptor <var>x</var>.  When <var>x</var> is omitted, it defaults to FD 1 (standard output) when writing and FD 0 (standard input) when reading.</p>
                 </dd>
 
                 <dt><dfn>File descriptor copying</dfn></dt>
@@ -705,7 +718,7 @@ echo World <mark>&gt;&gt;~/world</mark></samp>
 
 <samp>ping 127.0.0.1 <mark>&amp;&gt;results</mark></samp>
 </pre>
-                Make both FD 1 and FD 2 write to <var>file</var>.
+                Make both FD 1 (standard output) and FD 2 (standard error) write to <var>file</var>.
                 <p>This is a convenience operator which does the same thing as <code>&gt;<var>file</var> 2&gt;&amp;1</code> but is more concise.  Again, you can append rather than truncate by doubling the arrow: <code>&amp;&gt;&gt;<var>file</var></code></p>
                 </dd>
 
@@ -716,12 +729,12 @@ echo World <mark>&gt;&gt;~/world</mark></samp>
         <var>here-document</var>
     <var>delimiter</var>
 
-<samp>cat <mark>&lt;&lt;.</mark>
+<samp>cat <mark>&lt;&lt;.<em>We choose <code>.</code> as the end delimiter.</em>
 Hello world.
 Since I started learning bash, you suddenly seem so much bigger than you were before.
-<mark>.</mark></samp>
+.</mark><em>Our previously chosen <code>.</code> ends the here-document.</em></samp>
 </pre>
-                Make standard input read from the string between the <var>delimiter</var>s.
+                Make FD 0 (standard input) read from the string between the <var>delimiter</var>s.
                 <p>Here documents are a great way to feed large blocks of text to a command's input.  They begin on the line after your delimiter and end when bash encounters a line with <em>just</em> your delimiter on it.  It is important to remember that your terminating delimiter cannot indented, because then it is no longer <em>just</em> your delimiter on that line.</p>
                 <e>You can prefix your initial delimiter declaration with a <code>-</code>, this will tell bash to ignore any tabs you put in front of your heredoc.  That way, you can indent the heredoc without the indenting showing in your input string.  It also allows you to indent the terminating delimiter with tabs.</p>
                 <p>Finally, it is possible to put <dfn>variable expansions</dfn> within the here document's string.  This allows you to inject variable data into the here document.  We'll learn more about variables and expansions later on, but suffice it to say that if expansion is not desired, you need to put quotes around your <code>'<var>delimiter</var>'</code>'s initial declaration.</p>
@@ -732,10 +745,10 @@ Since I started learning bash, you suddenly seem so much bigger than you were be
 <pre class="syntax">
     <strong>&lt;&lt;&lt;</strong><var>string</var>
 
-<samp>cat <mark>&lt;&lt;&lt;"Hello World
+<samp>cat <mark>&lt;&lt;&lt;"Hello world.
 Since I started learning bash, you suddenly seem so much bigger than you were before."</mark></samp>
 </pre>
-                Make standard input read from the <var>string</var>.
+                Make FD 0 (standard input) read from the <var>string</var>.
                 <p>Here strings are very similar to here documents but more concise.  They are generally preferred over here documents.</p>
                 </dd>
 
@@ -789,7 +802,18 @@ echo &gt;&amp;2 "RETURN"
 echo &gt;&amp;2 "   Success if the program exists in the user's PATH and is executable.  Failure otherwise."
 </pre>
 
+            <p>&nbsp;</p>
+
+            <footer>
+            By default, new commands inherit the shell's current file descriptors.  We can use <dfn>redirections</dfn> to change where a command's input comes from and where its output should go to.  File redirection (eg. <code>2&gt;errors.log</code>) allows us to stream file descriptors to files.  We can copy file descriptors (eg. <code>2&gt;&amp;1</code>) to make them share a stream.  There are also many other more advanced redirection operators.
+            </footer>
+
         </section>
+
+        <aside class="nav">
+            <h1><a href="variables.html">Next up: Variables And Expansions</a></h1>
+            <h2><a href="inception.html">Back track: What is bash, and where does it live?</a></h1>
+        </aside>
 
         <footer>
         <a href="http://lhunath.com">Maarten Billemont (lhunath)</a> (<a href="http://thanks.lhunath.com">thanks</a>) — <a href="attributions.html">Attributions</a>
