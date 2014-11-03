@@ -10,6 +10,16 @@
     font-style: normal;
 }
 @font-face {
+    font-family: 'Source Code Pro SemiBold';
+    src: url('../fnt/sourcecodepro-semibold.eot');
+    src: url('../fnt/sourcecodepro-semibold.eot?#iefix') format('embedded-opentype'),
+         url('../fnt/sourcecodepro-semibold.woff') format('woff'),
+         url('../fnt/sourcecodepro-semibold.ttf') format('truetype'),
+         url('../fnt/sourcecodepro-semibold.svg#SourceCodeProSemiBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
     font-family: 'Source Code Pro Bold';
     src: url('../fnt/sourcecodepro-bold.eot');
     src: url('../fnt/sourcecodepro-bold.eot?#iefix') format('embedded-opentype'),
@@ -370,6 +380,10 @@ pre em::before, code em::before {
 }
 pre em:hover, code em:hover {
     background: rgba(255, 255, 255, 0.5);
+}
+pre em kbd, pre em var, pre em samp, pre em code {
+    font-family: 'Source Code Pro SemiBold', monospace;
+    font-weight: bolder;
 }
 samp {
     font-weight: inherit;
