@@ -85,8 +85,22 @@ dd {
 
 /* Headers */
 header {
-    background: #BBB;
+    background: linear-gradient(to top, black, transparent), url("../img/cover.jpg");
     background-size: cover;
+}
+#inception header {
+    background: linear-gradient(to top, black, transparent), url("../img/inception.jpg");
+    background-size: cover;
+}
+#commands header {
+    background: linear-gradient(to top, black, transparent), url("../img/commands.jpg");
+    background-size: cover;
+}
+#variables header {
+    background: linear-gradient(to top, black, transparent), url("../img/commands.jpg");
+    background-size: cover;
+}
+header {
     box-shadow: 0 0 50px black;
 
     position: relative;
@@ -96,15 +110,6 @@ header {
     box-sizing: border-box;
 
     text-shadow: 0 1px 5px black, 0 1px 2px black;
-}
-#cover header {
-    background-image: url("../img/cover.jpg");
-}
-#inception header {
-    background-image: url("../img/inception.jpg");
-}
-#commands header {
-    background-image: url("../img/commands.jpg");
 }
 header>div {
     position: absolute;
@@ -207,8 +212,9 @@ aside.rule::before {
 }
 footer,
 pre {
-    border-top: 1px dashed #DDD;
-    border-bottom: 1px dashed #DDD;
+    border: 1px dashed #DDD;
+    border-left-width: 0;
+    border-right-width: 0;
     box-shadow: 0 0 1px #CCC;
     transition: .3s all;
 
@@ -224,12 +230,15 @@ aside footer,
 aside pre {
     margin: 0 -10px;
 }
-footer, code, pre, kbd {
+table, footer, code, pre, kbd {
     counter-reset: samp;
 
-    background-image: url("../img/stripes.png"); /* Performs better, maybe not as pretty. */
+    background: url("../img/stripes.png"); /* Performs better, maybe not as pretty. */
     /*background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
     background-size:6px 6px;*/
+}
+table code, table kbd {
+    background: none;
 }
 footer {
     background-color: #EEE;
@@ -296,7 +305,10 @@ pre {
     color: #999;
     border-top-color: #BBB;
     border-bottom-color: #BBB;
-
+}
+table,
+pre {
+    width: 100%;
     padding: 1em 20%;
     overflow: auto;
 
@@ -317,7 +329,8 @@ code.good, pre.good, kbd.good, var.good, samp.good, aside.rule  {
 pre[lang]::before,
 pre.bad::before,
 pre.good::before,
-pre.syntax::before {
+pre.syntax::before,
+pre.exercise::before {
     content: "code";
     content: attr(lang);
     content: attr(lang, "code");
@@ -348,6 +361,15 @@ pre.good::before {
 
     color: #6A6;
     font-weight: bold;
+}
+pre.exercise::before {
+    content: "[show solution]";
+}
+pre.exercise samp {
+    opacity: 0;
+}
+pre.exercise:hover samp {
+    opacity: 1;
 }
 pre samp:hover, code samp:hover {
     background: rgba(255, 255, 255, 0.5);
@@ -381,7 +403,7 @@ pre em::before, code em::before {
 pre em:hover, code em:hover {
     background: rgba(255, 255, 255, 0.5);
 }
-pre em kbd, pre em var, pre em samp, pre em code {
+pre em kbd, pre em var, pre em samp, pre em code, code strong, pre strong, kbd strong, var strong, code strong {
     font-family: 'Source Code Pro SemiBold', monospace;
     font-weight: bolder;
 }
@@ -497,6 +519,29 @@ nav li.toc-h1 a::before {
 nav li.toc-h2 a::before {
     counter-increment: toc-subsection;
     content: " ❡" counters(toc-subsection, ".") " ";
+}
+table, tr {
+    border: 1px solid #DDD;
+}
+table th, table td {
+    padding: 1ex;
+    text-align: left;
+}
+table thead th, table thead td {
+    text-align: center;
+}
+table thead {
+    background: inherit;
+    background-color: #DDD;
+}
+table td {
+    background: white;
+}
+table pre {
+    box-sizing: border-box;
+    border-width: 1px;
+    margin: 0;
+    padding: 1ex;
 }
 #chapter_list li {
     padding: 1ex;

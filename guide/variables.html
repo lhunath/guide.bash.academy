@@ -15,7 +15,7 @@
         <!--script src="//use.typekit.net/cey7qim.js"></script>
         <script>try{Typekit.load();}catch(e){}</script-->
     </head>
-    <body id="commands">
+    <body id="variables">
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -65,38 +65,265 @@
 
             <h2>Shell Variables</h2>
 
-            <p>A shell variable is essentially a named bash parameter.  You can use variables to store values and later modify or read that value back for re-use.</p>
+            <p>A shell variable is essentially a bash parameter that has a name.  You can use variables to store a value and later modify or read that value back for re-use.</p>
 
-            <p>Using variables is trivially easy.  You store information in them through variable assignment, and access that information at any later time using parameter expansion:</p>
+            <p>Using variables is easy.  You store information in them through variable assignment, and access that information at any later time using parameter expansion:</p>
 
 <pre lang="bash">
-$ <kbd>name=lhunath</kbd><em>Assign the value <code>lhunath</code> to the variable <code>name</code>.</em>
-$ <kbd>echo "Hello, $name.  How are you?"</kbd><em>Expand the value of <code>name</code> into the echo argument.</em>
+$ <kbd>name=lhunath</kbd><em>Assign the value <code>lhunath</code> to the variable <code>name</code></em>
+$ <kbd>echo "Hello, $name.  How are you?"</kbd><em>Expand the value of <code>name</code> into the echo argument</em>
 Hello, lhunath.  How are you?
 </pre>
 
-            <p>As you can see, assignment creates a variable with a value and expansion reads that value out and allows us to use it as part of other commands.</p>
+            <p>As you can see, the assignment creates a variable called <kbd>name</kbd> and puts a value in it. Expansion is done by prefixing the name with a <kbd title="dollar">$</kbd> symbol, which causes our value to get injected into the echo argument.</p>
 
-            <p>Assignment is done using the <kbd title="equals">=</kbd> operator.  It is imperative that you understand there can be no syntactical space around the operator.  While other languages may permit this, bash does not.  Remember from the previous chapter that spaces in bash have a special meaning: they split commands into arguments.  If we were to put spaces around the <code>=</code> operator, they would cause bash to split the command into a command name and arguments,
+            <h3>Assignment</h3>
+
+            <p>Assignment uses the <kbd title="equals">=</kbd> operator.  It is imperative that you understand there can be no syntactical space around the operator.  While other languages may permit this, bash does not.  Remember from the previous chapter that spaces in bash have a special meaning: they split commands into arguments.  If we were to put spaces around the <code>=</code> operator, they would cause bash to split the command into a command name and arguments,
             thinking you wanted to execute a program rather than assign a variable value:</p>
 
 <pre lang="bash" class="bad">
 $ <kbd>name = lhunath</kbd><em>Run the command <code>name</code> with arguments <code>=</code> and <code>lhunath</code>.</em>
 -bash: name: command not found
 </pre>
+
+            <p>To fix this code, we simply remove the space around the <code>=</code> operator that was causing the word splitting.  If we wanted to assign a value to the variable which begins with a few literal space characters, we'll need to use quotes to signal bash that our space is literal and shouldn't serve to trigger word splitting:</p>
+
 <pre lang="bash" class="good">
-$ <kbd>name='        John Space'</kbd><em>Use quotes to make the spaces literal.</em>
+$ <kbd>name=lhunath</kbd>
+$ <kbd>item='    4. Milk'</kbd><em>Use quotes to make the spaces literal.</em>
 </pre>
 
-            <footer>
-            </footer>
+            <h3>Expansion</h3>
 
+            <p>Assigning values to variables is neat but not really immediately useful.  It's being able to re-use those values at any time that makes parameters so interesting.  Re-using parameter values is done by expanding them.  Expansion effectively takes the data out of your parameter and inlines it into the data of your command.  As we saw briefly before, we expand parameters by prefixing their name with a <code>$</code> symbol.  Whenever you see this symbol in bash, it's probably
+            because something is getting expanded.  It could be a parameter, or the output of a command, or the result of an arithmetic operation.  We'll learn more about the other expansions later on.</p>
+            
+            <p>As we've already highlighted (but always bears repeating), your expansions should always be double-quoted to avoid bash's word-splitting unexpectedly tearing it to pieces.  In addition, parameter expansion allows you to wrap curly braces (<kbd>{</kbd> and <kbd>}</kbd>) around your expansion.  These braces are used to tell bash what the beginning and end of your parameter name is.  They are usually optional, as bash can often figure the name out by itself.  Though
+            sometimes they become a necessity:</p>
+
+<pre lang="bash">
+$ <kbd>name=Britta time=23.73</kbd><em>We want to expand <code>time</code> and add an <code>s</code> for seconds</em>
+$ <kbd>echo "$name's current record is $times."</kbd><em>but bash mistakes the name for <code>times</code> which holds nothing</em>
+Britta's current record is .
+$ <kbd>echo "$name's current record is ${time}s."</kbd><em>Braces explicitly tell bash where the name ends</em>
+Britta's current record is 23.73s.
+</pre>
+
+            <p>Parameter expansions are great for inserting user or program data into our command instructions, but they also have an extra ace up their sleeve: expansion operators.  While expanding a parameter, it is possible to apply an operator to the expanding value.  This operator can modify the value in one of many useful ways:</p>
+
+<pre lang="bash">
+$ <kbd>name=Britta time=23.73</kbd>
+$ <kbd>echo "$name's current record is ${time%.*} seconds and ${time#*.} hundredths."</kbd>
+Britta's current record is 23 seconds and 73 hundredths.
+$ <kbd>echo "PATH currently contains: ${PATH//:/, }"</kbd>
+PATH currently contains: /Users/lhunath/.bin, /usr/local/bin, /usr/bin, /bin, /usr/libexec
+</pre>
+
+            <p>The examples above use the <code>#</code>, <code>%</code> and <code>//</code> operators to perform various operations on the parameter's value before expanding the result.  The parameters themselves aren't changed, only the value that is expanded into place is affected by the operator.  In the first case, we used the <code>%</code> operator to remove the <code title="dot">.</code> and the number after it from <code>time</code>'s value before expanding it.  That left us
+            with just the part in front of the <code>.</code>, which is the seconds.  The second case did something similar, we used the <code>#</code> operator to remove a part from the start of the <code>time</code> value.  Finally, we used the <code>//</code> operator, (which is really a special case of the <code>/</code> operator), to replace every <code title="colon">:</code> character in <code>PATH</code>'s value with <code>, </code>.  The result is a list of directories that is
+            easier to read for people than the original colon-separated <code>PATH</code>.
+
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3"><kbd>url='http://guide.bash.academy/variables.html'</kbd></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <th>Operator</th>
+                    <th>Example</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>#</strong><var>pattern</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url#<mark>*/</mark>}"</kbd></td>
+                    <td rowspan="2">
+<pre><mark>http:/</mark>/guide.bash.academy/variables.html
+    ↓
+/guide.bash.academy/variables.html</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Remove the <em>shortest</em> string that matches the <var>pattern</var> if it's at the start of the value.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>##</strong><var>pattern</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url##<mark>*/</mark>}"</kbd></td>
+                    <td rowspan="2">
+<pre><mark>http://guide.bash.academy/</mark>variables.html
+    ↓
+variables.html</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Remove the <em>longest</em> string that matches the <var>pattern</var> if it's at the start of the value.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>%</strong><var>pattern</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url%<mark>/*</mark>}"</kbd></td>
+                    <td>
+<pre>http://guide.bash.academy<mark>/variables.html</mark>
+    ↓
+http://guide.bash.academy</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Remove the <em>shortest</em> string that matches the <var>pattern</var> if it's at the end of the value.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>%%</strong><var>pattern</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url%%<mark>/*</mark>}"</kbd></td>
+                    <td>
+<pre>http:<mark>//guide.bash.academy/variables.html</mark>
+    ↓
+http:</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Remove the <em>longest</em> string that matches the <var>pattern</var> if it's at the end of the value.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>/</strong><var>pattern</var><strong>/</strong><var>replacement</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url/<mark>.</mark>/<mark>-</mark>}"</kbd></td>
+                    <td>
+<pre>http://guide<mark>.</mark>bash.academy/variables.html
+    ↓
+http://guide-bash.academy/variables.html</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Replace <em>the first</em> string that matches the <var>pattern</var> with the replacement.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>//</strong><var>pattern</var><strong>/</strong><var>replacement</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url//<mark>.</mark>/<mark>-</mark>}"</kbd></td>
+                    <td>
+<pre>http://guide<mark>.</mark>bash<mark>.</mark>academy/variables<mark>.</mark>html
+    ↓
+http://guide-bash-academy/variables-html</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Replace <em>each</em> string that matches the <var>pattern</var> with the replacement.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>/#</strong><var>pattern</var><strong>/</strong><var>replacement</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url/#<mark>*:</mark>/<mark>https:</mark>}"</kbd></td>
+                    <td>
+<pre><mark>http:</mark>//guide.bash.academy/variables.html
+    ↓
+https://guide.bash.academy/variables.html</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Replace the string that matches the <var>pattern</var> at the <em>beginning</em> of the value with the replacement.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>/%</strong><var>pattern</var><strong>/</strong><var>replacement</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url/%<mark>.html</mark>/<mark>.jpg</mark>}"</kbd></td>
+                    <td>
+<pre>http://guide.bash.academy/variables<mark>.html</mark>
+    ↓
+http://guide.bash.academy/variables.jpg</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Replace the string that matches the <var>pattern</var> at the <em>end</em> of the value with the replacement.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${#</strong><var>parameter</var><strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${#url}"</kbd></td>
+                    <td>
+<pre>http://guide.bash.academy/variables.html
+    ↓
+40</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Expand the length of the value (in bytes).</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var><strong>:</strong><var>start</var>[<strong>:</strong><var>length</var>]<strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url:<mark>7</mark>}"</kbd></td>
+                    <td>
+<pre>http://<mark>guide.bash.academy/variables.html</mark>
+    ↓
+guide.bash.academy/variables.html</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Expand a part of the value, starting at <var>start</var>, <var>length</var> bytes long.</td>
+                </tr>
+                <tr>
+                    <th>
+<code class="syntax"><strong>${</strong><var>parameter</var>[<strong>^</strong>|<strong>^^</strong>|<strong>,</strong>|<strong>,,</strong>][<var>pattern</var>]<strong>}</strong></code>
+                    </th>
+                    <td><kbd>"${url^^<mark>[ht]</mark>}"</kbd></td>
+                    <td>
+<pre><mark>htt</mark>p://guide.bas<mark>h</mark>.academy/variables.<mark>ht</mark>ml
+    ↓
+HTTp://guide.basH.academy/variables.HTml</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Expand the transformed value, either upper-casing or lower-casing the first or all characters that match the <var>pattern</var>.  You can omit the pattern to match any character.</td>
+                </tr>
+            </table>
+
+            <h3>Exercises!</h3>
+
+            <h4>PARAM.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
+<pre class="exercise"><samp><kbd>greeting=hello</kbd></samp></pre>
+
+            <h4>PARAM.2. Show the contents of the variable <var>greeting</var>.</h4>
+<pre class="exercise"><samp><kbd>echo "$greeting"</kbd>
+hello</samp></pre>
+
+            <h4>PARAM.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
+<pre class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp></pre>
+
+            <h4>PARAM.4. Show the last word in the variable <var>greeting</var>.</h4>
+<pre class="exercise"><samp><kbd>echo "${greeting##* }"</kbd>
+world</samp></pre>
+
+            <h4>PARAM.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
+<pre class="exercise"><samp><kbd>echo "${greeting^}!"</kbd>
+Hello world!</samp></pre>
+
+            <h4>PARAM.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
+<pre class="exercise"><samp><kbd>greeting=${greeting/ / big }</kbd></samp></pre>
+
+            <h4>PARAM.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
+<pre class="exercise"><samp><kbd>echo "$greeting" &gt; "${greeting// /_}.txt"</kbd></samp></pre>
+
+            <h4>PARAM.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
+<pre class="exercise"><samp><kbd>middle=${greeting% *} middle=${middle#* }; echo "${greeting%% *} ${middle^^} ${greeting##* }"</kbd>
+hello BIG world</samp></pre>
+
+            <h2>[incomplete]</h2>
         </section>
 
-        <aside class="nav">
-            <h1><a href="variables.html">Next up: Variables And Expansions</a></h1>
-            <h2><a href="inception.html">Back track: What is bash, and where does it live?</a></h1>
-        </aside>
 
         <footer>
         <a href="http://lhunath.com">Maarten Billemont (lhunath)</a> (<a href="http://thanks.lhunath.com">thanks</a>) — <a href="attributions.html">Attributions</a>
