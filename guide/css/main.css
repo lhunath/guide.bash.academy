@@ -403,9 +403,14 @@ pre em::before, code em::before {
 pre em:hover, code em:hover {
     background: rgba(255, 255, 255, 0.5);
 }
+strong {
+    color: black;
+    font-style: italic;
+}
 pre em kbd, pre em var, pre em samp, pre em code, code strong, pre strong, kbd strong, var strong, code strong {
-    font-family: 'Source Code Pro SemiBold', monospace;
+    font-family: 'Source Code Pro Bold', monospace;
     font-weight: bolder;
+    color: inherit;
 }
 samp {
     font-weight: inherit;

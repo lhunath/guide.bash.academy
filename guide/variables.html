@@ -291,6 +291,14 @@ HTTp://guide.basH.academy/variables.HTml</pre>
                 </tr>
             </table>
 
+            <p>&nbsp;</p>
+
+            <footer>
+            Shell variables are parameters that you can freely assign values to.  Assignment is done using the syntax <code>var=value</code>.  Parameters can be expanded to inline their data into a command's arguments.  Parameter expansion is done by prefixing the variable name with a <code>$</code> symbol.  Sometimes, you'll need to add <code>{</code> and <code>}</code> braces around the parameter name to explicitly tell bash where the name of your parameter begins and ends (eg.
+            <code>"${time}s"</code>).<br>
+            Parameter expansions should <strong>always be double-quoted</strong> for consistency and to prevent any potential white-space in them from causing word-splitting in addition to triggering unexpected pathname completion.  While expanding parameters, you can apply a special parameter expansion operator to mutate the expanded value in some way.
+            </footer>
+
             <h3>Exercises!</h3>
 
             <h4>PARAM.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
@@ -320,8 +328,6 @@ Hello world!</samp></pre>
             <h4>PARAM.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
 <pre class="exercise"><samp><kbd>middle=${greeting% *} middle=${middle#* }; echo "${greeting%% *} ${middle^^} ${greeting##* }"</kbd>
 hello BIG world</samp></pre>
-
-            <h2>[incomplete]</h2>
         </section>
 
         <section>
@@ -374,7 +380,7 @@ hello BIG world</samp></pre>
     ╰─┬──────────────────────────────╯
       ╎  ╭─── process ────────────────────╮
       └╌╌┥             ╭─── bash ───────╮ │
-         │ ENVIRONMENT │                │ │
+         │ ENVIRONMENT │ SHELL          │ │
          │             ╰────────────────╯ │
          │ HOME=/home/lhunath             │
          │ PATH=/bin:/usr/bin             │
@@ -394,13 +400,15 @@ $ <kbd>NAME=John</kbd>
     ╰─┬──────────────────────────────╯
       ╎  ╭─── process ────────────────────╮
       └╌╌┥             ╭─── bash ───────╮ │
-         │ ENVIRONMENT │                │ │
+         │ ENVIRONMENT │ SHELL          │ │
          │             ╰────────────────╯ │
          │ HOME=/home/lhunath             │
          │ PATH=/bin:/usr/bin             │
          │ NAME=<mark>John</mark>                      │
          ╰────────────────────────────────╯
 </pre>
+
+            <h2>[incomplete]</h2>
 
         </section>
 
