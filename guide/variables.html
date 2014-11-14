@@ -324,6 +324,85 @@ hello BIG world</samp></pre>
             <h2>[incomplete]</h2>
         </section>
 
+        <section>
+            <h1>What is the environment and what is it used for?</h1>
+
+            <p>There are two separate spaces where variables are kept.  These separate spaces are often confused, leading to many misunderstandings.  You've already become familiar with the first: shell variables.  The second space where variables are kept is the process environment.  We'll introduce environment variables and explain how they differ from shell variables.</p>
+
+            <p>Unlike the shell, the environment is something that exists at the process level.  You can think of the environment as a piece of land you buy.  The land can have a house on it, this will be the code running in your process.  You can store variables in the environment and you can store variables in the shell.  The environment is something every process has, while the shell space is only available to bash processes.</p>
+
+<pre>
+    ╭─── process ────────────────────╮
+    │             ╭─── bash ───────╮ │
+    │ ENVIRONMENT │ SHELL          │ │
+    │             ╰────────────────╯ │
+    ╰────────────────────────────────╯
+</pre>
+
+            <p>When you run a new program from the shell, bash will run this program in a new process.  When it does, this new process will have its own environment.  But unlike shell processes, ordinary processes do not have shell variables.  They only have environment variables.  More importantly, when a new process is created, its environment is populated by making a <strong>copy</strong> of the environment of the creating process:</p>
+
+<pre>
+    ╭─── process ────────────────────╮
+    │             ╭─── bash ───────╮ │
+    │ ENVIRONMENT │ SHELL          │ │
+    │             │ greeting=hello │ │
+    │             ╰────────────────╯ │
+    │ HOME=/home/lhunath             │
+    │ PATH=/bin:/usr/bin             │
+    ╰─┬──────────────────────────────╯
+      ╎  ╭─── process ────────────────────╮
+      └╌╌┥             ╭─── ls ───────╮   │ 
+         │ ENVIRONMENT │              │   │
+         │             ╰──────────────╯   │
+         │ HOME=/home/lhunath             │
+         │ PATH=/bin:/usr/bin             │
+         ╰────────────────────────────────╯
+</pre>
+
+            <p>It is a common misconception that the environment is a system-global pool of variables that all processes share.  This illusion is often the result of seeing the same variables available in child processes.  When you create a custom environment variable in the shell, any child processes you create afterwards will inherit this variable as a result of it being copied from your shell into the child's environment.  However, since the environment is specific to each process,
+            changing or creating new variables in the child will in no way affect the parent:</p>
+
+<pre>
+    ╭─── process ────────────────────╮
+    │             ╭─── bash ───────╮ │
+    │ ENVIRONMENT │ SHELL          │ │
+    │             │ greeting=hello │ │
+    │             ╰────────────────╯ │
+    │ HOME=/home/lhunath             │
+    │ PATH=/bin:/usr/bin             │
+    │ NAME=<mark>Bob</mark>                       │
+    ╰─┬──────────────────────────────╯
+      ╎  ╭─── process ────────────────────╮
+      └╌╌┥             ╭─── bash ───────╮ │
+         │ ENVIRONMENT │                │ │
+         │             ╰────────────────╯ │
+         │ HOME=/home/lhunath             │
+         │ PATH=/bin:/usr/bin             │
+         │ NAME=<mark>Bob</mark>                       │
+         ╰────────────────────────────────╯
+
+$ <kbd>NAME=John</kbd>
+
+    ╭─── process ────────────────────╮
+    │             ╭─── bash ───────╮ │
+    │ ENVIRONMENT │ SHELL          │ │
+    │             │ greeting=hello │ │
+    │             ╰────────────────╯ │
+    │ HOME=/home/lhunath             │
+    │ PATH=/bin:/usr/bin             │
+    │ NAME=<mark>Bob</mark>                       │
+    ╰─┬──────────────────────────────╯
+      ╎  ╭─── process ────────────────────╮
+      └╌╌┥             ╭─── bash ───────╮ │
+         │ ENVIRONMENT │                │ │
+         │             ╰────────────────╯ │
+         │ HOME=/home/lhunath             │
+         │ PATH=/bin:/usr/bin             │
+         │ NAME=<mark>John</mark>                      │
+         ╰────────────────────────────────╯
+</pre>
+
+        </section>
 
         <footer>
         <a href="http://lhunath.com">Maarten Billemont (lhunath)</a> (<a href="http://thanks.lhunath.com">thanks</a>) — <a href="attributions.html">Attributions</a>
