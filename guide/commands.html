@@ -400,6 +400,33 @@ $
             When bash needs to run a program, it uses the command name to perform a search.  Bash searches the directories in your <code>PATH</code> <dfn>environment variable</dfn>, one by one, until it finds a directory that contains a program with the name of your command.  To run a program that is not installed in a <code>PATH</code> directory, use the path to that program as your command's name.
             </footer>
 
+            <h3>Exercises!</h3>
+
+            <h4>PATH.1. Run the <code>ls</code> program.</h4>
+<pre class="exercise"><samp>$ <kbd>ls</kbd></samp></pre>
+
+            <h4>PATH.2. Find out where on your system the <code>ls</code> program is installed.</h4>
+<pre class="exercise"><samp>$ <kbd>type ls</kbd>
+ls is /bin/ls</samp></pre>
+
+            <h4>PATH.3. Show your system's <var>PATH</var>.</h4>
+<pre class="exercise"><samp>$ <kbd>echo "$PATH"</kbd>
+/bin:/sbin:/usr/bin:/usr/sbin</samp></pre>
+
+            <h4>PATH.4. Create a script in your home directory, add it to your <var>PATH</var> and then run the script as an ordinary command.</h4>
+<pre class="exercise"><samp>$ <kbd>ex</kbd>
+: <kbd>i</kbd>
+<kbd>#!/usr/bin/env bash
+echo "Hello world!"
+.</kbd>
+: <kbd>w myscript</kbd>
+"myscript" [New] 2L, 40C written
+: <kbd>q</kbd>
+$ <kbd>chmod +x myscript</kbd>
+$ <kbd>PATH=$PATH:~</kbd>
+$ <kbd>myscript</kbd>
+Hello world!</samp></pre>
+
             <h2>Command arguments and quoting literals</h2>
 
 <pre class="syntax">
@@ -807,6 +834,41 @@ echo &gt;&amp;2 "   Success if the program exists in the user's PATH and is exec
             <footer>
             By default, new commands inherit the shell's current file descriptors.  We can use <dfn>redirections</dfn> to change where a command's input comes from and where its output should go to.  File redirection (eg. <code>2&gt;errors.log</code>) allows us to stream file descriptors to files.  We can copy file descriptors (eg. <code>2&gt;&amp;1</code>) to make them share a stream.  There are also many other more advanced redirection operators.
             </footer>
+
+            <h3>Exercises!</h3>
+
+            <h4>REDIR.1. Run a command that produces a message on standard output.</h4>
+<pre class="exercise"><samp>$ <kbd>ls /bin/bash</kbd>
+/bin/bash*</samp></pre>
+
+            <h4>REDIR.2. Run a command that produces a message on standard error.</h4>
+<pre class="exercise"><samp>$ <kbd>ls /bob/bash</kbd>
+ls: /bob/bash: No such file or directory</samp></pre>
+
+            <h4>REDIR.3. Run a command that produces messages on both standard output and standard error.</h4>
+<pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash</kbd>
+ls: /bob/bash: No such file or directory
+/bin/bash*</samp></pre>
+
+            <h4>REDIR.4. Send only the last command's standard error messages to a file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal.</h4>
+<pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash 2&gt;errors.log</kbd>
+/bin/bash*
+$ <kbd>cat errors.log</kbd>
+ls: /bob/bash: No such file or directory</samp></pre>
+
+            <h4>REDIR.5. Append the last command's standard output and error messages to the file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal again.</h4>
+<pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash &gt;&gt;errors.log 2&gt;&amp;1</kbd>
+$ <kbd>cat errors.log</kbd>
+ls: /bob/bash: No such file or directory
+ls: /bob/bash: No such file or directory
+/bin/bash*</samp></pre>
+
+            <h4>REDIR.6. Use a here-string to show the string <kbd>Hello world!</kbd> on the terminal.</h4>
+<pre class="exercise"><samp>$ <kbd>cat &lt;&lt;&lt; 'Hello world!</kbd>
+Hello world!</samp></pre>
+
+            <h4>REDIR.7. Fix this command so that the message is properly saved into the <code>log</code> file and such that FD 3 is properly closed afterwards: <kbd>exec 3&gt;&amp;2 2&gt;log; echo 'Hello!'; exec 2&gt;&amp;3</kbd></h4>
+<pre class="exercise"><samp>$ <kbd>exec 3&gt;&amp;1 &gt;log; echo 'Hello!'; exec 1&gt;&amp;3 3&gt;&amp;-</kbd></samp></pre>
 
         </section>
 
