@@ -335,6 +335,8 @@ hello BIG world</samp></pre>
 
             <p>There are two separate spaces where variables are kept.  These separate spaces are often confused, leading to many misunderstandings.  You've already become familiar with the first: shell variables.  The second space where variables are kept is the process environment.  We'll introduce environment variables and explain how they differ from shell variables.</p>
 
+            <h2>Environment Variables</h2>
+
             <p>Unlike the shell, the environment is something that exists at the process level.  You can think of the environment as a piece of land you buy.  The land can have a house on it, this will be the code running in your process.  You can store variables in the environment and you can store variables in the shell.  The environment is something every process has, while the shell space is only available to bash processes.</p>
 
 <pre>
@@ -407,6 +409,150 @@ $ <kbd>NAME=John</kbd>
          │ NAME=<mark>John</mark>                      │
          ╰────────────────────────────────╯
 </pre>
+
+            <p>This distinction also makes it clear why one would opt to put certain variables in the environment.  While most of your variables will be ordinary shell variables, you may opt to "export" some of your shell variables into the shell's process environment.  In doing so, you're effectively exporting your variable's data to each child process you create, and those child processes will in turn export their environment variables to their children.  Your system uses environment variables for all sorts of things, mainly to provide state information and default configurations for certain processes.</p>
+
+            <p>For instance, the <code>login</code> program, which is traditionally used to log a user into the system, exports information about your user into the environment (<var>USER</var> containing your user name, <var>HOME</var> containing your home directory, <var>PATH</var> containing a standard command search path, etc.).  All processes that run as a result of you logging in can now learn what user they're running for by looking at the environment.</p>
+            <p>You can export your own variables into the environment.  This is often done to configure the behavior of any programs you run.  For instance, you can export <var>LANG</var> and assign it a value that tells programs what language and character set they should use.  Envrionment variables are generally only useful to those programs that know about and support them explicitly.  Some variables have a very narrow usage, for instance
+            <var>LSCOLORS</var> can be used by some <code>ls</code> programs to colorize their output of files on your system.</p>
+
+<pre>
+    ╭─── process ────────────────────╮
+    │             ╭─── bash ───────╮ │
+    │ ENVIRONMENT │ SHELL          │ │
+    │             │ greeting=hello │ │
+    │             ╰────────────────╯ │
+    │ HOME=/home/lhunath             │
+    │ PATH=/bin:/usr/bin             │
+    │ LANG=en_CA                     │
+    │ PAGER=less                     │
+    │ LESS=-i -R                     │
+    ╰─┬──────────────────────────────╯
+      ╎  ╭─── rm ─────────────────────────╮<em><code>rm</code> uses just <var>LANG</var> if present to determine</em>
+      ├╌╌┥                                │<em>the language of its error messages.</em>
+      ╎  │ ENVIRONMENT                    │
+      ╎  │                                │
+      ╎  │ HOME=/home/lhunath             │
+      ╎  │ PATH=/bin:/usr/bin             │
+      ╎  │ <mark>LANG=en_CA</mark>                     │
+      ╎  │ PAGER=less                     │
+      ╎  │ LESS=-i -R                     │
+      ╎  ╰────────────────────────────────╯
+      ╎  ╭─── man ────────────────────────╮<em>In addition to <var>LANG</var>, <code>man</code> uses <var>PAGER</var> to determine</em>
+      └╌╌┥                                │<em>what program to use for paginating long manuals.</em>
+         │ ENVIRONMENT                    │
+         │                                │
+         │ HOME=/home/lhunath             │
+         │ PATH=/bin:/usr/bin             │
+         │ <mark>LANG=en_CA</mark>                     │
+         │ <mark>PAGER=less</mark>                     │
+         │ LESS=-i -R                     │
+         ╰─┬──────────────────────────────╯
+           ╎  ╭─── less ───────────────────────╮<em><code>less</code> makes use of the <var>LESS</var> variable to supply</em>
+           └╌╌┥                                │<em>an initial configuration for itself.</em>
+              │ ENVIRONMENT                    │
+              │                                │
+              │ HOME=/home/lhunath             │
+              │ PATH=/bin:/usr/bin             │
+              │ <mark>LANG=en_CA</mark>                     │
+              │ PAGER=less                     │
+              │ <mark>LESS=-i -R</mark>                     │
+              ╰────────────────────────────────╯
+</pre>
+
+            <h2>Shell Initialization</h2>
+
+            <p>When you start an interactive bash session, bash will prepare itself for usage by reading a few initialization commands from different files on your system.  You can use these files to tell bash how to behave.  One in particular is intended to give you the opportunity to export variables into the environment.  The file is called <code>.bash_profile</code> and it lives in your home directory.  There's a good chance that you don't have this file yet; if this is the
+            case, you can just create the file and bash will find it the next time it goes looking for it.</p>
+            <p>At the very end of your <code>~/.bash_profile</code>, you should have the command <code>source ~/.bashrc</code>.  That's because when <code>.bash_profile</code> exists, bash behaves a little curious in that it stops looking for its standard shell initialization file <code>~/.bashrc</code>.  The <code>source</code> command remedies this oddity.</p>
+            <p>Note that if there is no <code>~/.bash_profile</code> file, bash will try to read from <code>~/.profile</code> instead, if it exists.  The latter is a generic shell profile configuration file, which is also read by other shells.  You can opt to put your environment configuration there instead, but if you do, you need to be aware that you should limit yourself to POSIX sh
+            syntax and not use any bash-specific shell syntax in the file.  POSIX sh syntax is similar to bash but it is beyond the scope of this guide.</p>
+
+<pre>
+    login<em>The <code>login</code> program signs the user in</em>
+      │
+      ╰─ <strong>-bash</strong><em>The <code>login</code> command starts the user's login shell</em>
+           │
+           ╰─ screen<em>The user runs the <code>screen</code> program from his login shell</em>
+                │
+                ╰─ weechat<em>The <code>screen</code> program creates multiple windows</em>
+                │         <em>and allows the user to switch between them.</em> 
+                ╰─ bash   <em>The first runs an IRC client, two others run a</em> 
+                │         <em>non-login bash shell.</em> 
+                ╰─ bash
+</pre>
+
+            <p>This process tree depicts a user who uses bash as his login shell and multiplexes his terminal to create several separate "screens", allowing him to interact with multiple concurrently running programs.  After logging in, the system (the <code>login</code> program) determines the user's login shell.  It might do this, for example, by looking at <code>/etc/passwd</code>.  In this case, the user's login shell is set to bash.  <code>login</code> proceeds by running bash and
+            setting its name to <code>-bash</code>.  It is standard procedure for the <code>login</code> program to prefix the name of the login shell with a <code>-</code> (dash), indicating to the shell that it should behave as a login shell.</p>
+
+            <p>Once the user has a running bash login shell, he runs the <code>screen</code> program.  While screen is running, it takes over the user's entire terminal and emulates multiple terminals within it, allowing the user to switch between them.  In each emulated terminal, screen runs a new program.  In this case, the user has screen configured to start one emulated terminal that runs an IRC client, and two that run interactive (but non-login) bash shells. Here's what that would
+            look like in practice:</p>
+
+            <script type="text/javascript" src="https://asciinema.org/a/13948.js" id="asciicast-13948" async></script>
+
+            <p>Let's take a look at how the initialization happens in this scenario, and where the environment variables come from:</p>
+
+<pre>
+    login
+      │ <ins>TERM=dumb</ins>
+      │ <ins>USER=lhunath</ins>
+      │ <ins>HOME=/home/lhunath</ins>
+      │ <ins>PATH=/usr/bin:/bin</ins>
+      │
+      ╰─ -bash
+           │ TERM=dumb
+           │ USER=lhunath
+           │ HOME=/home/lhunath
+           │ <del>PATH=/usr/bin:/bin</del>
+           │ <ins>PWD=/home/lhunath</ins>
+           │ <ins>SHLVL=1</ins>
+           │╭──────────────╮     ╭────────────────────────╮╭──────────────────╮
+           ┝┥ login shell? ┝─yes─┥ source ~/.bash_profile ┝┥ source ~/.bashrc │
+           │╰──────────────╯     ╰────────────────────────╯╰──────────────────╯
+           │ <ins>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/libexec</ins>
+           │ <ins>EDITOR=vim</ins>
+           │ <ins>LANG=en_CA.UTF-8</ins>
+           │ <ins>LESS=-i -M -R -W -S</ins>
+           │ <ins>GREP_COLOR=31</ins>
+           │
+           ╰─ screen
+                │ <del>TERM=dumb</del>
+                │ <ins>TERM=screen-bce</ins>
+                │ USER=lhunath
+                │ HOME=/home/lhunath
+                │ PATH=/usr/bin:/bin
+                │ PWD=/home/lhunath
+                │ SHLVL=1
+                │ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/libexec
+                │ EDITOR=vim
+                │ LANG=en_CA.UTF-8
+                │ LESS=-i -M -R -W -S
+                │ GREP_COLOR=31
+                │ <ins>WINDOW=0</ins>
+                │
+                ╰─ weechat
+                │
+                ╰─ bash
+                │    │╭──────────────╮
+                │    ╰┥ login shell? ┝
+                │     ╰──────┰───────╯
+                │            no
+                │     ╭──────┸───────╮     ╭──────────────────╮
+                │     │ interactive? ┝─yes─┥ source ~/.bashrc │
+                │     ╰──────────────╯     ╰──────────────────╯
+                ╰─ bash
+                     │╭──────────────╮
+                     ╰┥ login shell? ┝
+                      ╰──────┰───────╯
+                             no
+                      ╭──────┸───────╮     ╭──────────────────╮
+                      │ interactive? ┝─yes─┥ source ~/.bashrc │
+                      ╰──────────────╯     ╰──────────────────╯
+</pre>
+
+            <p>As you can see, different levels export their own variables into the environment.  Each child process inherits the variables from its parent's environment.  In turn, it can overwrite some of these values or add new variables.</p>
+            <p>Notice how the first (login) bash sources both <code>~/.bash_profile</code> and <code>~/.bashrc</code> while the bottom two source only <code>~/.bashrc</code>.  That's because only the first bash process is started as a "login shell" (by means of having a <code>-</code> in front of its name).  The bottom two bash processes are ordinary interactive shells.  The reason they have no need for sourcing <code>~/.bash_profile</code> is now becoming more obvious: the responsibility of
+            <code>~/.bash_profile</code> is to set up bash's environment, and the bottom two shells are already inheriting the environment from their login shell ancestor.</p>
 
             <h2>[incomplete]</h2>
 

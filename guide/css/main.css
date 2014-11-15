@@ -392,7 +392,7 @@ pre em, code em {
     position: absolute;
     z-index: -1;
     left: 15%;
-    padding-left: 35em;
+    padding-left: 30em;
     width: 40em;
 
     color: #AAA;
@@ -414,6 +414,14 @@ pre em kbd, pre em var, pre em samp, pre em code, code strong, pre strong, kbd s
 }
 samp {
     font-weight: inherit;
+}
+ins {
+    color: #6A6;
+    background-color: rgba(100, 170, 100, 0.1);
+}
+del {
+    color: #A66;
+    background-color: rgba(170, 100, 100, 0.1);
 }
 section img[alt] {
     transition: .3s all;
@@ -577,6 +585,9 @@ body>footer {
     font-weight: 100;
     padding: 3em 0 1ex;
     margin: 0;
+}
+.asciicast {
+    text-align: center;
 }
 
 
