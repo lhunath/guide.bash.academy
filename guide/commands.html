@@ -1,64 +1,41 @@
-<!DOCTYPE html>
-<html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>The Bash Guide</title>
-        <meta name="description" content="A complete guide for newcomers and advanced users to correct usage and deep understanding of the bash shell language.">
-        <meta name="viewport" content="width=device-width">
+---
+layout: default
+title: Commands And Arguments
+subtitle: How do I give bash instructions?
+---
 
-        <link rel="stylesheet" type="text/css" href="css/normalize.min.css">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
+<nav>
+    <h1>Sections</h1>
+    <div id="toc"></div>
 
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-        <script src="js/vendor/prefixfree.min.js"></script>
-        <!--script src="//use.typekit.net/cey7qim.js"></script>
-        <script>try{Typekit.load();}catch(e){}</script-->
-    </head>
-    <body id="commands">
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
+    <h1>Chapters</h1>
+    <ul>
+        <li id="chapter_cover"><a href="index.html#">Cover<br>
+            <sub>The Bash Guide</sub></a></li>
+        <li id="chapter_inception"><a href="inception.html#">Inception<br>
+            <sub>What is bash, and where does it live?</sub></a></li>
+        <li id="chapter_commands"><a href="commands.html#">Commands And Arguments<br>
+            <sub>How do I give bash instructions?</sub></a></li>
+    </ul>
+</nav>
 
-        <nav>
-            <h1>Sections</h1>
-            <div id="toc"></div>
+<section>
+    <h1>What are bash commands and how do I write and issue them?</h1>
 
-            <h1>Chapters</h1>
-            <ul>
-                <li id="chapter_cover"><a href="index.html#">Cover<br>
-                    <sub>The Bash Guide</sub></a></li>
-                <li id="chapter_inception"><a href="inception.html#">Inception<br>
-                    <sub>What is bash, and where does it live?</sub></a></li>
-                <li id="chapter_commands"><a href="commands.html#">Commands And Arguments<br>
-                    <sub>How do I give bash instructions?</sub></a></li>
-            </ul>
-        </nav>
+    <p>We learned a great deal about how bash and other processes work together in the terminal.  Let's refocus on bash and start figuring out how exactly we get stuff done with it.</p>
 
-        <header data-stellar-background-ratio="0.4">
-            <div>
-                <h1>Commands And Arguments</h1>
-                <h2>How do I give bash instructions?</h2>
-            </div>
-        </header>
+    <p>As mentioned earlier, bash waits for instructions from you and then executes them to the best of its abilities.  To get the most out of bash, and especially to avoid damage due to bash misunderstanding your intentions, it's important that you pay close attention to these basics of the bash shell language.  There are many people that consider themselves fluent in bash but fail to understand even these most basic concepts.  As a result, they create programs that can inflict
+    extensive damage to unsuspecting users and systems.  <em>Don't be that guy</em>.</p>
 
-        <section>
-            <h1>What are bash commands and how do I write and issue them?</h1>
+    <h2>So what are bash commands?</h2>
 
-            <p>We learned a great deal about how bash and other processes work together in the terminal.  Let's refocus on bash and start figuring out how exactly we get stuff done with it.</p>
+    <p>At the core of the bash shell language are its commands.  Your commands tell bash what you need it to do, step-by-step, command-by-command.</p>
 
-            <p>As mentioned earlier, bash waits for instructions from you and then executes them to the best of its abilities.  To get the most out of bash, and especially to avoid damage due to bash misunderstanding your intentions, it's important that you pay close attention to these basics of the bash shell language.  There are many people that consider themselves fluent in bash but fail to understand even these most basic concepts.  As a result, they create programs that can inflict
-            extensive damage to unsuspecting users and systems.  <em>Don't be that guy</em>.</p>
+    <p>Bash generally takes one command from you at a time, executes the command, and when completed returns to you for the next command.  We call this <dfn>synchronous</dfn> command execution.  It is important to understand that while bash is busy with a command that you give it, there is no way for you to interact with bash: you'll have to wait for bash to get back to you after its job is done.  For most commands, you'll barely notice this: they get executed so fast bash
+    will be back for the next command before you realize.</p>
 
-            <h2>So what are bash commands?</h2>
-
-            <p>At the core of the bash shell language are its commands.  Your commands tell bash what you need it to do, step-by-step, command-by-command.</p>
-
-            <p>Bash generally takes one command from you at a time, executes the command, and when completed returns to you for the next command.  We call this <dfn>synchronous</dfn> command execution.  It is important to understand that while bash is busy with a command that you give it, there is no way for you to interact with bash: you'll have to wait for bash to get back to you after its job is done.  For most commands, you'll barely notice this: they get executed so fast bash
-            will be back for the next command before you realize.</p>
-
-            <p>Some commands can take a long time to complete, though.  In particular, commands that start other programs with which you can interact.  For instance, a command might start a file editor.  While you're interacting with the file editor, bash takes a back-seat and waits for the file editor to end (which generally means you quit it). When the file editor program stops running, the command ends and bash resumes operation by
-            asking you for the next thing to do.  You'll notice that while your editor is running, you are no longer at the bash prompt.  As soon as your editor exits, your bash prompt re-appears:</p>
+    <p>Some commands can take a long time to complete, though.  In particular, commands that start other programs with which you can interact.  For instance, a command might start a file editor.  While you're interacting with the file editor, bash takes a back-seat and waits for the file editor to end (which generally means you quit it). When the file editor program stops running, the command ends and bash resumes operation by
+    asking you for the next thing to do.  You'll notice that while your editor is running, you are no longer at the bash prompt.  As soon as your editor exits, your bash prompt re-appears:</p>
 
 <pre lang="bash">
 $ <kbd>ex</kbd><em>bash command to run the "ex" program.</em>
@@ -73,22 +50,22 @@ Hello!<em>The "cat" program shows the contents of the file.</em>
 $ 
 </pre>
 
-            <p>Notice how in this session, we started out by giving bash the command to start the <kbd>ex</kbd> file editor.  After issuing this command, our prompt changed: any text we enter now is sent to ex, not to bash.  While ex is running, bash is aslumber waiting for your ex session to end.  When you quit ex using the <kbd>q</kbd> command, the <code>ex</code> bash command ends and bash is ready to receive a new command.  To tell you this, it shows you its prompt again, allowing
-            you to enter the next bash command.  We finish the example with a <kbd>cat greetings.txt</kbd> bash command which tells bash to run the cat program.  The cat program is great for outputting file contents (its name is short for con<em>cat</em>enate, because its purpose is to output the contents of all the files you give it, one after the other, effectively concatenating the contents in its output).  The cat command in the example is used to find out what is in our
-            <code>greetings.txt</code> file after we're done editing it with the ex program.</p>
+    <p>Notice how in this session, we started out by giving bash the command to start the <kbd>ex</kbd> file editor.  After issuing this command, our prompt changed: any text we enter now is sent to ex, not to bash.  While ex is running, bash is aslumber waiting for your ex session to end.  When you quit ex using the <kbd>q</kbd> command, the <code>ex</code> bash command ends and bash is ready to receive a new command.  To tell you this, it shows you its prompt again, allowing
+    you to enter the next bash command.  We finish the example with a <kbd>cat greetings.txt</kbd> bash command which tells bash to run the cat program.  The cat program is great for outputting file contents (its name is short for con<em>cat</em>enate, because its purpose is to output the contents of all the files you give it, one after the other, effectively concatenating the contents in its output).  The cat command in the example is used to find out what is in our
+    <code>greetings.txt</code> file after we're done editing it with the ex program.</p>
 
-            <footer>
-            A bash command is the smallest unit of code that bash can independently execute.  While executing a command, you cannot interact with the bash shell.  As soon as bash is done executing a command, it returns to you for the next command to execute.
-            </footer>
+    <footer>
+    A bash command is the smallest unit of code that bash can independently execute.  While executing a command, you cannot interact with the bash shell.  As soon as bash is done executing a command, it returns to you for the next command to execute.
+    </footer>
 
-            <h2>How do I give bash a command?</h2>
+    <h2>How do I give bash a command?</h2>
 
-            <p>We've been showing quite a few examples now of running commands in bash, so you probably already have a good idea about how one issues basic commands in bash at the prompt.</p>
+    <p>We've been showing quite a few examples now of running commands in bash, so you probably already have a good idea about how one issues basic commands in bash at the prompt.</p>
 
-            <p>Bash is mostly a line-based language.  Accordingly, when bash reads your commands, it does so line-by-line.  Most commands will only constitute one line and, unless the syntax of your bash command explicitly indicates that your command is not yet complete, as soon as you end that line, bash will immediately consider that to be the end of the command.  As a result, typing a line of text and hitting the <kbd title="enter/return">⏎</kbd> key will generally cause bash to start
-            performing the command described by your line of text.</p>
+    <p>Bash is mostly a line-based language.  Accordingly, when bash reads your commands, it does so line-by-line.  Most commands will only constitute one line and, unless the syntax of your bash command explicitly indicates that your command is not yet complete, as soon as you end that line, bash will immediately consider that to be the end of the command.  As a result, typing a line of text and hitting the <kbd title="enter/return">⏎</kbd> key will generally cause bash to start
+    performing the command described by your line of text.</p>
 
-            <p>Some commands however, span multiple lines.  These are usually block commands or commands with quotes in them:</p>
+    <p>Some commands however, span multiple lines.  These are usually block commands or commands with quotes in them:</p>
 
 <pre lang="bash">
 $ <kbd>read -p "Your name? " name</kbd><em>This command is complete and can be started immediately.</em>
@@ -101,11 +78,11 @@ $ <kbd>if [[ $name = $USER ]]; then</kbd><em>The "if" block started but wasn't f
 Hello, Maarten Billemont.
 </pre>
 
-            <p>Logically, bash cannot execute a command until it has enough information to do its job.  The first line of the <code>if</code> command in the example above (we'll cover what these commands do in more detail later on) doesn't contain enough information for bash to know what to do if the test succeeds or if it fails.  As a result, bash shows a special prompt: <code>&gt;</code>.  This prompt essentially means: <q>the command you gave me is not yet at an end</q>.  We keep on
-            providing extra lines for the command, until we reach the <code>fi</code> construct.  When we end that line, bash knows that you're done providing conditional result cases.  It immediately begins running all the code in the entire block, from <code>if</code> to <code>fi</code>.  We will soon see the different kinds of commands defined in bash's grammar, but the <code>if</code> command we just saw is called a <dfn>Compound Command</dfn>, because it compounds a bunch of
-            basic commands into a larger logical block.</p>
+    <p>Logically, bash cannot execute a command until it has enough information to do its job.  The first line of the <code>if</code> command in the example above (we'll cover what these commands do in more detail later on) doesn't contain enough information for bash to know what to do if the test succeeds or if it fails.  As a result, bash shows a special prompt: <code>&gt;</code>.  This prompt essentially means: <q>the command you gave me is not yet at an end</q>.  We keep on
+    providing extra lines for the command, until we reach the <code>fi</code> construct.  When we end that line, bash knows that you're done providing conditional result cases.  It immediately begins running all the code in the entire block, from <code>if</code> to <code>fi</code>.  We will soon see the different kinds of commands defined in bash's grammar, but the <code>if</code> command we just saw is called a <dfn>Compound Command</dfn>, because it compounds a bunch of
+    basic commands into a larger logical block.</p>
 
-            <p>In each of these cases, we're passing our commands to an interactive bash session.  As we explained before, bash can also run in non-interactive mode where it reads commands from a file or stream rather than asking you for them.  In non-interactive mode, bash doesn't have a prompt.  Aside from that, it operates pretty much the same.  We could copy the bash code from the example above and put it in a text file instead:</p>
+    <p>In each of these cases, we're passing our commands to an interactive bash session.  As we explained before, bash can also run in non-interactive mode where it reads commands from a file or stream rather than asking you for them.  In non-interactive mode, bash doesn't have a prompt.  Aside from that, it operates pretty much the same.  We could copy the bash code from the example above and put it in a text file instead:</p>
 
 <pre lang="bash">
 <kbd>read -p "Your name? " name
@@ -116,7 +93,7 @@ else
 fi</kbd>
 </pre>
 
-            <p>It doesn't matter much what you name the file in which you save the code.  Let's say you saved it in a file called <code>hello.txt</code>, we can now run the commands from that file using bash without it having to ask us for instructions:</p>
+    <p>It doesn't matter much what you name the file in which you save the code.  Let's say you saved it in a file called <code>hello.txt</code>, we can now run the commands from that file using bash without it having to ask us for instructions:</p>
 
 <pre lang="bash">
 $ <kbd>bash hello.txt</kbd><em>This starts a new "bash" process.</em>
@@ -125,10 +102,10 @@ Hello, Maarten Billemont.<em>Our new "bash" process ends when there is no code l
 $ <em>Now that the "bash" command is done, our interactive bash comes back.</em>
 </pre>
 
-            <p>Notice that two bash processes are involved in this example.  The bash process we start off from is our regular interactive shell.  We tell that bash process to run a command which will cause it to start a new bash process.  This second bash process will execute all the commands it finds in the file <code>hello.txt</code>, non-interactively.  When it's done (there are no commands left in the file), the non-interactive bash process ends and the interactive bash process is
-            ready with your <kbd>bash hello.txt</kbd> command; it shows a new prompt asking you for the next command to run.</p>
+    <p>Notice that two bash processes are involved in this example.  The bash process we start off from is our regular interactive shell.  We tell that bash process to run a command which will cause it to start a new bash process.  This second bash process will execute all the commands it finds in the file <code>hello.txt</code>, non-interactively.  When it's done (there are no commands left in the file), the non-interactive bash process ends and the interactive bash process is
+    ready with your <kbd>bash hello.txt</kbd> command; it shows a new prompt asking you for the next command to run.</p>
 
-            <p>It's only a small step from a file with a list of commands in it to a veritable <dfn>bash script</dfn>.  Open your <code>hello.txt</code> file again and add a <dfn>hashbang</dfn> to the top of it, as the first line of the script: <kbd>#!/usr/bin/env bash</kbd></p>
+    <p>It's only a small step from a file with a list of commands in it to a veritable <dfn>bash script</dfn>.  Open your <code>hello.txt</code> file again and add a <dfn>hashbang</dfn> to the top of it, as the first line of the script: <kbd>#!/usr/bin/env bash</kbd></p>
 
 <pre lang="bash">
 <kbd><ins>#!/usr/bin/env bash</ins></kbd>
@@ -140,68 +117,68 @@ else
 fi
 </pre>
 
-            <p>Congratulations!  You've created your first bash script.  What's a bash script?  It's a file with bash code in it that can be executed by the kernel just like any other program on your computer.  In essence, it is a program in itself, although it does need the bash interpreter to do the work of translating the bash language into instructions the kernel understands.  That's where this "hashbang" line we've just added to the file comes in:  It tells the kernel what interpreter
-            it needs to use to understand the language in this file, and where to find it.  We call it a "hashbang" because it always begins with a "hash" <code>#</code> followed by a "bang" <code>!</code>. Your hashbang must then specify an absolute pathname to any program that understands the language in your file and can take a single argument.  Our hashbang is a little special, though:  We reference the program <code>/usr/bin/env</code>, which isn't really a program that understands the
-            bash language.  It's a program that can find and start other programs.  In our case, we use an argument to tell it to find the <code>bash</code> program and use that for
-            interpreting the language in our script.  Why do we use this "inbetween" program called <code>env</code>?  It has everything to do with what comes before the name: the path.  We know with relative certainty that the <code>env</code> program lives in the <code>/usr/bin</code> path.  Given the large variety of operating systems and configurations, however, we don't have any good certainty about where the <code>bash</code> program is installed.  Which is why we use the
-            <code>env</code> program to find it for us.  That was a little complicated!  But now, what's the difference between our file before and after adding the hashbang?</p>
+    <p>Congratulations!  You've created your first bash script.  What's a bash script?  It's a file with bash code in it that can be executed by the kernel just like any other program on your computer.  In essence, it is a program in itself, although it does need the bash interpreter to do the work of translating the bash language into instructions the kernel understands.  That's where this "hashbang" line we've just added to the file comes in:  It tells the kernel what interpreter
+    it needs to use to understand the language in this file, and where to find it.  We call it a "hashbang" because it always begins with a "hash" <code>#</code> followed by a "bang" <code>!</code>. Your hashbang must then specify an absolute pathname to any program that understands the language in your file and can take a single argument.  Our hashbang is a little special, though:  We reference the program <code>/usr/bin/env</code>, which isn't really a program that understands the
+    bash language.  It's a program that can find and start other programs.  In our case, we use an argument to tell it to find the <code>bash</code> program and use that for
+    interpreting the language in our script.  Why do we use this "inbetween" program called <code>env</code>?  It has everything to do with what comes before the name: the path.  We know with relative certainty that the <code>env</code> program lives in the <code>/usr/bin</code> path.  Given the large variety of operating systems and configurations, however, we don't have any good certainty about where the <code>bash</code> program is installed.  Which is why we use the
+    <code>env</code> program to find it for us.  That was a little complicated!  But now, what's the difference between our file before and after adding the hashbang?</p>
 
 <pre lang="bash">
 $ <kbd>chmod +x hello.txt</kbd><em>Mark hello.txt as an e<strong>x</strong>ecutable program.</em>
 $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 </pre>
 
-            <p>Most systems require you to mark a file as <dfn>executable</dfn> before the kernel is willing to allow you to run it as a program.  Once we do that, we can start the <code>hello.txt</code> program like we would any other program.  The kernel will look inside the file, find the hashbang, use that to track down the bash interpreter, and use that to start running the instructions in the file.  You have your first real bash program!</p>
+    <p>Most systems require you to mark a file as <dfn>executable</dfn> before the kernel is willing to allow you to run it as a program.  Once we do that, we can start the <code>hello.txt</code> program like we would any other program.  The kernel will look inside the file, find the hashbang, use that to track down the bash interpreter, and use that to start running the instructions in the file.  You have your first real bash program!</p>
 
-            <footer>
-            Bash gets commands by reading lines.  As soon as it's read enough lines to compose a single command, bash begins running that command.  Usually, commands are just a single line long.  An interactive bash session reads lines from you at the prompt.  Non-interactive bash processes read their command lines from a file or stream.  Files with a <dfn>hashbang</dfn> as their first line (and the <dfn>executable</dfn> permission) can be started by your system's kernel like any other
-            program.
-            </footer>
+    <footer>
+    Bash gets commands by reading lines.  As soon as it's read enough lines to compose a single command, bash begins running that command.  Usually, commands are just a single line long.  An interactive bash session reads lines from you at the prompt.  Non-interactive bash processes read their command lines from a file or stream.  Files with a <dfn>hashbang</dfn> as their first line (and the <dfn>executable</dfn> permission) can be started by your system's kernel like any other
+    program.
+    </footer>
 
-        </section>
+</section>
 
-        <section>
-            <h1>Learning to speak "bash"</h1>
+<section>
+    <h1>Learning to speak "bash"</h1>
 
-            <p>If you've been paying close attention to the previous sections, you've got a pretty good introduction to what bash is, where and how it operates within the system and how you use it.</p>
+    <p>If you've been paying close attention to the previous sections, you've got a pretty good introduction to what bash is, where and how it operates within the system and how you use it.</p>
 
-            <p>Time to start speaking "bash".  We're going to get introduced to the bash shell language's grammar, and with that, this guide is going to start getting a bit more technical.  Don't worry, focus and you won't get left behind.  If you get a feeling of unease and uncertainty, re-read the section before moving on to avoid getting completely lost.  We'll try and cover all the how's and why's of new concepts.  If anything remains unclear, we encourage you to get in touch so that we can improve this guide for you and your
-            fellow students.  Our contact information is at the beginning of the guide.</p>
+    <p>Time to start speaking "bash".  We're going to get introduced to the bash shell language's grammar, and with that, this guide is going to start getting a bit more technical.  Don't worry, focus and you won't get left behind.  If you get a feeling of unease and uncertainty, re-read the section before moving on to avoid getting completely lost.  We'll try and cover all the how's and why's of new concepts.  If anything remains unclear, we encourage you to get in touch so that we can improve this guide for you and your
+    fellow students.  Our contact information is at the beginning of the guide.</p>
 
-            <h2>About intentions and ambiguity</h2>
+    <h2>About intentions and ambiguity</h2>
 
-            <p>The biggest difference with speaking to a computer as opposed to speaking to a human is that computer programs are generally terrible at placing your requests in context and figuring out what your intention is.  Those that try are usually called "smart" for being able to take ambiguous input and going to lengths to figure out what the intended result was.  In this context, "smart" is unfortunately not quite in line with what we'd expect from smart humans: the kinds of
-            assumptions computer programs make based on our ambiguous input tend to be miles off and often lead to terrible or even disastrous results.</p>
+    <p>The biggest difference with speaking to a computer as opposed to speaking to a human is that computer programs are generally terrible at placing your requests in context and figuring out what your intention is.  Those that try are usually called "smart" for being able to take ambiguous input and going to lengths to figure out what the intended result was.  In this context, "smart" is unfortunately not quite in line with what we'd expect from smart humans: the kinds of
+    assumptions computer programs make based on our ambiguous input tend to be miles off and often lead to terrible or even disastrous results.</p>
 
-            <p>Sadly, we, as humans, are used to speaking in ambiguity: we rely on the receiver to understand the context of our requests and figure out what the most likely desirable action is.  When we ask our partner to get the salt, we don't expect her to return with a handful of salt: we expect her to understand that our intention is to use the salt container to sprinkle some salt on our dish and we need her to bring the container to us, filled with at least a minimum amount of
-            salt.</p>
+    <p>Sadly, we, as humans, are used to speaking in ambiguity: we rely on the receiver to understand the context of our requests and figure out what the most likely desirable action is.  When we ask our partner to get the salt, we don't expect her to return with a handful of salt: we expect her to understand that our intention is to use the salt container to sprinkle some salt on our dish and we need her to bring the container to us, filled with at least a minimum amount of
+    salt.</p>
 
-            <p>It is important to recognize the ambiguity in our language and requests before we start talking to computer programs, because we need to learn to get rid of that ambiguity in our language.  If you have little experience with doing this, it will likely be your biggest challenge going forward.  It takes practice to think in such literal terms.  It helps to imagine we're talking to a three-year old and showing them for the first time, each time, how to do the thing you need them to
-            do.  When <q>Bring the animals book</q> doesn't yet cut it, we need to teach them the steps: <q>Look around, do you see the books behind you?</q>, <q>Great!  Can you find the book with the lion and the cow on it?</q>, <q>That's the one, grab it for me!</q>, <q>Good boy, now bring it to daddy!  Come here, you.</q>, <q>Hi!  Look at you.  Give me the book and sit down, let's read it together.</q>; in a way, writing a bash script is similar to teaching your system how to do a task.
-            The difference is your three year old will recognize previous experiences in new requests by himself, your system won't: you'll need to explicitly specify and run previously written job descriptions.</p>
+    <p>It is important to recognize the ambiguity in our language and requests before we start talking to computer programs, because we need to learn to get rid of that ambiguity in our language.  If you have little experience with doing this, it will likely be your biggest challenge going forward.  It takes practice to think in such literal terms.  It helps to imagine we're talking to a three-year old and showing them for the first time, each time, how to do the thing you need them to
+    do.  When <q>Bring the animals book</q> doesn't yet cut it, we need to teach them the steps: <q>Look around, do you see the books behind you?</q>, <q>Great!  Can you find the book with the lion and the cow on it?</q>, <q>That's the one, grab it for me!</q>, <q>Good boy, now bring it to daddy!  Come here, you.</q>, <q>Hi!  Look at you.  Give me the book and sit down, let's read it together.</q>; in a way, writing a bash script is similar to teaching your system how to do a task.
+    The difference is your three year old will recognize previous experiences in new requests by himself, your system won't: you'll need to explicitly specify and run previously written job descriptions.</p>
 
-            <p>Some language interpretors (programs, like bash, that understand a certain computer language) try to compensate for this problem by being extremely strict with their grammar and syntax.  The idea is to weed out the ambiguity in your language so as to avoid accidentally doing the wrong thing.  The interpretor enforces correctness to a certain degree: this tends to be a relatively successful strategy and generally results in the least buggy programs.</p>
+    <p>Some language interpretors (programs, like bash, that understand a certain computer language) try to compensate for this problem by being extremely strict with their grammar and syntax.  The idea is to weed out the ambiguity in your language so as to avoid accidentally doing the wrong thing.  The interpretor enforces correctness to a certain degree: this tends to be a relatively successful strategy and generally results in the least buggy programs.</p>
 
-            <p>Sadly, bash is not a strict interpretor.<br>
-            In fact, bash's latitude is largely at fault for the general ineptitude toward bash scripting with most anyone introduced to the language, novice and professional alike.  The result is not dissimilar to the state of the web around the turn of the century:  Many pages were written so badly that their ability to render properly on any kind of standards-based browser was sufficiently compromised to force these browsers to implement all sorts of "smart" hacks in an attempt
-            to render the pages as they might have been intended to render, rather than what they were written to render.  Similarly, the gross part of the scripts you are going to run into <em>will be buggy</em>.  Sometimes subtly so, often to the point where simply using it with a file whose name is somewhat unexpected may cause irreversible damage to your system.</p>
-            <p><strong>Don't be that person.</strong><br>
-            This guide exists to teach you to write good bash code.  It will empower you to convey your true intentions and have a computer solve your problems.  Since bash is a lax interpreter, <em>the responsibility of discipline lays with you</em>.  If you're not up to honoring this prerequisite, I recommend you stop reading now and find a strict interpreter instead.  There is too much bad bash code in the world, and this guide will not be responsible for empowering people to write
-            more.</p>
+    <p>Sadly, bash is not a strict interpretor.<br>
+    In fact, bash's latitude is largely at fault for the general ineptitude toward bash scripting with most anyone introduced to the language, novice and professional alike.  The result is not dissimilar to the state of the web around the turn of the century:  Many pages were written so badly that their ability to render properly on any kind of standards-based browser was sufficiently compromised to force these browsers to implement all sorts of "smart" hacks in an attempt
+    to render the pages as they might have been intended to render, rather than what they were written to render.  Similarly, the gross part of the scripts you are going to run into <em>will be buggy</em>.  Sometimes subtly so, often to the point where simply using it with a file whose name is somewhat unexpected may cause irreversible damage to your system.</p>
+    <p><strong>Don't be that person.</strong><br>
+    This guide exists to teach you to write good bash code.  It will empower you to convey your true intentions and have a computer solve your problems.  Since bash is a lax interpreter, <em>the responsibility of discipline lays with you</em>.  If you're not up to honoring this prerequisite, I recommend you stop reading now and find a strict interpreter instead.  There is too much bad bash code in the world, and this guide will not be responsible for empowering people to write
+    more.</p>
 
-            <footer>
-            Bash is a lax language interpreter, which means it will permit you to write ambiguous commands.  Its syntax will not prevent you from writing commands that do things that are not what they seem.  It is solely your responsibility to learn the syntax adequately, recognize the pitfalls and pick up the discipline to stick to the practices that avoid buggy code consistently.
-            </footer>
+    <footer>
+    Bash is a lax language interpreter, which means it will permit you to write ambiguous commands.  Its syntax will not prevent you from writing commands that do things that are not what they seem.  It is solely your responsibility to learn the syntax adequately, recognize the pitfalls and pick up the discipline to stick to the practices that avoid buggy code consistently.
+    </footer>
 
-            <h2>The basic grammar of a bash command</h2>
+    <h2>The basic grammar of a bash command</h2>
 
-            <p>At the highest level, there are a few different kinds of commands.  We'll explain each type, give a brief example and go more in depth on each command type in a later section.  Don't worry too much about the syntax of these commands yet:  that'll become clear when we focus on the different command types later on.  What you should take away from this is a high-level understanding that bash commands come in different shapes and sizes, and a rough understanding of different
-            syntaxes.</p>
+    <p>At the highest level, there are a few different kinds of commands.  We'll explain each type, give a brief example and go more in depth on each command type in a later section.  Don't worry too much about the syntax of these commands yet:  that'll become clear when we focus on the different command types later on.  What you should take away from this is a high-level understanding that bash commands come in different shapes and sizes, and a rough understanding of different
+    syntaxes.</p>
 
-            <dl>
-                <dt>Simple Commands</dt>
-                <dd>
-                    <p>This is the most common kind of command.  It specifies the name of a command to execute, along with an optional set of <dfn>arguments</dfn>, <dfn>environment variables</dfn> and <dfn>file descriptor redirections</dfn>.</p>
+    <dl>
+        <dt>Simple Commands</dt>
+        <dd>
+            <p>This is the most common kind of command.  It specifies the name of a command to execute, along with an optional set of <dfn>arguments</dfn>, <dfn>environment variables</dfn> and <dfn>file descriptor redirections</dfn>.</p>
 
 <pre class="syntax">
     [ <var>var</var>=<var>value</var> ... ] <var>name</var> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
@@ -210,14 +187,14 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 <samp>IFS=, read -a fields &lt; file</samp>
 </pre>
 
-                    <p>Before the command's <code>name</code> you can optionally put a few variable assignments.  These assignments apply only to the command's environment.  We'll go more in depth on variables and environment later on.</p>
-                    <p>The command's name is the first word (after the optional assignments).  Bash finds the command with that name and starts it.  We'll learn more about what kind of named commands there are and how bash finds them later on.</p>
-                    <p>A command's name is optionally followed by a list of <code>arg</code> words, the command arguments.  We'll soon learn what arguments and their syntax are.</p>
-                    <p>Finally, a command can also have a set of <code>redirection</code> operations applied to it.  If you recall our explanation of file descriptors in an earlier section, redirections are the operations that change what the file descriptor plugs point to.  They change the streams that connect to our command processes.  We'll learn about the power of redirections in a future section.</p>
-                </dd>
-                <dt>Pipelines</dt>
-                <dd>
-                    <p>Bash comes with a lot of "syntax sugar" to make common tasks easier to perform than by using just the basic syntax.  Pipelines are an example of sugar that you'll be using a lot.  They are a convenient way of "connecting" two commands by way of linking the first process' standard output to the second process' standard input.  This is the most common way for terminal commands to talk to one another and convey information.</p>
+            <p>Before the command's <code>name</code> you can optionally put a few variable assignments.  These assignments apply only to the command's environment.  We'll go more in depth on variables and environment later on.</p>
+            <p>The command's name is the first word (after the optional assignments).  Bash finds the command with that name and starts it.  We'll learn more about what kind of named commands there are and how bash finds them later on.</p>
+            <p>A command's name is optionally followed by a list of <code>arg</code> words, the command arguments.  We'll soon learn what arguments and their syntax are.</p>
+            <p>Finally, a command can also have a set of <code>redirection</code> operations applied to it.  If you recall our explanation of file descriptors in an earlier section, redirections are the operations that change what the file descriptor plugs point to.  They change the streams that connect to our command processes.  We'll learn about the power of redirections in a future section.</p>
+        </dd>
+        <dt>Pipelines</dt>
+        <dd>
+            <p>Bash comes with a lot of "syntax sugar" to make common tasks easier to perform than by using just the basic syntax.  Pipelines are an example of sugar that you'll be using a lot.  They are a convenient way of "connecting" two commands by way of linking the first process' standard output to the second process' standard input.  This is the most common way for terminal commands to talk to one another and convey information.</p>
 
 <pre class="syntax">
     [<strong>time</strong> [<strong>-p</strong>]] [ <strong>!</strong> ] <var>command</var> [ [<strong>|</strong>|<strong>|&</strong>] <var>command2</var> ... ]
@@ -225,16 +202,16 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 <samp>echo Hello | rev</samp>
 <samp>! rm greeting.txt</samp>
 </pre>
-                
-                    <p>We rarely use the <code>time</code> keyword, but it is convenient for finding out how long it takes to run our commands.</p>
-                    <p>The <code>!</code> keyword is a little odd at first, and just like the time keyword it doesn't have much to do with connecting commands.  We'll learn about what it does when we discuss conditionals and testing the success of commands.</p>
-                    <p>The first <code>command</code> and the second <code>command2</code> can be any type of command from this section.  Bash will create a <dfn>subshell</dfn> for each command and set up the first command's standard output file descriptor such that it points to the second command's standard input file descriptor.  The two commands will run simultaneously and bash will wait for both of them to end.  We'll explain what exactly these "subshells" are in a later chapter.</p>
-                    <p>Inbetween the two commands goes the <code>|</code> symbol.  This is also called the "pipe" symbol, and it tells bash to connect the output of the first to the input of the second command.  Alternatively, we can use the <code>|&amp;</code> symbol inbetween the commands to indicate that we want not only the standard output of the first command, but also its standard error to be connected to the second command's input.  This is usually undesirable since the standard
-                    error file descriptor is normally used to convey messages to the user.  If we send those messages to the second command rather than the terminal display, we need to make sure the second command can handle these messages.</p>
-                </dd>
-                <dt>Lists</dt>
-                <dd>
-                    <p>A list is a sequence of other commands.  In essence, a script is a command list: one command after another.  Commands in lists are separated by a control operator which indicates to bash what to do when executing the command before it.</p>
+        
+            <p>We rarely use the <code>time</code> keyword, but it is convenient for finding out how long it takes to run our commands.</p>
+            <p>The <code>!</code> keyword is a little odd at first, and just like the time keyword it doesn't have much to do with connecting commands.  We'll learn about what it does when we discuss conditionals and testing the success of commands.</p>
+            <p>The first <code>command</code> and the second <code>command2</code> can be any type of command from this section.  Bash will create a <dfn>subshell</dfn> for each command and set up the first command's standard output file descriptor such that it points to the second command's standard input file descriptor.  The two commands will run simultaneously and bash will wait for both of them to end.  We'll explain what exactly these "subshells" are in a later chapter.</p>
+            <p>Inbetween the two commands goes the <code>|</code> symbol.  This is also called the "pipe" symbol, and it tells bash to connect the output of the first to the input of the second command.  Alternatively, we can use the <code>|&amp;</code> symbol inbetween the commands to indicate that we want not only the standard output of the first command, but also its standard error to be connected to the second command's input.  This is usually undesirable since the standard
+            error file descriptor is normally used to convey messages to the user.  If we send those messages to the second command rather than the terminal display, we need to make sure the second command can handle these messages.</p>
+        </dd>
+        <dt>Lists</dt>
+        <dd>
+            <p>A list is a sequence of other commands.  In essence, a script is a command list: one command after another.  Commands in lists are separated by a control operator which indicates to bash what to do when executing the command before it.</p>
 
 <pre class="syntax">
     <var>command</var> <var>control-operator</var> [ <var>command2</var> <var>control-operator</var> ... ]
@@ -242,14 +219,14 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 <samp>cd music; mplayer *.mp3</samp>
 <samp>rm hello.txt || echo "Couldn't delete hello.txt." &gt;&amp;2</samp>
 </pre>
-                
-                    <p>The command can be any of the other types of commands from this section.</p>
-                    <p>After the command comes the <dfn>control operator</dfn> which tells bash how the command should be executed.  The simplest control operator is just starting a new line, which is equivalent to <code>;</code> and tells bash to just run the command and wait for it to end before advancing to the next command in the list.  The second example uses the <code>||</code> control operator which tells bash to run the command before it as it normally would, but after finishing
-                    that command move to the next command only if the command before it failed.  If the command before it didn't fail, the <code>||</code> operator will make bash skip the command after it.  This is useful for showing error messages when a command fails.  We'll go more in depth on all the control operators in later sections.</p>
-                </dd>
-                <dt>Compound Commands</dt>
-                <dd>
-                    <p>Compound commands are commands with special syntax inside them.  They can do a lot of different things but behave as a single command in a command list.  The most obvious example is a block of commands: The block itself behaves as a single big command but inside it are a bunch of "sub" commands.  There are a lot of different kinds of compound commands and we will cover them all in-depth later.</p>
+        
+            <p>The command can be any of the other types of commands from this section.</p>
+            <p>After the command comes the <dfn>control operator</dfn> which tells bash how the command should be executed.  The simplest control operator is just starting a new line, which is equivalent to <code>;</code> and tells bash to just run the command and wait for it to end before advancing to the next command in the list.  The second example uses the <code>||</code> control operator which tells bash to run the command before it as it normally would, but after finishing
+            that command move to the next command only if the command before it failed.  If the command before it didn't fail, the <code>||</code> operator will make bash skip the command after it.  This is useful for showing error messages when a command fails.  We'll go more in depth on all the control operators in later sections.</p>
+        </dd>
+        <dt>Compound Commands</dt>
+        <dd>
+            <p>Compound commands are commands with special syntax inside them.  They can do a lot of different things but behave as a single command in a command list.  The most obvious example is a block of commands: The block itself behaves as a single big command but inside it are a bunch of "sub" commands.  There are a lot of different kinds of compound commands and we will cover them all in-depth later.</p>
 
 <pre class="syntax">
     <strong>if</strong> <var>list</var> [ <strong>;</strong>|<strong>&lt;newline&gt;</strong> ] <strong>then</strong> <var>list</var> [ <strong>;</strong>|<strong>&lt;newline&gt;</strong> ] <strong>fi</strong>
@@ -258,15 +235,15 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 <samp>if ! rm hello.txt; then echo "Couldn't delete hello.txt." &gt;&amp;2; exit 1; fi</samp>
 <samp>rm hello.txt || { echo "Couldn't delete hello.txt." &gt;&amp;2; exit 1; }</samp>
 </pre>
-                
-                    <p>Both examples perform the same operation.  The first example is a compound command, the second is a compound command in a command list.  We discussed the <code>||</code> operator briefly before:  The command on the right side of it is skipped unless the command before it fails.  This is a good example to illustrate an important property of compound commands: they behave as one command in a command list.  The compound command in the second example begins at
-                    <code>{</code> and continues until the next <code>}</code>, as a result everything inside the braces is considered a single command, meaning we have a command list of two commands: the <code>rm</code> command followed by the <code>{ ... }</code> compound.  If we leave out the braces, we get a list of <em>three</em> commands: the <code>rm</code> command followed by the <code>echo</code> command, followed by the <code>exit</code> command.  The difference is mainly important to
-                    the <code>||</code> operator in deciding what to do when the <code>rm</code> command before it succeeds.  If the <code>rm</code> succeeds, <code>||</code> will skip the command after it, which, if we leave out the braces, would be only the <code>echo</code> command.  As a result, a successful <code>rm</code> will lead to an <code>exit</code>.  If we leave in the braces, <code>||</code> will skip the entire compound on a successful <code>rm</code>, including both its
-                    <code>echo</code> and <code>exit</code>, and move on with the rest of the script instead.</p>
-                </dd>
-                <dt>Coprocesses</dt>
-                <dd>
-                    <p>A coprocess is some more bash syntax sugar: it allows you to easily run a command asynchronously (without making bash wait for it to end, also said to be "in the background") and also set up some new file descriptor plugs that connect directly to the new command's input and output.  You won't be using coprocess too often, but they're a nice convenience for those times you're doing advanced things.</p>
+        
+            <p>Both examples perform the same operation.  The first example is a compound command, the second is a compound command in a command list.  We discussed the <code>||</code> operator briefly before:  The command on the right side of it is skipped unless the command before it fails.  This is a good example to illustrate an important property of compound commands: they behave as one command in a command list.  The compound command in the second example begins at
+            <code>{</code> and continues until the next <code>}</code>, as a result everything inside the braces is considered a single command, meaning we have a command list of two commands: the <code>rm</code> command followed by the <code>{ ... }</code> compound.  If we leave out the braces, we get a list of <em>three</em> commands: the <code>rm</code> command followed by the <code>echo</code> command, followed by the <code>exit</code> command.  The difference is mainly important to
+            the <code>||</code> operator in deciding what to do when the <code>rm</code> command before it succeeds.  If the <code>rm</code> succeeds, <code>||</code> will skip the command after it, which, if we leave out the braces, would be only the <code>echo</code> command.  As a result, a successful <code>rm</code> will lead to an <code>exit</code>.  If we leave in the braces, <code>||</code> will skip the entire compound on a successful <code>rm</code>, including both its
+            <code>echo</code> and <code>exit</code>, and move on with the rest of the script instead.</p>
+        </dd>
+        <dt>Coprocesses</dt>
+        <dd>
+            <p>A coprocess is some more bash syntax sugar: it allows you to easily run a command asynchronously (without making bash wait for it to end, also said to be "in the background") and also set up some new file descriptor plugs that connect directly to the new command's input and output.  You won't be using coprocess too often, but they're a nice convenience for those times you're doing advanced things.</p>
 
 <pre class="syntax">
     <strong>coproc</strong> [ <var>name</var> ] <var>command</var> [ <var>redirection</var> ... ]
@@ -275,13 +252,13 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 read latestAuth &lt;&amp;"${auth[0]}"
 echo "Latest authentication attempt: $latestAuth"</samp>
 </pre>
-                
-                    <p>The example starts an asynchronous <code>tail</code> command.  While it runs in the background, the rest of the script continues.  First the script reads a line of output from the coprocess called <code>auth</code> (which is the first line the <code>tail</code> command output).  Next, we write a message showing the latest authentication attempt we read from the coprocess.  The script can continue and each time it reads from the coprocess pipe, it will get the next line from the
-                    <code>tail</code> command.</p>
-                </dd>
-                <dt>Functions</dt>
-                <dd>
-                    <p>When you declare a function in bash, you're essentially creating a temporary new command which you can invoke later in the script.  Functions are a great way to group a list of commands under a custom name for convenience if you perform similar tasks regularly in your script.</p>
+        
+            <p>The example starts an asynchronous <code>tail</code> command.  While it runs in the background, the rest of the script continues.  First the script reads a line of output from the coprocess called <code>auth</code> (which is the first line the <code>tail</code> command output).  Next, we write a message showing the latest authentication attempt we read from the coprocess.  The script can continue and each time it reads from the coprocess pipe, it will get the next line from the
+            <code>tail</code> command.</p>
+        </dd>
+        <dt>Functions</dt>
+        <dd>
+            <p>When you declare a function in bash, you're essentially creating a temporary new command which you can invoke later in the script.  Functions are a great way to group a list of commands under a custom name for convenience if you perform similar tasks regularly in your script.</p>
 
 <pre class="syntax">
     <var>name</var> <strong>()</strong> <var>compound-command</var> [ <var>redirection</var> ]
@@ -289,63 +266,63 @@ echo "Latest authentication attempt: $latestAuth"</samp>
 <samp>exists() { [[ -x $(type -P "$1" 2&gt;/dev/null) ]]; }
 exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
 </pre>
-                                    
-                    <p>You begin by specifying a <code>name</code> for your function.  This is the name of your new command, you'll be able to run it later on by writing a simple command with that name.</p>
-                    <p>After the command name go the <code>()</code> paranthesis.  Some languages use these paranthesis to declare the arguments the function accepts: <strong>bash does not</strong>.  The paranthesis should always be empty.  They simply denote the fact that you're declaring a function.</p>
-                    <p>Next comes the compound command that will be executed each time you run the function.</p>
-                    <p>To change the file descriptors of the script for the duration of running the function, you can optionally specify the function's custom file redirections.</p>
-                </dd>
-            </dl>
+                            
+            <p>You begin by specifying a <code>name</code> for your function.  This is the name of your new command, you'll be able to run it later on by writing a simple command with that name.</p>
+            <p>After the command name go the <code>()</code> paranthesis.  Some languages use these paranthesis to declare the arguments the function accepts: <strong>bash does not</strong>.  The paranthesis should always be empty.  They simply denote the fact that you're declaring a function.</p>
+            <p>Next comes the compound command that will be executed each time you run the function.</p>
+            <p>To change the file descriptors of the script for the duration of running the function, you can optionally specify the function's custom file redirections.</p>
+        </dd>
+    </dl>
 
-            <footer>
-            Bash commands tell bash to perform a certain unit of work.  These units of work cannot be subdivided: bash needs to know the whole command to be able to execute it.  There are different kinds of commands for different types of operations.  Some commands group other commands into blocks or test their result.  Many command types are syntax sugar: their effect can be achieved differently, but they exist to make the job easier.
-            </footer>
+    <footer>
+    Bash commands tell bash to perform a certain unit of work.  These units of work cannot be subdivided: bash needs to know the whole command to be able to execute it.  There are different kinds of commands for different types of operations.  Some commands group other commands into blocks or test their result.  Many command types are syntax sugar: their effect can be achieved differently, but they exist to make the job easier.
+    </footer>
 
-        </section>
+</section>
 
-        <section>
-            <h1>Simple commands: The foundation of every bash command</h1>
+<section>
+    <h1>Simple commands: The foundation of every bash command</h1>
 
-            <p>Phew!  That was a lot all at once.  Most of this might have gone over your head - that's fine.  We'll get back to the simple stuff and let you build up your knowledge with a thorough understanding.  But it's important to take away that bash has different kinds of commands, and most of the syntax is actually pretty similar:  Most commands take <dfn>redirections</dfn>, <dfn>control operators</dfn> and accept "subcommands" somehow.  We'll explain these concepts, but first
-            let's make sure we understand <dfn>simple commands</dfn> well.</p>
+    <p>Phew!  That was a lot all at once.  Most of this might have gone over your head - that's fine.  We'll get back to the simple stuff and let you build up your knowledge with a thorough understanding.  But it's important to take away that bash has different kinds of commands, and most of the syntax is actually pretty similar:  Most commands take <dfn>redirections</dfn>, <dfn>control operators</dfn> and accept "subcommands" somehow.  We'll explain these concepts, but first
+    let's make sure we understand <dfn>simple commands</dfn> well.</p>
 
-            <p>It is vital that you understand simple commands well because they are the foundation of everything you will do in bash.  You might have noticed in the previous section that all other bash commands are composed of at least one simple command: they merely take simple commands and perform special operations with them.</p>
+    <p>It is vital that you understand simple commands well because they are the foundation of everything you will do in bash.  You might have noticed in the previous section that all other bash commands are composed of at least one simple command: they merely take simple commands and perform special operations with them.</p>
 
-            <h2>Command names and running programs.</h2>
+    <h2>Command names and running programs.</h2>
 
 <pre class="syntax">
     [ <var>var</var>=<var>value</var> ... ] <mark><var>name</var></mark> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
 </pre>
 
-            <p>Let's have another look at the definition of a simple command.  We're going to take it step by step, because although the definition seems short, there's a lot going on here.<br>
-            We're first going to focus on the command's name.  The name tells bash what the job is that you want this command to perform.  To figure out what you want your command to do, bash performs a <em>search</em> to find out what to execute.  In order, bash uses the <code>name</code> to try and find a:</p>
+    <p>Let's have another look at the definition of a simple command.  We're going to take it step by step, because although the definition seems short, there's a lot going on here.<br>
+    We're first going to focus on the command's name.  The name tells bash what the job is that you want this command to perform.  To figure out what you want your command to do, bash performs a <em>search</em> to find out what to execute.  In order, bash uses the <code>name</code> to try and find a:</p>
 
-            <dl>
-                <dt><dfn>function</dfn></dt>
-                <dd>Functions are previously declared blocks of commands that were given a name.  You briefly saw how we declare a function in the previous section.  All declared functions are put in a list and bash searches this list to see if any of them have the same name as the name of the command it's trying to execute.</dd>
-                <dt><dfn>builtin</dfn></dt>
-                <dd>Builtins are tiny procedures built into bash.  They are small operations that were programmed into bash and bash doesn't need to run a special program to be able to perform them.  We will look into what builtins bash provides, along with their names and what their effect is.</dd>
-                <dt><dfn>program</dfn>, also called an <dfn>external command</dfn></dt>
-                <dd>Your system has a great many programs installed, some of them do little tasks, some of them do big tasks.  Some of them run in the terminal, some of them run invisibly, others run in your graphical interface.  Bash finds programs by looking into your system's configured <code>PATH</code> (which we'll explain in a moment).</dd>
-            </dl>
+    <dl>
+        <dt><dfn>function</dfn></dt>
+        <dd>Functions are previously declared blocks of commands that were given a name.  You briefly saw how we declare a function in the previous section.  All declared functions are put in a list and bash searches this list to see if any of them have the same name as the name of the command it's trying to execute.</dd>
+        <dt><dfn>builtin</dfn></dt>
+        <dd>Builtins are tiny procedures built into bash.  They are small operations that were programmed into bash and bash doesn't need to run a special program to be able to perform them.  We will look into what builtins bash provides, along with their names and what their effect is.</dd>
+        <dt><dfn>program</dfn>, also called an <dfn>external command</dfn></dt>
+        <dd>Your system has a great many programs installed, some of them do little tasks, some of them do big tasks.  Some of them run in the terminal, some of them run invisibly, others run in your graphical interface.  Bash finds programs by looking into your system's configured <code>PATH</code> (which we'll explain in a moment).</dd>
+    </dl>
 
-            <p>If bash finds no way to execute a command by the name you gave it, your command will result in an error and bash will show an error message:</p>
+    <p>If bash finds no way to execute a command by the name you gave it, your command will result in an error and bash will show an error message:</p>
 
 <pre lang="bash">
 $ <kbd>buy beer</kbd>
 bash: buy: command not found
 </pre>
 
-            <p>I'll make only brief mention of <dfn>aliasses</dfn>: before bash performs this search, it first checks if you've declared any aliasses by the name of the command.  If you did, it will replace the name by the value of the alias before proceeding.  Aliasses are only rarely useful, only work in interactive sessions and are almost completely superceded by functions.  You should avoid using them in almost all cases.</p>
+    <p>I'll make only brief mention of <dfn>aliasses</dfn>: before bash performs this search, it first checks if you've declared any aliasses by the name of the command.  If you did, it will replace the name by the value of the alias before proceeding.  Aliasses are only rarely useful, only work in interactive sessions and are almost completely superceded by functions.  You should avoid using them in almost all cases.</p>
 
-            <footer>
-            To run a command, bash uses the name of your command and performs a search for how to execute that command.  In order, bash will check whether it has a <dfn>function</dfn> or <dfn>builtin</dfn> by that name.  Failing that, it will try to run the name as a program.  If bash finds no way to run your command, it will output an error message.
-            </footer>
+    <footer>
+    To run a command, bash uses the name of your command and performs a search for how to execute that command.  In order, bash will check whether it has a <dfn>function</dfn> or <dfn>builtin</dfn> by that name.  Failing that, it will try to run the name as a program.  If bash finds no way to run your command, it will output an error message.
+    </footer>
 
-            <h2>The <code>PATH</code> to a program.</h2>
+    <h2>The <code>PATH</code> to a program.</h2>
 
-            <p>We have all sorts of programs installed on our computer.  Different programs are installed in different places.  Some programs shipped with our OS, others were added by our distribution and yet others were installed by us or our systems administrator.  On a standard UNIX system, there are <a href="http://www.pathname.com/fhs/">a few standardized locations</a> for programs to go.  Some programs will be installed in <code>/bin</code>, others in <code>/usr/bin</code>,
-            yet others in <code>/sbin</code> and so on.  It would be a real bother if we had to remember the exact location of our programs, especially since they may vary between systems.  To the rescue comes the <code>PATH</code> <dfn>environment variable</dfn>.  Your <code>PATH</code> variable contains a set of directories that should be searched for programs.</p>
+    <p>We have all sorts of programs installed on our computer.  Different programs are installed in different places.  Some programs shipped with our OS, others were added by our distribution and yet others were installed by us or our systems administrator.  On a standard UNIX system, there are <a href="http://www.pathname.com/fhs/">a few standardized locations</a> for programs to go.  Some programs will be installed in <code>/bin</code>, others in <code>/usr/bin</code>,
+    yet others in <code>/sbin</code> and so on.  It would be a real bother if we had to remember the exact location of our programs, especially since they may vary between systems.  To the rescue comes the <code>PATH</code> <dfn>environment variable</dfn>.  Your <code>PATH</code> variable contains a set of directories that should be searched for programs.</p>
 
 <pre>
 $ <kbd>ping 127.0.0.1</kbd>
@@ -355,10 +332,10 @@ $ <kbd>ping 127.0.0.1</kbd>
            │     ╰──▶ <mark>/sbin</mark>/ping ?  <strong>found!</strong>
            ╰──▶ <mark>/bin</mark>/ping ?  not found.
 </pre>
-            <p>Bash honors this variable by looking through its listed directories whenever you try to to start a program it doesn't yet know the location of.  Say you're trying to start the <code>ping</code> program which is installed at <code>/sbin/ping</code>.  If your <code>PATH</code> is set to <code>/bin:/sbin:/usr/bin:/usr/sbin</code> then bash will first try to start <code>/bin/ping</code>, which doesn't exist.  Failing that, it will try <code>/sbin/ping</code>.  It finds the
-            <code>ping</code> program, records its location in case you need <code>ping</code> again in the future and goes ahead and runs the program for you.</p>
+    <p>Bash honors this variable by looking through its listed directories whenever you try to to start a program it doesn't yet know the location of.  Say you're trying to start the <code>ping</code> program which is installed at <code>/sbin/ping</code>.  If your <code>PATH</code> is set to <code>/bin:/sbin:/usr/bin:/usr/sbin</code> then bash will first try to start <code>/bin/ping</code>, which doesn't exist.  Failing that, it will try <code>/sbin/ping</code>.  It finds the
+    <code>ping</code> program, records its location in case you need <code>ping</code> again in the future and goes ahead and runs the program for you.</p>
 
-            <p>If you're ever curious about exactly where bash finds the program to run for a command name, you can use the <code>type</code> built-in to find out:</p>
+    <p>If you're ever curious about exactly where bash finds the program to run for a command name, you can use the <code>type</code> built-in to find out:</p>
 
 <pre lang="bash">
 $ <kbd>type ping</kbd>
@@ -368,11 +345,11 @@ echo is a shell builtin<em>If we just run 'echo', bash will use the first possib
 echo is /bin/echo<em>We have an echo built-in but also a program called echo!</em>
 </pre>
 
-            <p>Remember from the previous section how bash has some functionality built into it?  One of those is the functionality of the <code>echo</code> program.  If you run the <kbd>echo</kbd> command in bash, even before bash tries a <code>PATH</code> search, it will notice there's a built-in by that name and use it.  <code>type</code> is a great way to visualize this lookup process.  Note that it's much faster to execute a command that's built-in than it is to start an extra program.  But if
-            you're ever in need of <code>echo</code>'s functionality without being in bash, you'll be able to use the <code>echo</code> program instead.</p>
+    <p>Remember from the previous section how bash has some functionality built into it?  One of those is the functionality of the <code>echo</code> program.  If you run the <kbd>echo</kbd> command in bash, even before bash tries a <code>PATH</code> search, it will notice there's a built-in by that name and use it.  <code>type</code> is a great way to visualize this lookup process.  Note that it's much faster to execute a command that's built-in than it is to start an extra program.  But if
+    you're ever in need of <code>echo</code>'s functionality without being in bash, you'll be able to use the <code>echo</code> program instead.</p>
 
-            <p>Sometimes you'll need to run a program that isn't installed in any of the <code>PATH</code> directories.  In that case, you'll have to manually specify the path to where bash can find the program, rather than just its name:</p>
-            
+    <p>Sometimes you'll need to run a program that isn't installed in any of the <code>PATH</code> directories.  In that case, you'll have to manually specify the path to where bash can find the program, rather than just its name:</p>
+    
 <pre lang="bash">
 $ <kbd>/sbin/ping -c 1 127.0.0.1</kbd>
 PING 127.0.0.1 (127.0.0.1): 56 data bytes
@@ -385,35 +362,35 @@ $ <kbd>./hello.txt</kbd><em>Remember our hello.txt script?</em>
 Your name? <em>We use the path "." which means "our current directory"</em>
 </pre>
 
-            <aside>Bash only performs a <code>PATH</code> search on command names that do not contain a <kbd title="slash">/</kbd> character.  Command names with a slash are always considered direct pathnames to the program to execute.</aside>
+    <aside>Bash only performs a <code>PATH</code> search on command names that do not contain a <kbd title="slash">/</kbd> character.  Command names with a slash are always considered direct pathnames to the program to execute.</aside>
 
-            <p>You can add more directories to your <code>PATH</code>.  A common practice is to have a <code>/usr/local/bin</code> and a <code>~/bin</code> (where <code>~</code> represents your user's home directory).  Remember that <code>PATH</code> is an <dfn>environment variable</dfn>: you can update it like this:</p>
-            
+    <p>You can add more directories to your <code>PATH</code>.  A common practice is to have a <code>/usr/local/bin</code> and a <code>~/bin</code> (where <code>~</code> represents your user's home directory).  Remember that <code>PATH</code> is an <dfn>environment variable</dfn>: you can update it like this:</p>
+    
 <pre lang="bash">
 $ <kbd>PATH=~/bin:/usr/local/bin:/bin:/usr/bin</kbd>
 $ 
 </pre>
 
-            <p>This will change the variable in your current bash shell.  As soon as you close the shell, the change will be lost, though.  We'll go more in-depth on how environment variables work and how you should configure them in a later section.</p>
+    <p>This will change the variable in your current bash shell.  As soon as you close the shell, the change will be lost, though.  We'll go more in-depth on how environment variables work and how you should configure them in a later section.</p>
 
-            <footer>
-            When bash needs to run a program, it uses the command name to perform a search.  Bash searches the directories in your <code>PATH</code> <dfn>environment variable</dfn>, one by one, until it finds a directory that contains a program with the name of your command.  To run a program that is not installed in a <code>PATH</code> directory, use the path to that program as your command's name.
-            </footer>
+    <footer>
+    When bash needs to run a program, it uses the command name to perform a search.  Bash searches the directories in your <code>PATH</code> <dfn>environment variable</dfn>, one by one, until it finds a directory that contains a program with the name of your command.  To run a program that is not installed in a <code>PATH</code> directory, use the path to that program as your command's name.
+    </footer>
 
-            <h3>Exercises!</h3>
+    <h3>Exercises!</h3>
 
-            <h4>PATH.1. Run the <code>ls</code> program.</h4>
+    <h4>PATH.1. Run the <code>ls</code> program.</h4>
 <pre class="exercise"><samp>$ <kbd>ls</kbd></samp></pre>
 
-            <h4>PATH.2. Find out where on your system the <code>ls</code> program is installed.</h4>
+    <h4>PATH.2. Find out where on your system the <code>ls</code> program is installed.</h4>
 <pre class="exercise"><samp>$ <kbd>type ls</kbd>
 ls is /bin/ls</samp></pre>
 
-            <h4>PATH.3. Show your system's <var>PATH</var>.</h4>
+    <h4>PATH.3. Show your system's <var>PATH</var>.</h4>
 <pre class="exercise"><samp>$ <kbd>echo "$PATH"</kbd>
 /bin:/sbin:/usr/bin:/usr/sbin</samp></pre>
 
-            <h4>PATH.4. Create a script in your home directory, add it to your <var>PATH</var> and then run the script as an ordinary command.</h4>
+    <h4>PATH.4. Create a script in your home directory, add it to your <var>PATH</var> and then run the script as an ordinary command.</h4>
 <pre class="exercise"><samp>$ <kbd>ex</kbd><em>You can substitute your favorite editor here.</em>
 : <kbd>i</kbd>
 <kbd>#!/usr/bin/env bash
@@ -427,41 +404,41 @@ $ <kbd>PATH=$PATH:~</kbd>
 $ <kbd>myscript</kbd>
 Hello world!</samp></pre>
 
-            <h2>Command arguments and quoting literals</h2>
+    <h2>Command arguments and quoting literals</h2>
 
 <pre class="syntax">
     [ <var>var</var>=<var>value</var> ... ] <var>name</var> <mark>[ <var>arg</var> ... ]</mark> [ <var>redirection</var> ... ]
 </pre>
 
-            <p>Now that you understand how bash finds and runs your command, let's learn how to pass our instructions to those commands.  These instructions tell our command what exactly it needs to do.  We might run the <code>rm</code> command to delete a file, or the <code>cp</code> command to copy a file, we might run the <code>echo</code> command to output a string or the <code>read</code> command to read a line of text.  But these commands generally can't do much without more
-            details, more context.  We need to tell <code>rm</code> what file to delete, <code>cp</code> what file to copy and where to put the copy.  <code>echo</code> wants to know what you want it to output and <code>read</code> can be told where to put the line of text it's read.  We provide this kind of context using arguments.</p>
+    <p>Now that you understand how bash finds and runs your command, let's learn how to pass our instructions to those commands.  These instructions tell our command what exactly it needs to do.  We might run the <code>rm</code> command to delete a file, or the <code>cp</code> command to copy a file, we might run the <code>echo</code> command to output a string or the <code>read</code> command to read a line of text.  But these commands generally can't do much without more
+    details, more context.  We need to tell <code>rm</code> what file to delete, <code>cp</code> what file to copy and where to put the copy.  <code>echo</code> wants to know what you want it to output and <code>read</code> can be told where to put the line of text it's read.  We provide this kind of context using arguments.</p>
 
-            <aside>It is important that you pay close attention to the following information.  <strong>The gross part of all bugs in bash shell scripts are the direct result of their authors not properly understanding command arguments.</strong>  Reliance on intuition rather than an understanding of the rules is usually to blame.</aside>
+    <aside>It is important that you pay close attention to the following information.  <strong>The gross part of all bugs in bash shell scripts are the direct result of their authors not properly understanding command arguments.</strong>  Reliance on intuition rather than an understanding of the rules is usually to blame.</aside>
 
-            <p>As you can see from the command syntax, arguments come after the command's <var>name</var>.  They are <dfn>words</dfn> separated by blank space.  <strong>When we say <dfn>words</dfn> in the context of bash, we do NOT mean linguistic words.</strong>  In bash, a word is defined as <em>a sequence of characters considered as a single unit by the shell.</em>  A <dfn>word</dfn> is also known as a <dfn>token</dfn>.  A bash word can contain <em>many</em> linguistic words, in
-            fact it could contain prose.  For sake of clarity, the rest of this guide will use the term <dfn>arguments</dfn> wherever applicable to avoid the ambiguity of the term <dfn>words</dfn>.  What's important is that the word or argument is a single unit to the shell: it could be a filename, a variable name, the name of a program or the name of a person:</p>
+    <p>As you can see from the command syntax, arguments come after the command's <var>name</var>.  They are <dfn>words</dfn> separated by blank space.  <strong>When we say <dfn>words</dfn> in the context of bash, we do NOT mean linguistic words.</strong>  In bash, a word is defined as <em>a sequence of characters considered as a single unit by the shell.</em>  A <dfn>word</dfn> is also known as a <dfn>token</dfn>.  A bash word can contain <em>many</em> linguistic words, in
+    fact it could contain prose.  For sake of clarity, the rest of this guide will use the term <dfn>arguments</dfn> wherever applicable to avoid the ambiguity of the term <dfn>words</dfn>.  What's important is that the word or argument is a single unit to the shell: it could be a filename, a variable name, the name of a program or the name of a person:</p>
 
 <pre lang="bash">
 $ <kbd>rm <mark>hello.txt</mark></kbd>
 $ <kbd>mplayer <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake Up.ogg'</mark></kbd>
 </pre>
 
-            <p>In the above examples, the words are highlighted.  Notice how they aren't linguistic words, but meaningful units.  In this case, they all refer to file names.  To separate multiple arguments we use blank space.  That can be either or both spaces and tabs.  Usually you will use a single space between arguments.</p>
+    <p>In the above examples, the words are highlighted.  Notice how they aren't linguistic words, but meaningful units.  In this case, they all refer to file names.  To separate multiple arguments we use blank space.  That can be either or both spaces and tabs.  Usually you will use a single space between arguments.</p>
 
-            <aside>To the bash shell, <dfn>blank space</dfn> is syntax just like anything else.  It means: <q>break the previous apart from the next thing</q>.  Bash calls this: <dfn>word splitting</dfn>.</aside>
+    <aside>To the bash shell, <dfn>blank space</dfn> is syntax just like anything else.  It means: <q>break the previous apart from the next thing</q>.  Bash calls this: <dfn>word splitting</dfn>.</aside>
 
-            <p>A problem now arises: we have a space after <code>05</code>, separating it from <code>Between</code>.  How should the shell know that you mean for your filename to be <code>05 Between Angels and Insects.ogg</code> and not <code>05</code>?  How do we tell the shell that the blank space after <code>05</code> is <dfn>literal</dfn> and not intended as <dfn>syntax</dfn> for "split the word now"?  Our intention is for the whole file name to remain "together".  That is:
-            <em>the blank spaces in it should not split it into separate arguments</em>.  What we need is a way to tell the shell that it should treat something
-            literally; meaning, use it as-is, ignoring any syntactical meaning.  If we can make the spaces literal, they will no longer tell bash to split the <code>05</code> from the <code>Between</code>, and bash will use it as a normal ordinary space character.</p>
+    <p>A problem now arises: we have a space after <code>05</code>, separating it from <code>Between</code>.  How should the shell know that you mean for your filename to be <code>05 Between Angels and Insects.ogg</code> and not <code>05</code>?  How do we tell the shell that the blank space after <code>05</code> is <dfn>literal</dfn> and not intended as <dfn>syntax</dfn> for "split the word now"?  Our intention is for the whole file name to remain "together".  That is:
+    <em>the blank spaces in it should not split it into separate arguments</em>.  What we need is a way to tell the shell that it should treat something
+    literally; meaning, use it as-is, ignoring any syntactical meaning.  If we can make the spaces literal, they will no longer tell bash to split the <code>05</code> from the <code>Between</code>, and bash will use it as a normal ordinary space character.</p>
 
-            <p>There are two ways in bash to make characters literal: <dfn>quoting</dfn> and <dfn>escaping</dfn>.  Quoting is the practice of wrapping <kbd title="double quote">"</kbd> or <kbd title="single quote">'</kbd> characters around the text that we want to make literal.  Escaping is the practice of placing a single <kbd title="backslash">\</kbd> character in front of the character that we want to make literal.  The example above uses quotes to make the entire filename
-            literal, but not the space inbetween the filenames.  We strongly recommend you use quotes over escaping, since it results in much clearer and more readable code.  More importantly: escaping makes it much more difficult to tell exactly which parts of your code are literal and which aren't.  It also becomes more pecarious to edit the literal text later on without introducing mistakes.  Using escaping rather than quoting, our example would look like this:</p>
+    <p>There are two ways in bash to make characters literal: <dfn>quoting</dfn> and <dfn>escaping</dfn>.  Quoting is the practice of wrapping <kbd title="double quote">"</kbd> or <kbd title="single quote">'</kbd> characters around the text that we want to make literal.  Escaping is the practice of placing a single <kbd title="backslash">\</kbd> character in front of the character that we want to make literal.  The example above uses quotes to make the entire filename
+    literal, but not the space inbetween the filenames.  We strongly recommend you use quotes over escaping, since it results in much clearer and more readable code.  More importantly: escaping makes it much more difficult to tell exactly which parts of your code are literal and which aren't.  It also becomes more pecarious to edit the literal text later on without introducing mistakes.  Using escaping rather than quoting, our example would look like this:</p>
 
 <pre lang="bash">
 $ <kbd>mplayer <mark>05\ Between\ Angels\ and\ Insects.ogg</mark> <mark>07\ Wake\ Up.ogg</mark></kbd>
 </pre>
 
-            <p>Quoting is one of the most important skills you will need to master as a bash user.  Its importance cannot be understated.  The nice thing about quotes is that while it is sometimes unnecessary, it is rarely ever wrong to quote your data.  These are both perfectly valid:</p>
+    <p>Quoting is one of the most important skills you will need to master as a bash user.  Its importance cannot be understated.  The nice thing about quotes is that while it is sometimes unnecessary, it is rarely ever wrong to quote your data.  These are both perfectly valid:</p>
 
 <pre lang="bash">
 $ <kbd>ls -l <mark>hello.txt</mark></kbd>
@@ -471,9 +448,9 @@ $ <kbd>ls -l <mark>'hello.txt'</mark></kbd>
 $ <kbd>ls -l <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake Up.ogg'</mark></kbd>
 </pre>
 
-            <p>So, if in doubt: quote your data.  And never remove quotes in an attempt to make something work.</p>
+    <p>So, if in doubt: quote your data.  And never remove quotes in an attempt to make something work.</p>
 
-            <p>You should use <mark>"<dfn>double quotes</dfn>"</mark> for any argument that contains expansions (such as <code>$variable</code> or <code>$(command)</code> expansions) and <mark>'<dfn>single quotes</dfn>'</mark> for any other arguments.  Single quotes make sure that everything in the quotes remains literal, while double quotes still allow some bash syntax such as expansions:</p>
+    <p>You should use <mark>"<dfn>double quotes</dfn>"</mark> for any argument that contains expansions (such as <code>$variable</code> or <code>$(command)</code> expansions) and <mark>'<dfn>single quotes</dfn>'</mark> for any other arguments.  Single quotes make sure that everything in the quotes remains literal, while double quotes still allow some bash syntax such as expansions:</p>
 
 <pre lang="bash">
 echo <mark>"Good morning, $USER."</mark><em>Double quotes allow bash to expand <code>$USER</code></em>
@@ -481,7 +458,7 @@ echo <mark>'You have won SECOND PRIZE in a beauty contest.'</mark> \<em>Single q
      <mark>'Collect $10'</mark><em>from triggering expansion.</em>
 </pre>
 
-            <p>Don't be caught off-guard!  This is definitely not correct:</p>
+    <p>Don't be caught off-guard!  This is definitely not correct:</p>
 
 <pre lang="bash">
 $ <kbd>ls -l <mark>05</mark> <mark>Between</mark> <mark>Angels</mark> <mark>and</mark> <mark>Insects.ogg</mark></kbd>
@@ -492,21 +469,21 @@ ls: Insects.ogg: No such file or directory
 ls: and: No such file or directory
 </pre>
 
-            <p>You will not have these handy yellow markers in your shell.  Try to make a habit of mentally picturing them so that you keep yourself from making mistakes.  You definitely won't be the first to have accidentally destroyed all the files in their home directory as a result of a stray or unquoted space character.</p>
+    <p>You will not have these handy yellow markers in your shell.  Try to make a habit of mentally picturing them so that you keep yourself from making mistakes.  You definitely won't be the first to have accidentally destroyed all the files in their home directory as a result of a stray or unquoted space character.</p>
 
-            <p>You'll find it good practice to develop a sense of pragmatism with regards to quoting: for any glance upon a block of bash code, unquoted arguments should immediately jump out at you, and you should feel a compulsion to resolve these before you can allow yourself to proceed with anything else.  Quoting issues are at the core of at least nine out of ten bash problems, and the vast majority of causes for issues people seek help with.  Seeing as quoting is actually very easy,
-            a disciplined quoter has that much less to worry about.</p>
+    <p>You'll find it good practice to develop a sense of pragmatism with regards to quoting: for any glance upon a block of bash code, unquoted arguments should immediately jump out at you, and you should feel a compulsion to resolve these before you can allow yourself to proceed with anything else.  Quoting issues are at the core of at least nine out of ten bash problems, and the vast majority of causes for issues people seek help with.  Seeing as quoting is actually very easy,
+    a disciplined quoter has that much less to worry about.</p>
 
-            <aside class="rule">
-                <p>The golden rule on quoting is very simple:<br>
-                <q>If there is whitespace or a symbol in your argument, you <strong>must</strong> quote it.<br>
-                If there isn't, quotes are usually optional, but you can still quote it to be safe.</q></p>
+    <aside class="rule">
+        <p>The golden rule on quoting is very simple:<br>
+        <q>If there is whitespace or a symbol in your argument, you <strong>must</strong> quote it.<br>
+        If there isn't, quotes are usually optional, but you can still quote it to be safe.</q></p>
 
-                <p>It is <strong>extremely rare</strong> for arguments to <em>require</em> no quoting, primarily inside <code>[[</code> tests and around <code>${..+..}</code> expansions.  Do not remove or omit quotes from your arguments to try and make something work in any other case; you are much more likely to introduce a terrible and difficult to detect bug instead.</p>
-            </aside>
+        <p>It is <strong>extremely rare</strong> for arguments to <em>require</em> no quoting, primarily inside <code>[[</code> tests and around <code>${..+..}</code> expansions.  Do not remove or omit quotes from your arguments to try and make something work in any other case; you are much more likely to introduce a terrible and difficult to detect bug instead.</p>
+    </aside>
 
-            <aside class="warn">
-                <p>The dangers of missing quotes are many, but as a very simple example, consider this:</p>
+    <aside class="warn">
+        <p>The dangers of missing quotes are many, but as a very simple example, consider this:</p>
 
 <pre lang="bash" class="bad">
 $ <kbd>read -p 'Which user would you like to remove from your system? ' username</kbd>
@@ -522,31 +499,31 @@ removed directory: '/home'
 rm: cannot remove 'lhunath': No such file or directory
 </pre>
 
-                <p>What happened here, is that on input, you accidentally put a <code>space</code> character before the name of the user to delete.  As a result, the <code>rm</code> command expanded into <code>rm -vr <mark>/home/</mark> <mark>lhunath</mark></code>, which resulted in a situation that is likely to upset both Victor and Bob.  If you had quoted the <code>rm</code> command properly, the bad input would have resulted in an error message and no damage instead:</p>
+        <p>What happened here, is that on input, you accidentally put a <code>space</code> character before the name of the user to delete.  As a result, the <code>rm</code> command expanded into <code>rm -vr <mark>/home/</mark> <mark>lhunath</mark></code>, which resulted in a situation that is likely to upset both Victor and Bob.  If you had quoted the <code>rm</code> command properly, the bad input would have resulted in an error message and no damage instead:</p>
 
 <pre lang="bash" class="good">
 $ <kbd>rm -vr "/home/$username"</kbd>
 rm: cannot remove '/home/ lhunath': No such file or directory
 </pre>
 
-            </aside>
+    </aside>
 
-            <footer>
-            To tell a command what to do, we pass it <dfn>arguments</dfn>.  In bash, arguments are <dfn>tokens</dfn>, also called <dfn>words</dfn>, that are separated from each other by blank space.  To include blank space in an argument's value, you need to either <dfn>quote</dfn> the argument or <dfn>escape</dfn> the blank space within.  Failing that, bash will break your argument apart into multiple arguments at its blank space.  Quoting arguments also prevents other symbols in it from
-            being accidentally interpreted as bash code, such as <code>'$10 USD'</code> (variable expansions), <code>"*** NOTICE ***"</code> (filename expansions), etc.
-            </footer>
+    <footer>
+    To tell a command what to do, we pass it <dfn>arguments</dfn>.  In bash, arguments are <dfn>tokens</dfn>, also called <dfn>words</dfn>, that are separated from each other by blank space.  To include blank space in an argument's value, you need to either <dfn>quote</dfn> the argument or <dfn>escape</dfn> the blank space within.  Failing that, bash will break your argument apart into multiple arguments at its blank space.  Quoting arguments also prevents other symbols in it from
+    being accidentally interpreted as bash code, such as <code>'$10 USD'</code> (variable expansions), <code>"*** NOTICE ***"</code> (filename expansions), etc.
+    </footer>
 
-            <h2>Managing a command's input and output using redirection</h2>
+    <h2>Managing a command's input and output using redirection</h2>
 
 <pre class="syntax">
     [ <var>var</var>=<var>value</var> ... ] <var>name</var> [ <var>arg</var> ... ] <mark>[ <var>redirection</var> ... ]</mark>
 </pre>
 
-            <p>We've already been briefly introduced to the concept of <dfn>file descriptors</dfn> and how they can be used to connect processes to each other.  Let's find out how that's done in bash.</p>
+    <p>We've already been briefly introduced to the concept of <dfn>file descriptors</dfn> and how they can be used to connect processes to each other.  Let's find out how that's done in bash.</p>
 
-            <p>Recall that processes use file descriptors to connect to streams.  Each processes will generally have three standard file descriptors: <dfn>standard input</dfn> (FD 0), <dfn>standard output</dfn> (FD 1) and <dfn>standard error</dfn> (FD 2).  When bash starts a program, it sets up a set of file descriptors for that program first.  It does this by looking at its own file descriptors and setting up an identical set of descriptors for the new process: we say new processes
-            "<strong>inherit</strong>" bash's file descriptors.  When you open your terminal to a new bash shell, the terminal will have set bash up by connecting bash's input and output to the terminal.  This is how the characters from your keyboard end up in bash and bash's messages end up in your terminal window.  Each time bash starts a program of its own, it gives that program a set of file descriptors that match its own.  This way, a bash command's messages end up on your terminal
-            as well and your keyboard input ends up with the program (the command's output and input is connected to your terminal):</p>
+    <p>Recall that processes use file descriptors to connect to streams.  Each processes will generally have three standard file descriptors: <dfn>standard input</dfn> (FD 0), <dfn>standard output</dfn> (FD 1) and <dfn>standard error</dfn> (FD 2).  When bash starts a program, it sets up a set of file descriptors for that program first.  It does this by looking at its own file descriptors and setting up an identical set of descriptors for the new process: we say new processes
+    "<strong>inherit</strong>" bash's file descriptors.  When you open your terminal to a new bash shell, the terminal will have set bash up by connecting bash's input and output to the terminal.  This is how the characters from your keyboard end up in bash and bash's messages end up in your terminal window.  Each time bash starts a program of its own, it gives that program a set of file descriptors that match its own.  This way, a bash command's messages end up on your terminal
+    as well and your keyboard input ends up with the program (the command's output and input is connected to your terminal):</p>
 
 <pre>
                  ╭──────────╮
@@ -569,9 +546,9 @@ ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
                  ╰──────────╯
 </pre>
 
-            <p>When <code>bash</code> starts an <code>ls</code> process, it first looks at its own file descriptors.  It then creates file descriptors for the <code>ls</code> process, connected to the same streams as its own: FD 1 and FD 2 leading to the <code>Display</code>, FD 0 coming from the <code>Keyboard</code>.  As a result, <code>ls</code>' error message (emit on FD 2) and its regular output (emit on FD 1) both end up on your terminal display.</p>
+    <p>When <code>bash</code> starts an <code>ls</code> process, it first looks at its own file descriptors.  It then creates file descriptors for the <code>ls</code> process, connected to the same streams as its own: FD 1 and FD 2 leading to the <code>Display</code>, FD 0 coming from the <code>Keyboard</code>.  As a result, <code>ls</code>' error message (emit on FD 2) and its regular output (emit on FD 1) both end up on your terminal display.</p>
 
-            <p>If we want to gain control over where our commands connect to, we need to employ <dfn>redirection</dfn>: it is the practice of changing the source or destination of a file descriptor.  One thing we could do with redirection is write <code>ls</code>' result to a file instead of to the terminal display:</p>
+    <p>If we want to gain control over where our commands connect to, we need to employ <dfn>redirection</dfn>: it is the practice of changing the source or destination of a file descriptor.  One thing we could do with redirection is write <code>ls</code>' result to a file instead of to the terminal display:</p>
 
 <pre>
 
@@ -597,10 +574,10 @@ $ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</
 -rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>The result is now in myfiles.ls</em>
 </pre>
 
-            <p>You've just performed file redirection by redirecting the command's standard output to a file.  Redirecting standard output is done using the <code>&gt;</code> operator.  Envision it as an arrow sending output from the command to the file.  This is by far the most common and useful form of redirection.</p>
+    <p>You've just performed file redirection by redirecting the command's standard output to a file.  Redirecting standard output is done using the <code>&gt;</code> operator.  Envision it as an arrow sending output from the command to the file.  This is by far the most common and useful form of redirection.</p>
 
-            <p>Another common thing redirection is used for is hiding error messages.  You'll notice that our redirected <code>ls</code> command is still displaying an error message.  Usually this is a good thing.  Sometimes, though, we might find that error messages produced by some commands in our scripts are unimportant to the user and should be hidden.  To do this, we can use file redirection again, in a similar fashion as redirecting standard output caused <code>ls</code>' result to
-            disappear:</p>
+    <p>Another common thing redirection is used for is hiding error messages.  You'll notice that our redirected <code>ls</code> command is still displaying an error message.  Usually this is a good thing.  Sometimes, though, we might find that error messages produced by some commands in our scripts are unimportant to the user and should be hidden.  To do this, we can use file redirection again, in a similar fashion as redirecting standard output caused <code>ls</code>' result to
+    disappear:</p>
 
 <pre>
 
@@ -628,14 +605,14 @@ $ <kbd>cat /dev/null</kbd><em>The /dev/null file is empty?</em>
 $ 
 </pre>
 
-            <p>Notice how you can redirect any FD by prefixing the <code>&gt;</code> operator with the number of the FD.  We used <code>2&gt;</code> to redirect FD 2 to <code>/dev/null</code> while <code>&gt;</code> still redirects FD 1 to <code>myfiles.ls</code>.  If you omit the number, output redirections default to redirecting FD 1 (standard output).</p>
+    <p>Notice how you can redirect any FD by prefixing the <code>&gt;</code> operator with the number of the FD.  We used <code>2&gt;</code> to redirect FD 2 to <code>/dev/null</code> while <code>&gt;</code> still redirects FD 1 to <code>myfiles.ls</code>.  If you omit the number, output redirections default to redirecting FD 1 (standard output).</p>
 
-            <p>Our <code>ls</code> command no longer showed an error message and the results were properly stored in <code>myfiles.ls</code>.  Where has the error message gone?  We've written it to the file <code>/dev/null</code>.  But when we show the contents of that file, we don't see our error message.  Did something go wrong?</p>
+    <p>Our <code>ls</code> command no longer showed an error message and the results were properly stored in <code>myfiles.ls</code>.  Where has the error message gone?  We've written it to the file <code>/dev/null</code>.  But when we show the contents of that file, we don't see our error message.  Did something go wrong?</p>
 
-            <p>The clue for this little mystery is in the directory name.  The file <code>null</code> is in the <code>/dev</code> directory:  This is a special directory for <dfn>device files</dfn>.  Device files are special files that represent devices in our system.  When we write to or read from them, we're communicating directory with those devices through the kernel.  The <code>null</code> device is a special device that is always empty.  Anything you write to it will be lost
-            and nothing can be read from it.  That makes it a very useful device for discarting information.  We stream our unwanted error message to the <code>null</code> device and it disappears.</p>
+    <p>The clue for this little mystery is in the directory name.  The file <code>null</code> is in the <code>/dev</code> directory:  This is a special directory for <dfn>device files</dfn>.  Device files are special files that represent devices in our system.  When we write to or read from them, we're communicating directory with those devices through the kernel.  The <code>null</code> device is a special device that is always empty.  Anything you write to it will be lost
+    and nothing can be read from it.  That makes it a very useful device for discarting information.  We stream our unwanted error message to the <code>null</code> device and it disappears.</p>
 
-            <p>What if we wanted to save all the output that would normally appear on the terminal to our <code>myfiles.ls</code> file; both the results and error messages?  Intuition might suggest:</p>
+    <p>What if we wanted to save all the output that would normally appear on the terminal to our <code>myfiles.ls</code> file; both the results and error messages?  Intuition might suggest:</p>
 
 <pre class="bad">
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;myfiles.ls</mark></kbd><em>Redirect both file descriptors to myfiles.ls?</em>
@@ -654,11 +631,11 @@ $ <kbd>cat myfiles.ls</kbd><em>Contents may be garbled depending on how streams 
 -rw-r--r--  1 lhunath  stls: b: No such file or directoryaff  0 30 Apr 14:43 a
 </pre>
 
-            <p>But you'd be <strong>wrong!</strong>  Why is this not correct?  Upon inspection of the <code>myfiles.ls</code> it may appear as though things worked out, but there is actually something very dangerous going on here.  If you're lucky, you'll see the output of the file isn't exactly as you might expect: it might be a little garbled, out of order, or it might even be just right.  The problem is, you can't predict and no less guarantee the result of this command.</p>
+    <p>But you'd be <strong>wrong!</strong>  Why is this not correct?  Upon inspection of the <code>myfiles.ls</code> it may appear as though things worked out, but there is actually something very dangerous going on here.  If you're lucky, you'll see the output of the file isn't exactly as you might expect: it might be a little garbled, out of order, or it might even be just right.  The problem is, you can't predict and no less guarantee the result of this command.</p>
 
-            <p>What's going on here?  The problem is that both file descriptors now have their own stream to the file.  This is problematic because of the way streams work internally, a topic which is out-of-scope for this guide, but suffice it to say that when both streams are merged into the file, the results are an arbitrary mix-together of the streams.</p>
+    <p>What's going on here?  The problem is that both file descriptors now have their own stream to the file.  This is problematic because of the way streams work internally, a topic which is out-of-scope for this guide, but suffice it to say that when both streams are merged into the file, the results are an arbitrary mix-together of the streams.</p>
 
-            <p>To solve this problem, you need to send both your output and error bytes on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:</p>
+    <p>To solve this problem, you need to send both your output and error bytes on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:</p>
 
 <pre class="good">
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 2 write to where FD 1 is writing</em>
@@ -678,31 +655,31 @@ ls: b: No such file or directory
 -rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a
 </pre>
 
-            <p>Duplicating file descriptors, otherwise referred to as "copying" file descriptors, is the act of copying one file descriptor's stream connection to another file descriptor.  As a result, both file descriptors are connected to the same stream.  We use the <code>&gt;&amp;</code> operator, prefixing it with the file descriptor we want to change and following it with the file descriptor whose stream we need to "copy".  You will use this operator fairly frequently, and in most
-            cases it'll be to copy FD 1 to FD 2 as is done above.  You can translate the syntax <code>2&gt;&amp;1</code> as <q>Make FD <code>2</code> write(<code>&gt;</code>) to where FD(<code>&amp;</code>) <code>1</code> is currently writing.</q></p>
+    <p>Duplicating file descriptors, otherwise referred to as "copying" file descriptors, is the act of copying one file descriptor's stream connection to another file descriptor.  As a result, both file descriptors are connected to the same stream.  We use the <code>&gt;&amp;</code> operator, prefixing it with the file descriptor we want to change and following it with the file descriptor whose stream we need to "copy".  You will use this operator fairly frequently, and in most
+    cases it'll be to copy FD 1 to FD 2 as is done above.  You can translate the syntax <code>2&gt;&amp;1</code> as <q>Make FD <code>2</code> write(<code>&gt;</code>) to where FD(<code>&amp;</code>) <code>1</code> is currently writing.</q></p>
 
-            <p>We've seen quite a few redirection operations now, and we've even combined them.  Before you go wild, there is one more important rule you need to understand:  redirections are evaluated from left to right, conveniently the same way as we read them.  This might seem obvious, but neglect for this has caused many of your predecessors to make this mistake:</p>
+    <p>We've seen quite a few redirection operations now, and we've even combined them.  Before you go wild, there is one more important rule you need to understand:  redirections are evaluated from left to right, conveniently the same way as we read them.  This might seem obvious, but neglect for this has caused many of your predecessors to make this mistake:</p>
 
 <pre class="bad">
     $ <kbd>ls -l a b <mark>2&gt;&amp;1</mark> <mark>&gt;myfiles.ls</mark></kbd><em>Make FD 2 go to FD 1 and FD 1 go to myfiles.ls?</em>
 </pre>
 
-            <p>Somebody who writes this code might assume that since FD 2's output is going to FD 1, and FD 1 is going to <code>myfiles.ls</code>, errors should end up in the file.  The logical error in their reasoning is the assumption that <code>2&gt;&amp;1</code> sends FD 2's output to FD 1.  <strong>It does NOT.</strong>  It sends FD 2's output to the <strong><em>stream</em></strong> FD 1 is connected to, which at the time is probably the <strong>terminal</strong> and not the file, because FD 1 hasn't been
-            redirected yet.  The result of the above command might frustrate, because it will appear as though the redirection of standard error isn't taking effect, when in reality, you've merely redirected standard error to the terminal (standard output's target), which is where it was already pointing before.</p>
+    <p>Somebody who writes this code might assume that since FD 2's output is going to FD 1, and FD 1 is going to <code>myfiles.ls</code>, errors should end up in the file.  The logical error in their reasoning is the assumption that <code>2&gt;&amp;1</code> sends FD 2's output to FD 1.  <strong>It does NOT.</strong>  It sends FD 2's output to the <strong><em>stream</em></strong> FD 1 is connected to, which at the time is probably the <strong>terminal</strong> and not the file, because FD 1 hasn't been
+    redirected yet.  The result of the above command might frustrate, because it will appear as though the redirection of standard error isn't taking effect, when in reality, you've merely redirected standard error to the terminal (standard output's target), which is where it was already pointing before.</p>
 
-            <p>If we fix the order of the redirections:</p>
+    <p>If we fix the order of the redirections:</p>
 
 <pre class="good">
     $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 1 target myfiles.ls and FD 2 target FD 1's target</em>
 </pre>
 
-            <p>We now first change FD 1's target to stream to <code>myfiles.ls</code>.  Then, we make FD 2 target the same stream FD 1 is currently using, which is the new stream to <code>myfiles.ls</code>.  Both file descriptors are now targetting <code>myfiles.ls</code> and any output written by <code>ls</code> on either FD 1 or FD 2 will end up in the file.</p>
+    <p>We now first change FD 1's target to stream to <code>myfiles.ls</code>.  Then, we make FD 2 target the same stream FD 1 is currently using, which is the new stream to <code>myfiles.ls</code>.  Both file descriptors are now targetting <code>myfiles.ls</code> and any output written by <code>ls</code> on either FD 1 or FD 2 will end up in the file.</p>
 
-            <p>There are quite a few other redirection operators, but they aren't all as useful as the ones you've just learned.  What <em>has</em> certainly proven useful is for people to learn to read their command redirections as plain English.  I'm going to enumerate bash's redirection operators now, along with a short description and a sentence you can use to translate the operation into plain English.</p>
+    <p>There are quite a few other redirection operators, but they aren't all as useful as the ones you've just learned.  What <em>has</em> certainly proven useful is for people to learn to read their command redirections as plain English.  I'm going to enumerate bash's redirection operators now, along with a short description and a sentence you can use to translate the operation into plain English.</p>
 
-            <dl>
-                <dt><dfn>File redirection</dfn></dt>
-                <dd>
+    <dl>
+        <dt><dfn>File redirection</dfn></dt>
+        <dd>
 <pre class="syntax">
     [<var>x</var>]<strong>&gt;</strong><var>file</var>, [<var>x</var>]<strong>&lt;</strong><var>file</var>
 
@@ -710,47 +687,47 @@ ls: b: No such file or directory
 <samp>rm file <mark>2&gt;/dev/null</mark></samp>
 <samp>read line <mark>&lt;file</mark></samp>
 </pre>
-                Make FD <var>x</var> write to / read from <var>file</var>.
-                <p>A stream to <var>file</var> is opened for either writing or reading and connected to file descriptor <var>x</var>.  When <var>x</var> is omitted, it defaults to FD 1 (standard output) when writing and FD 0 (standard input) when reading.</p>
-                </dd>
+        Make FD <var>x</var> write to / read from <var>file</var>.
+        <p>A stream to <var>file</var> is opened for either writing or reading and connected to file descriptor <var>x</var>.  When <var>x</var> is omitted, it defaults to FD 1 (standard output) when writing and FD 0 (standard input) when reading.</p>
+        </dd>
 
-                <dt><dfn>File descriptor copying</dfn></dt>
-                <dd>
+        <dt><dfn>File descriptor copying</dfn></dt>
+        <dd>
 <pre class="syntax">
     [<var>x</var>]<strong>&gt;&amp;</strong><var>y</var>, [<var>x</var>]<strong>&lt;&amp;</strong><var>y</var>
 
 <samp>ping 127.0.0.1 &gt;results <mark>2&gt;&amp;1</mark></samp>
 <samp>exec <mark>3&gt;&amp;1</mark> &gt;mylog; echo moo; exec <mark>1&gt;&amp;3</mark> 3&gt;&amp;-</samp>
 </pre>
-                Make FD <var>x</var> write to / read from FD <var>y</var>'s stream.
-                <p>The connection to the stream used by FD <var>y</var> is copied to FD <var>x</var>.  The second example is quite advanced: to understand it you need to know that <code>exec</code> can be used to change the file descriptors of bash itself (rather than those of a new command) and if you use an <var>x</var> that doesn't yet exist, bash will create a new file descriptor ("plug") for you with that number.</p>
-                </dd>
+        Make FD <var>x</var> write to / read from FD <var>y</var>'s stream.
+        <p>The connection to the stream used by FD <var>y</var> is copied to FD <var>x</var>.  The second example is quite advanced: to understand it you need to know that <code>exec</code> can be used to change the file descriptors of bash itself (rather than those of a new command) and if you use an <var>x</var> that doesn't yet exist, bash will create a new file descriptor ("plug") for you with that number.</p>
+        </dd>
 
-                <dt><dfn>Appending file redirection</dfn></dt>
-                <dd>
+        <dt><dfn>Appending file redirection</dfn></dt>
+        <dd>
 <pre class="syntax">
     [<var>x</var>]<strong>&gt;&gt;</strong><var>file</var>
 
 <samp>echo Hello &gt;~/world
 echo World <mark>&gt;&gt;~/world</mark></samp>
 </pre>
-                Make FD <var>x</var> append to the end of <var>file</var>.
-                <p>A stream to <var>file</var> is opened for writing in append mode and is connected to file descriptor <var>x</var>.  The regular file redirection operator <code>&gt;</code> empties the file's contents when it opens the file so that only your bytes will be in the file.  In append mode (<code>&gt;&gt;</code>), the file's existing contents is left and your stream's bytes are added to the end of it.</p>
-                </dd>
+        Make FD <var>x</var> append to the end of <var>file</var>.
+        <p>A stream to <var>file</var> is opened for writing in append mode and is connected to file descriptor <var>x</var>.  The regular file redirection operator <code>&gt;</code> empties the file's contents when it opens the file so that only your bytes will be in the file.  In append mode (<code>&gt;&gt;</code>), the file's existing contents is left and your stream's bytes are added to the end of it.</p>
+        </dd>
 
-                <dt><dfn>Redirecting standard output and standard error</dfn></dt>
-                <dd>
+        <dt><dfn>Redirecting standard output and standard error</dfn></dt>
+        <dd>
 <pre class="syntax">
     <strong>&amp;&gt;</strong><var>file</var>
 
 <samp>ping 127.0.0.1 <mark>&amp;&gt;results</mark></samp>
 </pre>
-                Make both FD 1 (standard output) and FD 2 (standard error) write to <var>file</var>.
-                <p>This is a convenience operator which does the same thing as <code>&gt;<var>file</var> 2&gt;&amp;1</code> but is more concise.  Again, you can append rather than truncate by doubling the arrow: <code>&amp;&gt;&gt;<var>file</var></code></p>
-                </dd>
+        Make both FD 1 (standard output) and FD 2 (standard error) write to <var>file</var>.
+        <p>This is a convenience operator which does the same thing as <code>&gt;<var>file</var> 2&gt;&amp;1</code> but is more concise.  Again, you can append rather than truncate by doubling the arrow: <code>&amp;&gt;&gt;<var>file</var></code></p>
+        </dd>
 
-                <dt><dfn>Here Documents</dfn></dt>
-                <dd>
+        <dt><dfn>Here Documents</dfn></dt>
+        <dd>
 <pre class="syntax">
     <strong>&lt;&lt;</strong>[<strong>-</strong>]<var>delimiter</var>
         <var>here-document</var>
@@ -761,48 +738,48 @@ Hello world.
 Since I started learning bash, you suddenly seem so much bigger than you were before.
 .</mark><em>Our previously chosen <code>.</code> ends the here-document.</em></samp>
 </pre>
-                Make FD 0 (standard input) read from the string between the <var>delimiter</var>s.
-                <p>Here documents are a great way to feed large blocks of text to a command's input.  They begin on the line after your delimiter and end when bash encounters a line with <em>just</em> your delimiter on it.  It is important to remember that your terminating delimiter cannot indented, because then it is no longer <em>just</em> your delimiter on that line.</p>
-                <e>You can prefix your initial delimiter declaration with a <code>-</code>, this will tell bash to ignore any tabs you put in front of your heredoc.  That way, you can indent the heredoc without the indenting showing in your input string.  It also allows you to indent the terminating delimiter with tabs.</p>
-                <p>Finally, it is possible to put <dfn>variable expansions</dfn> within the here document's string.  This allows you to inject variable data into the here document.  We'll learn more about variables and expansions later on, but suffice it to say that if expansion is not desired, you need to put quotes around your <code>'<var>delimiter</var>'</code>'s initial declaration.</p>
-                </dd>
+        Make FD 0 (standard input) read from the string between the <var>delimiter</var>s.
+        <p>Here documents are a great way to feed large blocks of text to a command's input.  They begin on the line after your delimiter and end when bash encounters a line with <em>just</em> your delimiter on it.  It is important to remember that your terminating delimiter cannot indented, because then it is no longer <em>just</em> your delimiter on that line.</p>
+        <e>You can prefix your initial delimiter declaration with a <code>-</code>, this will tell bash to ignore any tabs you put in front of your heredoc.  That way, you can indent the heredoc without the indenting showing in your input string.  It also allows you to indent the terminating delimiter with tabs.</p>
+        <p>Finally, it is possible to put <dfn>variable expansions</dfn> within the here document's string.  This allows you to inject variable data into the here document.  We'll learn more about variables and expansions later on, but suffice it to say that if expansion is not desired, you need to put quotes around your <code>'<var>delimiter</var>'</code>'s initial declaration.</p>
+        </dd>
 
-                <dt><dfn>Here Strings</dfn></dt>
-                <dd>
+        <dt><dfn>Here Strings</dfn></dt>
+        <dd>
 <pre class="syntax">
     <strong>&lt;&lt;&lt;</strong><var>string</var>
 
 <samp>cat <mark>&lt;&lt;&lt;"Hello world.
 Since I started learning bash, you suddenly seem so much bigger than you were before."</mark></samp>
 </pre>
-                Make FD 0 (standard input) read from the <var>string</var>.
-                <p>Here strings are very similar to here documents but more concise.  They are generally preferred over here documents.</p>
-                </dd>
+        Make FD 0 (standard input) read from the <var>string</var>.
+        <p>Here strings are very similar to here documents but more concise.  They are generally preferred over here documents.</p>
+        </dd>
 
-                <dt><dfn>Closing file descriptors</dfn></dt>
-                <dd>
+        <dt><dfn>Closing file descriptors</dfn></dt>
+        <dd>
 <pre class="syntax">
     <var>x</var><strong>&gt;&amp;-</strong>, <var>x</var><strong>&lt;&amp;-</strong>
 
 <samp>exec 3&gt;&amp;1 &gt;mylog; echo moo; exec 1&gt;&amp;3 <mark>3&gt;&amp;-</mark></samp>
 </pre>
-                Close FD <var>x</var>.
-                <p>The stream is disconnected from file descriptor <var>x</var> and the file descriptor is removed from the process.  It cannot be used again until it is recreated.  When <var>x</var> is omitted, <code>&gt;&amp;-</code> defaults to closing standard output and <code>&lt;&amp;-</code> defaults to closing standard input.  You will rarely use this operator.</p>
-                </dd>
+        Close FD <var>x</var>.
+        <p>The stream is disconnected from file descriptor <var>x</var> and the file descriptor is removed from the process.  It cannot be used again until it is recreated.  When <var>x</var> is omitted, <code>&gt;&amp;-</code> defaults to closing standard output and <code>&lt;&amp;-</code> defaults to closing standard input.  You will rarely use this operator.</p>
+        </dd>
 
-                <dt><dfn>Moving file descriptors</dfn></dt>
-                <dd>
+        <dt><dfn>Moving file descriptors</dfn></dt>
+        <dd>
 <pre class="syntax">
     [<var>x</var>]<strong>&gt;&amp;</strong><var>y</var><strong>-</strong>, [<var>x</var>]<strong>&lt;&amp;</strong><var>y</var><strong>-</strong>
 
 <samp>exec <mark>3&gt;&amp;1-</mark> &gt;mylog; echo moo; exec <mark>&gt;&amp;3-</mark></samp>
 </pre>
-                Replace FD <var>x</var> by FD <var>y</var>.
-                <p>The file descriptor at <var>y</var> is copied to <var>x</var> and <var>y</var> is closed.  Effectively, it replaces <var>x</var> by <var>y</var>.  It is a convenience operator for <code>[<var>x</var>]&gt;&amp;<var>y</var> <var>y</var>&gt;&amp;-</code>.  Again, you will rarely use this operator.</p>
-                </dd>
+        Replace FD <var>x</var> by FD <var>y</var>.
+        <p>The file descriptor at <var>y</var> is copied to <var>x</var> and <var>y</var> is closed.  Effectively, it replaces <var>x</var> by <var>y</var>.  It is a convenience operator for <code>[<var>x</var>]&gt;&amp;<var>y</var> <var>y</var>&gt;&amp;-</code>.  Again, you will rarely use this operator.</p>
+        </dd>
 
-                <dt><dfn>Reading and writing with a file descriptor</dfn></dt>
-                <dd>
+        <dt><dfn>Reading and writing with a file descriptor</dfn></dt>
+        <dd>
 <pre class="syntax">
     [<var>x</var>]<strong>&lt;&gt;</strong><var>file</var>
 
@@ -812,14 +789,14 @@ Host: ifconfig.me
 " &gt;&amp;5
 cat &lt;&amp;5</samp>
 </pre>
-                Open FD <var>x</var> for both reading and writing to <var>file</var>.
-                <p>The file descriptor at <var>x</var> is opened with a stream to the file that can be used for writing as well as reading bytes. Usually you'll use two file descriptors for this. One of the rare cases where this is useful is when setting up a stream with a read/write device such as a network socket. The example above writes a few lines of HTTP to the <code>ifconfig.me</code> host at port <code>80</code> (the standard HTTP port) and subsequently reads the bytes coming
-                back from the network, both using the same file descriptor <code>5</code> set up for this by <code>exec</code>.</p>
-                </dd>
-            </dl>
+        Open FD <var>x</var> for both reading and writing to <var>file</var>.
+        <p>The file descriptor at <var>x</var> is opened with a stream to the file that can be used for writing as well as reading bytes. Usually you'll use two file descriptors for this. One of the rare cases where this is useful is when setting up a stream with a read/write device such as a network socket. The example above writes a few lines of HTTP to the <code>ifconfig.me</code> host at port <code>80</code> (the standard HTTP port) and subsequently reads the bytes coming
+        back from the network, both using the same file descriptor <code>5</code> set up for this by <code>exec</code>.</p>
+        </dd>
+    </dl>
 
-            <p>As a final note about redirections, I'd like to point out that for simple commands the redirection operators can appear anywhere in the simple command.  That is, they don't need to appear at the end of it.  While it is a good idea to keep them at them end of your commands if mainly for consistency and to avoid surprize or missing the operator in long commands, there are cases where some people make a habit of placing the redirection operator elsewhere.  In particular, placing
-            the redirection operator after the <code>echo</code> or <code>printf</code> command name is often done, especially when there is a sequence of them, in the interest of readability:</p>
+    <p>As a final note about redirections, I'd like to point out that for simple commands the redirection operators can appear anywhere in the simple command.  That is, they don't need to appear at the end of it.  While it is a good idea to keep them at them end of your commands if mainly for consistency and to avoid surprize or missing the operator in long commands, there are cases where some people make a habit of placing the redirection operator elsewhere.  In particular, placing
+    the redirection operator after the <code>echo</code> or <code>printf</code> command name is often done, especially when there is a sequence of them, in the interest of readability:</p>
 
 <pre lang="bash">
 echo &gt;&amp;2 "Usage: exists name"
@@ -829,79 +806,50 @@ echo &gt;&amp;2 "RETURN"
 echo &gt;&amp;2 "   Success if the program exists in the user's PATH and is executable.  Failure otherwise."
 </pre>
 
-            <p>&nbsp;</p>
+    <p>&nbsp;</p>
 
-            <footer>
-            By default, new commands inherit the shell's current file descriptors.  We can use <dfn>redirections</dfn> to change where a command's input comes from and where its output should go to.  File redirection (eg. <code>2&gt;errors.log</code>) allows us to stream file descriptors to files.  We can copy file descriptors (eg. <code>2&gt;&amp;1</code>) to make them share a stream.  There are also many other more advanced redirection operators.
-            </footer>
+    <footer>
+    By default, new commands inherit the shell's current file descriptors.  We can use <dfn>redirections</dfn> to change where a command's input comes from and where its output should go to.  File redirection (eg. <code>2&gt;errors.log</code>) allows us to stream file descriptors to files.  We can copy file descriptors (eg. <code>2&gt;&amp;1</code>) to make them share a stream.  There are also many other more advanced redirection operators.
+    </footer>
 
-            <h3>Exercises!</h3>
+    <h3>Exercises!</h3>
 
-            <h4>REDIR.1. Run a command that produces a message on standard output.</h4>
+    <h4>REDIR.1. Run a command that produces a message on standard output.</h4>
 <pre class="exercise"><samp>$ <kbd>ls /bin/bash</kbd>
 /bin/bash*</samp></pre>
 
-            <h4>REDIR.2. Run a command that produces a message on standard error.</h4>
+    <h4>REDIR.2. Run a command that produces a message on standard error.</h4>
 <pre class="exercise"><samp>$ <kbd>ls /bob/bash</kbd>
 ls: /bob/bash: No such file or directory</samp></pre>
 
-            <h4>REDIR.3. Run a command that produces messages on both standard output and standard error.</h4>
+    <h4>REDIR.3. Run a command that produces messages on both standard output and standard error.</h4>
 <pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash</kbd>
 ls: /bob/bash: No such file or directory
 /bin/bash*</samp></pre>
 
-            <h4>REDIR.4. Send only the last command's standard error messages to a file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal.</h4>
+    <h4>REDIR.4. Send only the last command's standard error messages to a file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal.</h4>
 <pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash 2&gt;errors.log</kbd>
 /bin/bash*
 $ <kbd>cat errors.log</kbd>
 ls: /bob/bash: No such file or directory</samp></pre>
 
-            <h4>REDIR.5. Append the last command's standard output and error messages to the file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal again.</h4>
+    <h4>REDIR.5. Append the last command's standard output and error messages to the file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal again.</h4>
 <pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash &gt;&gt;errors.log 2&gt;&amp;1</kbd>
 $ <kbd>cat errors.log</kbd>
 ls: /bob/bash: No such file or directory
 ls: /bob/bash: No such file or directory
 /bin/bash*</samp></pre>
 
-            <h4>REDIR.6. Use a here-string to show the string <kbd>Hello world!</kbd> on the terminal.</h4>
+    <h4>REDIR.6. Use a here-string to show the string <kbd>Hello world!</kbd> on the terminal.</h4>
 <pre class="exercise"><samp>$ <kbd>cat &lt;&lt;&lt; 'Hello world!</kbd>
 Hello world!</samp></pre>
 
-            <h4>REDIR.7. Fix this command so that the message is properly saved into the <code>log</code> file and such that FD 3 is properly closed afterwards: <kbd>exec 3&gt;&amp;2 2&gt;log; echo 'Hello!'; exec 2&gt;&amp;3</kbd></h4>
+    <h4>REDIR.7. Fix this command so that the message is properly saved into the <code>log</code> file and such that FD 3 is properly closed afterwards: <kbd>exec 3&gt;&amp;2 2&gt;log; echo 'Hello!'; exec 2&gt;&amp;3</kbd></h4>
 <pre class="exercise"><samp>$ <kbd>exec 3&gt;&amp;1 &gt;log; echo 'Hello!'; exec 1&gt;&amp;3 3&gt;&amp;-</kbd></samp></pre>
 
-        </section>
+</section>
 
-        <aside class="nav">
-            <h1><a href="variables.html">Next up: Variables And Expansions</a></h1>
-            <h2><a href="inception.html">Back track: What is bash, and where does it live?</a></h1>
-        </aside>
-
-        <footer>
-        <a href="http://lhunath.com">Maarten Billemont (lhunath)</a> (<a href="http://thanks.lhunath.com">thanks</a>) — <a href="attributions.html">Attributions</a>
-        </footer>
-
-        <a href="https://github.com/lhunath/bash.academy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-
-        <script src="js/plugins.js"></script>
-        <script src="js/vendor/toc.bower.min.js"></script>
-        <script src="js/main.js"></script>
-
-        <script async defer src="https://static.factlink.com/lib/dist/factlink_loader.min.js"></script>
-
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-24338692-4', 'bash.academy');
-          ga('require', 'displayfeatures');
-          ga('send', 'pageview');
-
-        </script>
-    </body>
-</html>
+<aside class="nav">
+    <h1><a href="variables.html">Next up: Variables And Expansions</a></h1>
+    <h2><a href="inception.html">Back track: What is bash, and where does it live?</a></h1>
+</aside>

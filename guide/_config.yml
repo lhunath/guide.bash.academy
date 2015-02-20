@@ -1,0 +1,12 @@
+# Site settings
+title: The Bash Guide
+email: lhunath@lyndir.com
+description: >
+  A complete guide for newcomers and advanced users to correct usage and deep understanding of the bash shell language.
+baseurl: ""
+url: "http://guide.bash.academy"
+twitter_username: lhunath
+github_username:  lhunath
+
+# Build settings
+markdown: kramdown
