@@ -3,13 +3,15 @@
 ---
 @charset "utf-8";
 
-/*
 @mixin media-query($device) {
     @media screen and (max-width: $device) {
         @content;
     }
 }
-// Import partials from `sass_dir` (defaults to `_sass`)
-@import "layout", "syntax-highlighting";
-*/
 
+// Import partials from `sass_dir` (defaults to `_sass`)
+{% if site.github %}
+@import "guide/layout", "guide/syntax-highlighting";
+{% else %}
+@import "layout", "syntax-highlighting";
+{% endif %}
