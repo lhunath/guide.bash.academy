@@ -309,7 +309,8 @@ HTTp://guide.basH.academy/variables.HTml</pre>
 hello</samp></pre>
 
             <h4>PARAM.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
-<pre class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp></pre>
+<pre class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp>
+<samp><kbd>greeting+=" world"</kbd><em><code>+=</code> appends the string to the end of the current value.</em></samp></pre>
 
             <h4>PARAM.4. Show the last word in the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting##* }"</kbd>
