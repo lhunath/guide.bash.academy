@@ -1,73 +1,50 @@
-<!DOCTYPE html>
-<html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>The Bash Guide</title>
-        <meta name="description" content="A complete guide for newcomers and advanced users to correct usage and deep understanding of the bash shell language.">
-        <meta name="viewport" content="width=device-width">
+---
+layout: default
+title: Variables and Expansions
+subtitle: How do I store and work with data?
+---
 
-        <link rel="stylesheet" type="text/css" href="css/normalize.min.css">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
+<nav>
+    <h1>Sections</h1>
+    <div id="toc"></div>
 
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-        <script src="js/vendor/prefixfree.min.js"></script>
-        <!--script src="//use.typekit.net/cey7qim.js"></script>
-        <script>try{Typekit.load();}catch(e){}</script-->
-    </head>
-    <body id="variables">
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
+    <h1>Chapters</h1>
+    <ul>
+        <li id="chapter_cover"><a href="index.html#">Cover<br>
+            <sub>The Bash Guide</sub></a></li>
+        <li id="chapter_inception"><a href="inception.html#">Inception<br>
+            <sub>What is bash, and where does it live?</sub></a></li>
+        <li id="chapter_commands"><a href="commands.html#">Commands And Arguments<br>
+            <sub>How do I give bash instructions?</sub></a></li>
+        <li id="chapter_variables"><a href="variables.html#">Variables And Expansions<br>
+            <sub>How do I store and work with data?</sub></a></li>
+    </ul>
+</nav>
 
-        <nav>
-            <h1>Sections</h1>
-            <div id="toc"></div>
+<section>
+    <h1>How do I store and re-use data?</h1>
 
-            <h1>Chapters</h1>
-            <ul>
-                <li id="chapter_cover"><a href="index.html#">Cover<br>
-                    <sub>The Bash Guide</sub></a></li>
-                <li id="chapter_inception"><a href="inception.html#">Inception<br>
-                    <sub>What is bash, and where does it live?</sub></a></li>
-                <li id="chapter_commands"><a href="commands.html#">Commands And Arguments<br>
-                    <sub>How do I give bash instructions?</sub></a></li>
-                <li id="chapter_variables"><a href="variables.html#">Variables And Expansions<br>
-                    <sub>How do I store and work with data?</sub></a></li>
-            </ul>
-        </nav>
+    <p>We now know how to use bash for writing and managing simple commands.  These commands give us access to many powerful operations on our system.  We've learned how commands tell bash to execute programs by creating new processes for them.  We've even learned to manipulate the basic input and output of these processes such that we can read from and write to arbitrary files.</p>
 
-        <header data-stellar-background-ratio="0.4">
-            <div>
-                <h1>Variables and Expansions</h1>
-                <h2>How do I store and work with data?</h2>
-            </div>
-        </header>
+    <p>Those of you that have been paying really close attention will even have spotted how we can pass arbitrary data into processes using constructs such as here-documents and here-strings.</p>
 
-        <section>
-            <h1>How do I store and re-use data?</h1>
+    <p>The biggest limitation now is our inability to handle data flexibly.  We can write it out to files and then read it in again, by employing many file redirections, and we can pass in static pre-defined data using here-documents and here-strings.  But this leaves us longing for more.</p>
 
-            <p>We now know how to use bash for writing and managing simple commands.  These commands give us access to many powerful operations on our system.  We've learned how commands tell bash to execute programs by creating new processes for them.  We've even learned to manipulate the basic input and output of these processes such that we can read from and write to arbitrary files.</p>
+    <p>High time to unlock the next level of wonders: bash parameters.</p>
 
-            <p>Those of you that have been paying really close attention will even have spotted how we can pass arbitrary data into processes using constructs such as here-documents and here-strings.</p>
+    <h2>What are bash parameters?</h2>
 
-            <p>The biggest limitation now is our inability to handle data flexibly.  We can write it out to files and then read it in again, by employing many file redirections, and we can pass in static pre-defined data using here-documents and here-strings.  But this leaves us longing for more.</p>
+    <p>Simply put, bash parameters are regions in memory where you can temporarily store some information for later use.</p>
+    
+    <p>Not unlike files, we write to these parameters and read from them when we need to retrieve the information later.  But since we're using the system's memory and not the disk to write this information to, access is much faster.  Using parameters is also much easier and the syntax more powerful than redirecting input and output to and from files.</p>
 
-            <p>High time to unlock the next level of wonders: bash parameters.</p>
+    <p>Bash provides a few different types of parameters: positional parameters, special parameters and shell variables.  The latter are the most interesting type, the former two mainly give us access to certain information bash makes available to us.  We'll introduce the practical aspects and usage of parameters through variables and then explain how positional and special parameters are different.</p>
 
-            <h2>What are bash parameters?</h2>
+    <h2>Shell Variables</h2>
 
-            <p>Simply put, bash parameters are regions in memory where you can temporarily store some information for later use.</p>
-            
-            <p>Not unlike files, we write to these parameters and read from them when we need to retrieve the information later.  But since we're using the system's memory and not the disk to write this information to, access is much faster.  Using parameters is also much easier and the syntax more powerful than redirecting input and output to and from files.</p>
+    <p>A shell variable is essentially a bash parameter that has a name.  You can use variables to store a value and later modify or read that value back for re-use.</p>
 
-            <p>Bash provides a few different types of parameters: positional parameters, special parameters and shell variables.  The latter are the most interesting type, the former two mainly give us access to certain information bash makes available to us.  We'll introduce the practical aspects and usage of parameters through variables and then explain how positional and special parameters are different.</p>
-
-            <h2>Shell Variables</h2>
-
-            <p>A shell variable is essentially a bash parameter that has a name.  You can use variables to store a value and later modify or read that value back for re-use.</p>
-
-            <p>Using variables is easy.  You store information in them through variable assignment, and access that information at any later time using parameter expansion:</p>
+    <p>Using variables is easy.  You store information in them through variable assignment, and access that information at any later time using parameter expansion:</p>
 
 <pre lang="bash">
 $ <kbd>name=lhunath</kbd><em>Assign the value <code>lhunath</code> to the variable <code>name</code></em>
@@ -75,32 +52,32 @@ $ <kbd>echo "Hello, $name.  How are you?"</kbd><em>Expand the value of <code>nam
 Hello, lhunath.  How are you?
 </pre>
 
-            <p>As you can see, the assignment creates a variable called <kbd>name</kbd> and puts a value in it. Expansion is done by prefixing the name with a <kbd title="dollar">$</kbd> symbol, which causes our value to get injected into the echo argument.</p>
+    <p>As you can see, the assignment creates a variable called <kbd>name</kbd> and puts a value in it. Expansion is done by prefixing the name with a <kbd title="dollar">$</kbd> symbol, which causes our value to get injected into the echo argument.</p>
 
-            <h3>Assignment</h3>
+    <h3>Assignment</h3>
 
-            <p>Assignment uses the <kbd title="equals">=</kbd> operator.  It is imperative that you understand there can be no syntactical space around the operator.  While other languages may permit this, bash does not.  Remember from the previous chapter that spaces in bash have a special meaning: they split commands into arguments.  If we were to put spaces around the <code>=</code> operator, they would cause bash to split the command into a command name and arguments,
-            thinking you wanted to execute a program rather than assign a variable value:</p>
+    <p>Assignment uses the <kbd title="equals">=</kbd> operator.  It is imperative that you understand there can be no syntactical space around the operator.  While other languages may permit this, bash does not.  Remember from the previous chapter that spaces in bash have a special meaning: they split commands into arguments.  If we were to put spaces around the <code>=</code> operator, they would cause bash to split the command into a command name and arguments,
+    thinking you wanted to execute a program rather than assign a variable value:</p>
 
 <pre lang="bash" class="bad">
 $ <kbd>name = lhunath</kbd><em>Run the command <code>name</code> with arguments <code>=</code> and <code>lhunath</code>.</em>
 -bash: name: command not found
 </pre>
 
-            <p>To fix this code, we simply remove the space around the <code>=</code> operator that was causing the word splitting.  If we wanted to assign a value to the variable which begins with a few literal space characters, we'll need to use quotes to signal bash that our space is literal and shouldn't serve to trigger word splitting:</p>
+    <p>To fix this code, we simply remove the space around the <code>=</code> operator that was causing the word splitting.  If we wanted to assign a value to the variable which begins with a few literal space characters, we'll need to use quotes to signal bash that our space is literal and shouldn't serve to trigger word splitting:</p>
 
 <pre lang="bash" class="good">
 $ <kbd>name=lhunath</kbd>
 $ <kbd>item='    4. Milk'</kbd><em>Use quotes to make the spaces literal.</em>
 </pre>
 
-            <h3>Expansion</h3>
+    <h3>Expansion</h3>
 
-            <p>Assigning values to variables is neat but not really immediately useful.  It's being able to re-use those values at any time that makes parameters so interesting.  Re-using parameter values is done by expanding them.  Expansion effectively takes the data out of your parameter and inlines it into the data of your command.  As we saw briefly before, we expand parameters by prefixing their name with a <code>$</code> symbol.  Whenever you see this symbol in bash, it's probably
-            because something is getting expanded.  It could be a parameter, or the output of a command, or the result of an arithmetic operation.  We'll learn more about the other expansions later on.</p>
-            
-            <p>As we've already highlighted (but always bears repeating), your expansions should always be double-quoted to avoid bash's word-splitting unexpectedly tearing it to pieces.  In addition, parameter expansion allows you to wrap curly braces (<kbd>{</kbd> and <kbd>}</kbd>) around your expansion.  These braces are used to tell bash what the beginning and end of your parameter name is.  They are usually optional, as bash can often figure the name out by itself.  Though
-            sometimes they become a necessity:</p>
+    <p>Assigning values to variables is neat but not really immediately useful.  It's being able to re-use those values at any time that makes parameters so interesting.  Re-using parameter values is done by expanding them.  Expansion effectively takes the data out of your parameter and inlines it into the data of your command.  As we saw briefly before, we expand parameters by prefixing their name with a <code>$</code> symbol.  Whenever you see this symbol in bash, it's probably
+    because something is getting expanded.  It could be a parameter, or the output of a command, or the result of an arithmetic operation.  We'll learn more about the other expansions later on.</p>
+    
+    <p>As we've already highlighted (but always bears repeating), your expansions should always be double-quoted to avoid bash's word-splitting unexpectedly tearing it to pieces.  In addition, parameter expansion allows you to wrap curly braces (<kbd>{</kbd> and <kbd>}</kbd>) around your expansion.  These braces are used to tell bash what the beginning and end of your parameter name is.  They are usually optional, as bash can often figure the name out by itself.  Though
+    sometimes they become a necessity:</p>
 
 <pre lang="bash">
 $ <kbd>name=Britta time=23.73</kbd><em>We want to expand <code>time</code> and add an <code>s</code> for seconds</em>
@@ -110,7 +87,7 @@ $ <kbd>echo "$name's current record is ${time}s."</kbd><em>Braces explicitly tel
 Britta's current record is 23.73s.
 </pre>
 
-            <p>Parameter expansions are great for inserting user or program data into our command instructions, but they also have an extra ace up their sleeve: expansion operators.  While expanding a parameter, it is possible to apply an operator to the expanding value.  This operator can modify the value in one of many useful ways:</p>
+    <p>Parameter expansions are great for inserting user or program data into our command instructions, but they also have an extra ace up their sleeve: expansion operators.  While expanding a parameter, it is possible to apply an operator to the expanding value.  This operator can modify the value in one of many useful ways:</p>
 
 <pre lang="bash">
 $ <kbd>name=Britta time=23.73</kbd>
@@ -120,225 +97,225 @@ $ <kbd>echo "PATH currently contains: ${PATH//:/, }"</kbd>
 PATH currently contains: /Users/lhunath/.bin, /usr/local/bin, /usr/bin, /bin, /usr/libexec
 </pre>
 
-            <p>The examples above use the <code>#</code>, <code>%</code> and <code>//</code> operators to perform various operations on the parameter's value before expanding the result.  The parameters themselves aren't changed, only the value that is expanded into place is affected by the operator.  In the first case, we used the <code>%</code> operator to remove the <code title="dot">.</code> and the number after it from <code>time</code>'s value before expanding it.  That left us
-            with just the part in front of the <code>.</code>, which is the seconds.  The second case did something similar, we used the <code>#</code> operator to remove a part from the start of the <code>time</code> value.  Finally, we used the <code>//</code> operator, (which is really a special case of the <code>/</code> operator), to replace every <code title="colon">:</code> character in <code>PATH</code>'s value with <code>, </code>.  The result is a list of directories that is
-            easier to read for people than the original colon-separated <code>PATH</code>.
+    <p>The examples above use the <code>#</code>, <code>%</code> and <code>//</code> operators to perform various operations on the parameter's value before expanding the result.  The parameters themselves aren't changed, only the value that is expanded into place is affected by the operator.  In the first case, we used the <code>%</code> operator to remove the <code title="dot">.</code> and the number after it from <code>time</code>'s value before expanding it.  That left us
+    with just the part in front of the <code>.</code>, which is the seconds.  The second case did something similar, we used the <code>#</code> operator to remove a part from the start of the <code>time</code> value.  Finally, we used the <code>//</code> operator, (which is really a special case of the <code>/</code> operator), to replace every <code title="colon">:</code> character in <code>PATH</code>'s value with <code>, </code>.  The result is a list of directories that is
+    easier to read for people than the original colon-separated <code>PATH</code>.
 
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="3"><kbd>url='http://guide.bash.academy/variables.html'</kbd></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <th>Operator</th>
-                    <th>Example</th>
-                    <th>Result</th>
-                </tr>
-                <tr>
-                    <th>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="3"><kbd>url='http://guide.bash.academy/variables.html'</kbd></th>
+            </tr>
+        </thead>
+        <tr>
+            <th>Operator</th>
+            <th>Example</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>#</strong><var>pattern</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url#<mark>*/</mark>}"</kbd></td>
-                    <td rowspan="2">
+            </th>
+            <td><kbd>"${url#<mark>*/</mark>}"</kbd></td>
+            <td rowspan="2">
 <pre><mark>http:/</mark>/guide.bash.academy/variables.html
     ↓
 /guide.bash.academy/variables.html</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Remove the <em>shortest</em> string that matches the <var>pattern</var> if it's at the start of the value.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Remove the <em>shortest</em> string that matches the <var>pattern</var> if it's at the start of the value.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>##</strong><var>pattern</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url##<mark>*/</mark>}"</kbd></td>
-                    <td rowspan="2">
+            </th>
+            <td><kbd>"${url##<mark>*/</mark>}"</kbd></td>
+            <td rowspan="2">
 <pre><mark>http://guide.bash.academy/</mark>variables.html
     ↓
 variables.html</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Remove the <em>longest</em> string that matches the <var>pattern</var> if it's at the start of the value.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Remove the <em>longest</em> string that matches the <var>pattern</var> if it's at the start of the value.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>%</strong><var>pattern</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url%<mark>/*</mark>}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${url%<mark>/*</mark>}"</kbd></td>
+            <td>
 <pre>http://guide.bash.academy<mark>/variables.html</mark>
     ↓
 http://guide.bash.academy</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Remove the <em>shortest</em> string that matches the <var>pattern</var> if it's at the end of the value.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Remove the <em>shortest</em> string that matches the <var>pattern</var> if it's at the end of the value.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>%%</strong><var>pattern</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url%%<mark>/*</mark>}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${url%%<mark>/*</mark>}"</kbd></td>
+            <td>
 <pre>http:<mark>//guide.bash.academy/variables.html</mark>
     ↓
 http:</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Remove the <em>longest</em> string that matches the <var>pattern</var> if it's at the end of the value.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Remove the <em>longest</em> string that matches the <var>pattern</var> if it's at the end of the value.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>/</strong><var>pattern</var><strong>/</strong><var>replacement</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url/<mark>.</mark>/<mark>-</mark>}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${url/<mark>.</mark>/<mark>-</mark>}"</kbd></td>
+            <td>
 <pre>http://guide<mark>.</mark>bash.academy/variables.html
     ↓
 http://guide-bash.academy/variables.html</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Replace <em>the first</em> string that matches the <var>pattern</var> with the replacement.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Replace <em>the first</em> string that matches the <var>pattern</var> with the replacement.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>//</strong><var>pattern</var><strong>/</strong><var>replacement</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url//<mark>.</mark>/<mark>-</mark>}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${url//<mark>.</mark>/<mark>-</mark>}"</kbd></td>
+            <td>
 <pre>http://guide<mark>.</mark>bash<mark>.</mark>academy/variables<mark>.</mark>html
     ↓
 http://guide-bash-academy/variables-html</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Replace <em>each</em> string that matches the <var>pattern</var> with the replacement.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Replace <em>each</em> string that matches the <var>pattern</var> with the replacement.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>/#</strong><var>pattern</var><strong>/</strong><var>replacement</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url/#<mark>*:</mark>/<mark>https:</mark>}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${url/#<mark>*:</mark>/<mark>https:</mark>}"</kbd></td>
+            <td>
 <pre><mark>http:</mark>//guide.bash.academy/variables.html
     ↓
 https://guide.bash.academy/variables.html</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Replace the string that matches the <var>pattern</var> at the <em>beginning</em> of the value with the replacement.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Replace the string that matches the <var>pattern</var> at the <em>beginning</em> of the value with the replacement.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>/%</strong><var>pattern</var><strong>/</strong><var>replacement</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url/%<mark>.html</mark>/<mark>.jpg</mark>}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${url/%<mark>.html</mark>/<mark>.jpg</mark>}"</kbd></td>
+            <td>
 <pre>http://guide.bash.academy/variables<mark>.html</mark>
     ↓
 http://guide.bash.academy/variables.jpg</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Replace the string that matches the <var>pattern</var> at the <em>end</em> of the value with the replacement.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Replace the string that matches the <var>pattern</var> at the <em>end</em> of the value with the replacement.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${#</strong><var>parameter</var><strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${#url}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${#url}"</kbd></td>
+            <td>
 <pre>http://guide.bash.academy/variables.html
     ↓
 40</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Expand the length of the value (in bytes).</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Expand the length of the value (in bytes).</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var><strong>:</strong><var>start</var>[<strong>:</strong><var>length</var>]<strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url:<mark>7</mark>}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${url:<mark>7</mark>}"</kbd></td>
+            <td>
 <pre>http://<mark>guide.bash.academy/variables.html</mark>
     ↓
 guide.bash.academy/variables.html</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Expand a part of the value, starting at <var>start</var>, <var>length</var> bytes long.</td>
-                </tr>
-                <tr>
-                    <th>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Expand a part of the value, starting at <var>start</var>, <var>length</var> bytes long.</td>
+        </tr>
+        <tr>
+            <th>
 <code class="syntax"><strong>${</strong><var>parameter</var>[<strong>^</strong>|<strong>^^</strong>|<strong>,</strong>|<strong>,,</strong>][<var>pattern</var>]<strong>}</strong></code>
-                    </th>
-                    <td><kbd>"${url^^<mark>[ht]</mark>}"</kbd></td>
-                    <td>
+            </th>
+            <td><kbd>"${url^^<mark>[ht]</mark>}"</kbd></td>
+            <td>
 <pre><mark>htt</mark>p://guide.bas<mark>h</mark>.academy/variables.<mark>ht</mark>ml
     ↓
 HTTp://guide.basH.academy/variables.HTml</pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">Expand the transformed value, either upper-casing or lower-casing the first or all characters that match the <var>pattern</var>.  You can omit the pattern to match any character.</td>
-                </tr>
-            </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Expand the transformed value, either upper-casing or lower-casing the first or all characters that match the <var>pattern</var>.  You can omit the pattern to match any character.</td>
+        </tr>
+    </table>
 
-            <p>&nbsp;</p>
+    <p>&nbsp;</p>
 
-            <footer>
-            Shell variables are parameters that you can freely assign values to.  Assignment is done using the syntax <code>var=value</code>.  Parameters can be expanded to inline their data into a command's arguments.  Parameter expansion is done by prefixing the variable name with a <code>$</code> symbol.  Sometimes, you'll need to add <code>{</code> and <code>}</code> braces around the parameter name to explicitly tell bash where the name of your parameter begins and ends (eg.
-            <code>"${time}s"</code>).<br>
-            Parameter expansions should <strong>always be double-quoted</strong> for consistency and to prevent any potential white-space in them from causing word-splitting in addition to triggering unexpected pathname completion.  While expanding parameters, you can apply a special parameter expansion operator to mutate the expanded value in some way.
-            </footer>
+    <footer>
+    Shell variables are parameters that you can freely assign values to.  Assignment is done using the syntax <code>var=value</code>.  Parameters can be expanded to inline their data into a command's arguments.  Parameter expansion is done by prefixing the variable name with a <code>$</code> symbol.  Sometimes, you'll need to add <code>{</code> and <code>}</code> braces around the parameter name to explicitly tell bash where the name of your parameter begins and ends (eg.
+    <code>"${time}s"</code>).<br>
+    Parameter expansions should <strong>always be double-quoted</strong> for consistency and to prevent any potential white-space in them from causing word-splitting in addition to triggering unexpected pathname completion.  While expanding parameters, you can apply a special parameter expansion operator to mutate the expanded value in some way.
+    </footer>
 
-            <h3>Exercises!</h3>
+    <h3>Exercises!</h3>
 
-            <h4>PARAM.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
+    <h4>PARAM.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>greeting=hello</kbd></samp></pre>
 
-            <h4>PARAM.2. Show the contents of the variable <var>greeting</var>.</h4>
+    <h4>PARAM.2. Show the contents of the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "$greeting"</kbd>
 hello</samp></pre>
 
-            <h4>PARAM.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
+    <h4>PARAM.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
 <pre class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp>
 <samp><kbd>greeting+=" world"</kbd><em><code>+=</code> appends the string to the end of the current value.</em></samp></pre>
 
-            <h4>PARAM.4. Show the last word in the variable <var>greeting</var>.</h4>
+    <h4>PARAM.4. Show the last word in the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting##* }"</kbd>
 world</samp></pre>
 
-            <h4>PARAM.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
+    <h4>PARAM.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting^}!"</kbd>
 Hello world!</samp></pre>
 
-            <h4>PARAM.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
+    <h4>PARAM.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
 <pre class="exercise"><samp><kbd>greeting=${greeting/ / big }</kbd></samp></pre>
 
-            <h4>PARAM.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
+    <h4>PARAM.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
 <pre class="exercise"><samp><kbd>echo "$greeting" &gt; "${greeting// /_}.txt"</kbd></samp></pre>
 
-            <h4>PARAM.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
+    <h4>PARAM.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
 <pre class="exercise"><samp><kbd>middle=${greeting% *} middle=${middle#* }; echo "${greeting%% *} ${middle^^} ${greeting##* }"</kbd>
 hello BIG world</samp></pre>
-        </section>
+</section>
 
-        <section>
-            <h1>What is the environment and what is it used for?</h1>
+<section>
+    <h1>What is the environment and what is it used for?</h1>
 
-            <p>There are two separate spaces where variables are kept.  These separate spaces are often confused, leading to many misunderstandings.  You've already become familiar with the first: shell variables.  The second space where variables are kept is the process environment.  We'll introduce environment variables and explain how they differ from shell variables.</p>
+    <p>There are two separate spaces where variables are kept.  These separate spaces are often confused, leading to many misunderstandings.  You've already become familiar with the first: shell variables.  The second space where variables are kept is the process environment.  We'll introduce environment variables and explain how they differ from shell variables.</p>
 
-            <h2>Environment Variables</h2>
+    <h2>Environment Variables</h2>
 
-            <p>Unlike the shell, the environment is something that exists at the process level.  You can think of the environment as a piece of land you buy.  The land can have a house on it, this will be the code running in your process.  You can store variables in the environment and you can store variables in the shell.  The environment is something every process has, while the shell space is only available to bash processes.</p>
+    <p>Unlike the shell, the environment is something that exists at the process level.  You can think of the environment as a piece of land you buy.  The land can have a house on it, this will be the code running in your process.  You can store variables in the environment and you can store variables in the shell.  The environment is something every process has, while the shell space is only available to bash processes.</p>
 
 <pre>
     ╭─── process ────────────────────╮
@@ -348,7 +325,7 @@ hello BIG world</samp></pre>
     ╰────────────────────────────────╯
 </pre>
 
-            <p>When you run a new program from the shell, bash will run this program in a new process.  When it does, this new process will have its own environment.  But unlike shell processes, ordinary processes do not have shell variables.  They only have environment variables.  More importantly, when a new process is created, its environment is populated by making a <strong>copy</strong> of the environment of the creating process:</p>
+    <p>When you run a new program from the shell, bash will run this program in a new process.  When it does, this new process will have its own environment.  But unlike shell processes, ordinary processes do not have shell variables.  They only have environment variables.  More importantly, when a new process is created, its environment is populated by making a <strong>copy</strong> of the environment of the creating process:</p>
 
 <pre>
     ╭─── process ────────────────────╮
@@ -360,7 +337,7 @@ hello BIG world</samp></pre>
     │ PATH=/bin:/usr/bin             │
     ╰─┬──────────────────────────────╯
       ╎  ╭─── process ────────────────────╮
-      └╌╌┥             ╭─── ls ───────╮   │ 
+      └╌╌┥             ╭─── ls ───────╮   │
          │ ENVIRONMENT │              │   │
          │             ╰──────────────╯   │
          │ HOME=/home/lhunath             │
@@ -368,8 +345,8 @@ hello BIG world</samp></pre>
          ╰────────────────────────────────╯
 </pre>
 
-            <p>It is a common misconception that the environment is a system-global pool of variables that all processes share.  This illusion is often the result of seeing the same variables available in child processes.  When you create a custom environment variable in the shell, any child processes you create afterwards will inherit this variable as a result of it being copied from your shell into the child's environment.  However, since the environment is specific to each process,
-            changing or creating new variables in the child will in no way affect the parent:</p>
+    <p>It is a common misconception that the environment is a system-global pool of variables that all processes share.  This illusion is often the result of seeing the same variables available in child processes.  When you create a custom environment variable in the shell, any child processes you create afterwards will inherit this variable as a result of it being copied from your shell into the child's environment.  However, since the environment is specific to each process,
+    changing or creating new variables in the child will in no way affect the parent:</p>
 
 <pre>
     ╭─── process ────────────────────╮
@@ -411,11 +388,11 @@ $ <kbd>NAME=John</kbd>
          ╰────────────────────────────────╯
 </pre>
 
-            <p>This distinction also makes it clear why one would opt to put certain variables in the environment.  While most of your variables will be ordinary shell variables, you may opt to "export" some of your shell variables into the shell's process environment.  In doing so, you're effectively exporting your variable's data to each child process you create, and those child processes will in turn export their environment variables to their children.  Your system uses environment variables for all sorts of things, mainly to provide state information and default configurations for certain processes.</p>
+    <p>This distinction also makes it clear why one would opt to put certain variables in the environment.  While most of your variables will be ordinary shell variables, you may opt to "export" some of your shell variables into the shell's process environment.  In doing so, you're effectively exporting your variable's data to each child process you create, and those child processes will in turn export their environment variables to their children.  Your system uses environment variables for all sorts of things, mainly to provide state information and default configurations for certain processes.</p>
 
-            <p>For instance, the <code>login</code> program, which is traditionally used to log a user into the system, exports information about your user into the environment (<var>USER</var> containing your user name, <var>HOME</var> containing your home directory, <var>PATH</var> containing a standard command search path, etc.).  All processes that run as a result of you logging in can now learn what user they're running for by looking at the environment.</p>
-            <p>You can export your own variables into the environment.  This is often done to configure the behavior of any programs you run.  For instance, you can export <var>LANG</var> and assign it a value that tells programs what language and character set they should use.  Envrionment variables are generally only useful to those programs that know about and support them explicitly.  Some variables have a very narrow usage, for instance
-            <var>LSCOLORS</var> can be used by some <code>ls</code> programs to colorize their output of files on your system.</p>
+    <p>For instance, the <code>login</code> program, which is traditionally used to log a user into the system, exports information about your user into the environment (<var>USER</var> containing your user name, <var>HOME</var> containing your home directory, <var>PATH</var> containing a standard command search path, etc.).  All processes that run as a result of you logging in can now learn what user they're running for by looking at the environment.</p>
+    <p>You can export your own variables into the environment.  This is often done to configure the behavior of any programs you run.  For instance, you can export <var>LANG</var> and assign it a value that tells programs what language and character set they should use.  Envrionment variables are generally only useful to those programs that know about and support them explicitly.  Some variables have a very narrow usage, for instance
+    <var>LSCOLORS</var> can be used by some <code>ls</code> programs to colorize their output of files on your system.</p>
 
 <pre>
     ╭─── process ────────────────────╮
@@ -461,37 +438,37 @@ $ <kbd>NAME=John</kbd>
               ╰────────────────────────────────╯
 </pre>
 
-            <h2>Shell Initialization</h2>
+    <h2>Shell Initialization</h2>
 
-            <p>When you start an interactive bash session, bash will prepare itself for usage by reading a few initialization commands from different files on your system.  You can use these files to tell bash how to behave.  One in particular is intended to give you the opportunity to export variables into the environment.  The file is called <code>.bash_profile</code> and it lives in your home directory.  There's a good chance that you don't have this file yet; if this is the
-            case, you can just create the file and bash will find it the next time it goes looking for it.</p>
-            <p>At the very end of your <code>~/.bash_profile</code>, you should have the command <code>source ~/.bashrc</code>.  That's because when <code>.bash_profile</code> exists, bash behaves a little curious in that it stops looking for its standard shell initialization file <code>~/.bashrc</code>.  The <code>source</code> command remedies this oddity.</p>
-            <p>Note that if there is no <code>~/.bash_profile</code> file, bash will try to read from <code>~/.profile</code> instead, if it exists.  The latter is a generic shell profile configuration file, which is also read by other shells.  You can opt to put your environment configuration there instead, but if you do, you need to be aware that you should limit yourself to POSIX sh
-            syntax and not use any bash-specific shell syntax in the file.  POSIX sh syntax is similar to bash but it is beyond the scope of this guide.</p>
+    <p>When you start an interactive bash session, bash will prepare itself for usage by reading a few initialization commands from different files on your system.  You can use these files to tell bash how to behave.  One in particular is intended to give you the opportunity to export variables into the environment.  The file is called <code>.bash_profile</code> and it lives in your home directory.  There's a good chance that you don't have this file yet; if this is the
+    case, you can just create the file and bash will find it the next time it goes looking for it.</p>
+    <p>At the very end of your <code>~/.bash_profile</code>, you should have the command <code>source ~/.bashrc</code>.  That's because when <code>.bash_profile</code> exists, bash behaves a little curious in that it stops looking for its standard shell initialization file <code>~/.bashrc</code>.  The <code>source</code> command remedies this oddity.</p>
+    <p>Note that if there is no <code>~/.bash_profile</code> file, bash will try to read from <code>~/.profile</code> instead, if it exists.  The latter is a generic shell profile configuration file, which is also read by other shells.  You can opt to put your environment configuration there instead, but if you do, you need to be aware that you should limit yourself to POSIX sh
+    syntax and not use any bash-specific shell syntax in the file.  POSIX sh syntax is similar to bash but it is beyond the scope of this guide.</p>
 
 <pre>
     login<em>The <code>login</code> program signs the user in</em>
       │
       ╰─ <strong>-bash</strong><em>The <code>login</code> command starts the user's login shell</em>
-           │
-           ╰─ screen<em>The user runs the <code>screen</code> program from his login shell</em>
-                │
-                ╰─ weechat<em>The <code>screen</code> program creates multiple windows</em>
-                │         <em>and allows the user to switch between them.</em> 
-                ╰─ bash   <em>The first runs an IRC client, two others run a</em> 
-                │         <em>non-login bash shell.</em> 
-                ╰─ bash
+         │
+         ╰─ screen<em>The user runs the <code>screen</code> program from his login shell</em>
+              │
+              ╰─ weechat<em>The <code>screen</code> program creates multiple windows</em>
+              │         <em>and allows the user to switch between them.</em> 
+              ╰─ bash   <em>The first runs an IRC client, two others run a</em> 
+              │         <em>non-login bash shell.</em> 
+              ╰─ bash
 </pre>
 
-            <p>This process tree depicts a user who uses bash as his login shell and multiplexes his terminal to create several separate "screens", allowing him to interact with multiple concurrently running programs.  After logging in, the system (the <code>login</code> program) determines the user's login shell.  It might do this, for example, by looking at <code>/etc/passwd</code>.  In this case, the user's login shell is set to bash.  <code>login</code> proceeds by running bash and
-            setting its name to <code>-bash</code>.  It is standard procedure for the <code>login</code> program to prefix the name of the login shell with a <code>-</code> (dash), indicating to the shell that it should behave as a login shell.</p>
+    <p>This process tree depicts a user who uses bash as his login shell and multiplexes his terminal to create several separate "screens", allowing him to interact with multiple concurrently running programs.  After logging in, the system (the <code>login</code> program) determines the user's login shell.  It might do this, for example, by looking at <code>/etc/passwd</code>.  In this case, the user's login shell is set to bash.  <code>login</code> proceeds by running bash and
+    setting its name to <code>-bash</code>.  It is standard procedure for the <code>login</code> program to prefix the name of the login shell with a <code>-</code> (dash), indicating to the shell that it should behave as a login shell.</p>
 
-            <p>Once the user has a running bash login shell, he runs the <code>screen</code> program.  While screen is running, it takes over the user's entire terminal and emulates multiple terminals within it, allowing the user to switch between them.  In each emulated terminal, screen runs a new program.  In this case, the user has screen configured to start one emulated terminal that runs an IRC client, and two that run interactive (but non-login) bash shells. Here's what that would
-            look like in practice:</p>
+    <p>Once the user has a running bash login shell, he runs the <code>screen</code> program.  While screen is running, it takes over the user's entire terminal and emulates multiple terminals within it, allowing the user to switch between them.  In each emulated terminal, screen runs a new program.  In this case, the user has screen configured to start one emulated terminal that runs an IRC client, and two that run interactive (but non-login) bash shells. Here's what that would
+    look like in practice:</p>
 
-            <script type="text/javascript" src="https://asciinema.org/a/13948.js" id="asciicast-13948" async></script>
+    <script type="text/javascript" src="https://asciinema.org/a/13948.js" id="asciicast-13948" async></script>
 
-            <p>Let's take a look at how the initialization happens in this scenario, and where the environment variables come from:</p>
+    <p>Let's take a look at how the initialization happens in this scenario, and where the environment variables come from:</p>
 
 <pre>
     login
@@ -501,89 +478,60 @@ $ <kbd>NAME=John</kbd>
       │ <ins>PATH=/usr/bin:/bin</ins>
       │
       ╰─ -bash
-           │ TERM=dumb
-           │ USER=lhunath
-           │ HOME=/home/lhunath
-           │ <del>PATH=/usr/bin:/bin</del>
-           │ <ins>PWD=/home/lhunath</ins>
-           │ <ins>SHLVL=1</ins>
-           │╭──────────────╮     ╭────────────────────────╮╭──────────────────╮
-           ┝┥ login shell? ┝─yes─┥ source ~/.bash_profile ┝┥ source ~/.bashrc │
-           │╰──────────────╯     ╰────────────────────────╯╰──────────────────╯
-           │ <ins>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/libexec</ins>
-           │ <ins>EDITOR=vim</ins>
-           │ <ins>LANG=en_CA.UTF-8</ins>
-           │ <ins>LESS=-i -M -R -W -S</ins>
-           │ <ins>GREP_COLOR=31</ins>
-           │
-           ╰─ screen
-                │ <del>TERM=dumb</del>
-                │ <ins>TERM=screen-bce</ins>
-                │ USER=lhunath
-                │ HOME=/home/lhunath
-                │ PATH=/usr/bin:/bin
-                │ PWD=/home/lhunath
-                │ SHLVL=1
-                │ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/libexec
-                │ EDITOR=vim
-                │ LANG=en_CA.UTF-8
-                │ LESS=-i -M -R -W -S
-                │ GREP_COLOR=31
-                │ <ins>WINDOW=0</ins>
-                │
-                ╰─ weechat
-                │
-                ╰─ bash
-                │    │╭──────────────╮
-                │    ╰┥ login shell? ┝
-                │     ╰──────┰───────╯
-                │            no
-                │     ╭──────┸───────╮     ╭──────────────────╮
-                │     │ interactive? ┝─yes─┥ source ~/.bashrc │
-                │     ╰──────────────╯     ╰──────────────────╯
-                ╰─ bash
-                     │╭──────────────╮
-                     ╰┥ login shell? ┝
-                      ╰──────┰───────╯
-                             no
-                      ╭──────┸───────╮     ╭──────────────────╮
-                      │ interactive? ┝─yes─┥ source ~/.bashrc │
-                      ╰──────────────╯     ╰──────────────────╯
+         │ TERM=dumb
+         │ USER=lhunath
+         │ HOME=/home/lhunath
+         │ <del>PATH=/usr/bin:/bin</del>
+         │ <ins>PWD=/home/lhunath</ins>
+         │ <ins>SHLVL=1</ins>
+         │╭──────────────╮     ╭────────────────────────╮╭──────────────────╮
+         ┝┥ login shell? ┝─yes─┥ source ~/.bash_profile ┝┥ source ~/.bashrc │
+         │╰──────────────╯     ╰────────────────────────╯╰──────────────────╯
+         │ <ins>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/libexec</ins>
+         │ <ins>EDITOR=vim</ins>
+         │ <ins>LANG=en_CA.UTF-8</ins>
+         │ <ins>LESS=-i -M -R -W -S</ins>
+         │ <ins>GREP_COLOR=31</ins>
+         │
+         ╰─ screen
+              │ <del>TERM=dumb</del>
+              │ <ins>TERM=screen-bce</ins>
+              │ USER=lhunath
+              │ HOME=/home/lhunath
+              │ PATH=/usr/bin:/bin
+              │ PWD=/home/lhunath
+              │ SHLVL=1
+              │ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/libexec
+              │ EDITOR=vim
+              │ LANG=en_CA.UTF-8
+              │ LESS=-i -M -R -W -S
+              │ GREP_COLOR=31
+              │ <ins>WINDOW=0</ins>
+              │
+              ╰─ weechat
+              │
+              ╰─ bash
+              │    │╭──────────────╮
+              │    ╰┥ login shell? ┝
+              │     ╰──────┰───────╯
+              │            no
+              │     ╭──────┸───────╮     ╭──────────────────╮
+              │     │ interactive? ┝─yes─┥ source ~/.bashrc │
+              │     ╰──────────────╯     ╰──────────────────╯
+              ╰─ bash
+                   │╭──────────────╮
+                   ╰┥ login shell? ┝
+                    ╰──────┰───────╯
+                           no
+                    ╭──────┸───────╮     ╭──────────────────╮
+                    │ interactive? ┝─yes─┥ source ~/.bashrc │
+                    ╰──────────────╯     ╰──────────────────╯
 </pre>
 
-            <p>As you can see, different levels export their own variables into the environment.  Each child process inherits the variables from its parent's environment.  In turn, it can overwrite some of these values or add new variables.</p>
-            <p>Notice how the first (login) bash sources both <code>~/.bash_profile</code> and <code>~/.bashrc</code> while the bottom two source only <code>~/.bashrc</code>.  That's because only the first bash process is started as a "login shell" (by means of having a <code>-</code> in front of its name).  The bottom two bash processes are ordinary interactive shells.  The reason they have no need for sourcing <code>~/.bash_profile</code> is now becoming more obvious: the responsibility of
-            <code>~/.bash_profile</code> is to set up bash's environment, and the bottom two shells are already inheriting the environment from their login shell ancestor.</p>
+    <p>As you can see, different levels export their own variables into the environment.  Each child process inherits the variables from its parent's environment.  In turn, it can overwrite some of these values or add new variables.</p>
+    <p>Notice how the first (login) bash sources both <code>~/.bash_profile</code> and <code>~/.bashrc</code> while the bottom two source only <code>~/.bashrc</code>.  That's because only the first bash process is started as a "login shell" (by means of having a <code>-</code> in front of its name).  The bottom two bash processes are ordinary interactive shells.  The reason they have no need for sourcing <code>~/.bash_profile</code> is now becoming more obvious: the responsibility of
+    <code>~/.bash_profile</code> is to set up bash's environment, and the bottom two shells are already inheriting the environment from their login shell ancestor.</p>
 
-            <h2>[incomplete]</h2>
+    <h2>[incomplete]</h2>
 
-        </section>
-
-        <footer>
-        <a href="http://lhunath.com">Maarten Billemont (lhunath)</a> (<a href="http://thanks.lhunath.com">thanks</a>) — <a href="attributions.html">Attributions</a>
-        </footer>
-
-        <a href="https://github.com/lhunath/bash.academy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-
-        <script src="js/plugins.js"></script>
-        <script src="js/vendor/toc.bower.min.js"></script>
-        <script src="js/main.js"></script>
-
-        <script async defer src="https://static.factlink.com/lib/dist/factlink_loader.min.js"></script>
-
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-24338692-4', 'bash.academy');
-          ga('require', 'displayfeatures');
-          ga('send', 'pageview');
-
-        </script>
-    </body>
-</html>
+</section>

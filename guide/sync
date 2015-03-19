@@ -2,4 +2,5 @@
 set -e
 
 cd "${BASH_SOURCE[0]%/*}"
-s3cmd sync --delete-removed --follow-symlinks --preserve --acl-public --reduced-redundancy . s3://guide.bash.academy/
+jekyll build
+s3cmd sync --delete-removed --follow-symlinks --preserve --acl-public --reduced-redundancy _site/ s3://guide.bash.academy/
