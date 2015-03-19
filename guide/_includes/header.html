@@ -1,6 +1,14 @@
+{% if page.editable or page.editable == null %}
+<a class="page-edit fixed" href="https://github.com/lhunath/bash.academy/edit/gh-pages/{{ page.path }}">[edit this page]</a>
+{% endif %}
+
 <header data-stellar-background-ratio="0.4">
     <div>
         <h1>{{ page.title }}</h1>
         <h2>{{ page.subtitle }}</h2>
     </div>
+
+    {% if page.editable or page.editable == null %}
+        <a class="page-edit" href="https://github.com/lhunath/bash.academy/edit/gh-pages/{{ page.path }}">[edit this page]</a>
+    {% endif %}
 </header>

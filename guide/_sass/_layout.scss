@@ -139,6 +139,19 @@ header a:link, header a:visited {
 header a:hover {
     color: inherit;
 }
+.page-edit {
+    position: absolute;
+
+    bottom: -2em;
+    right: 5em;
+    margin: 0;
+
+    &.fixed {
+        position: fixed;
+        bottom: auto;
+        top: 1em;
+    }
+}
 
 
 article {
