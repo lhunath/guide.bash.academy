@@ -3,11 +3,12 @@
 ---
 @charset "utf-8";
 
+/*
 @mixin media-query($device) {
     @media screen and (max-width: $device) {
         @content;
     }
 }
-
+*/
 // Import partials from `sass_dir` (defaults to `_sass`)
-@import "layout";
+@import "layout", "syntax-highlighting";
