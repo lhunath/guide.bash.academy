@@ -268,7 +268,7 @@ exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
 </pre>
                             
             <p>You begin by specifying a <code>name</code> for your function.  This is the name of your new command, you'll be able to run it later on by writing a simple command with that name.</p>
-            <p>After the command name go the <code>()</code> paranthesis.  Some languages use these paranthesis to declare the arguments the function accepts: <strong>bash does not</strong>.  The paranthesis should always be empty.  They simply denote the fact that you're declaring a function.</p>
+            <p>After the command name go the <code>()</code> parenthesis.  Some languages use these parenthesis to declare the arguments the function accepts: <strong>bash does not</strong>.  The parenthesis should always be empty.  They simply denote the fact that you're declaring a function.</p>
             <p>Next comes the compound command that will be executed each time you run the function.</p>
             <p>To change the file descriptors of the script for the duration of running the function, you can optionally specify the function's custom file redirections.</p>
         </dd>
@@ -313,7 +313,7 @@ $ <kbd>buy beer</kbd>
 bash: buy: command not found
 </pre>
 
-    <p>I'll make only brief mention of <dfn>aliasses</dfn>: before bash performs this search, it first checks if you've declared any aliasses by the name of the command.  If you did, it will replace the name by the value of the alias before proceeding.  Aliasses are only rarely useful, only work in interactive sessions and are almost completely superceded by functions.  You should avoid using them in almost all cases.</p>
+    <p>I'll make only brief mention of <dfn>aliases</dfn>: before bash performs this search, it first checks if you've declared any aliases by the name of the command.  If you did, it will replace the name by the value of the alias before proceeding.  Aliases are only rarely useful, only work in interactive sessions and are almost completely superceded by functions.  You should avoid using them in almost all cases.</p>
 
     <footer>
     To run a command, bash uses the name of your command and performs a search for how to execute that command.  In order, bash will check whether it has a <dfn>function</dfn> or <dfn>builtin</dfn> by that name.  Failing that, it will try to run the name as a program.  If bash finds no way to run your command, it will output an error message.
@@ -795,7 +795,7 @@ cat &lt;&amp;5</samp>
         </dd>
     </dl>
 
-    <p>As a final note about redirections, I'd like to point out that for simple commands the redirection operators can appear anywhere in the simple command.  That is, they don't need to appear at the end of it.  While it is a good idea to keep them at them end of your commands if mainly for consistency and to avoid surprize or missing the operator in long commands, there are cases where some people make a habit of placing the redirection operator elsewhere.  In particular, placing
+    <p>As a final note about redirections, I'd like to point out that for simple commands the redirection operators can appear anywhere in the simple command.  That is, they don't need to appear at the end of it.  While it is a good idea to keep them at the end of your commands if mainly for consistency and to avoid surprize or missing the operator in long commands, there are cases where some people make a habit of placing the redirection operator elsewhere.  In particular, placing
     the redirection operator after the <code>echo</code> or <code>printf</code> command name is often done, especially when there is a sequence of them, in the interest of readability:</p>
 
 <pre lang="bash">
