@@ -8,10 +8,12 @@
         @content;
     }
 }
-.a {}
+.a {
+    color: black;
+}
 // Import partials from `sass_dir` (defaults to `_sass`)
-{% if site.github %}
+//{% if site.github %}
 //@import "{{ site.url }}/layout", "{{ site.url }}/syntax-highlighting";
 //{% else %}
-@import "guide/layout", "guide/syntax-highlighting";
-{% endif %}
+//@import "guide/layout", "guide/syntax-highlighting";
+//{% endif %}
