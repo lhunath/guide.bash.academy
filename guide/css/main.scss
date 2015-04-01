@@ -10,8 +10,8 @@
 }
 
 // Import partials from `sass_dir` (defaults to `_sass`)
-{% if site.github %}
-@import "{{ site.url }}/layout", "{{ site.url }}/syntax-highlighting";
-{% else %}
+//{% if site.github %}
+//@import "{{ site.url }}/layout", "{{ site.url }}/syntax-highlighting";
+//{% else %}
 @import "layout", "syntax-highlighting";
-{% endif %}
+//{% endif %}
