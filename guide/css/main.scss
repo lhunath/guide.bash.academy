@@ -13,5 +13,5 @@
 {% if site.github %}
 //@import "{{ site.url }}/layout", "{{ site.url }}/syntax-highlighting";
 //{% else %}
-@import "layout", "syntax-highlighting";
+@import "guide/layout", "guide/syntax-highlighting";
 {% endif %}
