@@ -532,6 +532,82 @@ $ <kbd>NAME=John</kbd>
     <p>Notice how the first (login) bash sources both <code>~/.bash_profile</code> and <code>~/.bashrc</code> while the bottom two source only <code>~/.bashrc</code>.  That's because only the first bash process is started as a "login shell" (by means of having a <code>-</code> in front of its name).  The bottom two bash processes are ordinary interactive shells.  The reason they have no need for sourcing <code>~/.bash_profile</code> is now becoming more obvious: the responsibility of
     <code>~/.bash_profile</code> is to set up bash's environment, and the bottom two shells are already inheriting the environment from their login shell ancestor.</p>
 
-    <h2>[incomplete]</h2>
+</section>
+
+<section>
+    <h1>What else can I use parameters for?</h1>
+
+    <p>As we mentioned earlier in the chapters, there are positional parameters, special parameters and variables.  Variables are effectively parameters with a name.  We're going to have a closer look at the different kinds of parameters and how they allow you to get specific information from the shell or change certain behaviours of the shell.</p>
+
+    <h2>Positional Parameters</h2>
+
+    <p>While variables are parameters with a name, positional parameters are parameters with a number (more specifically, a positive integer number).  We expand these parameters using the normal parameter expansion syntax: <code>$1</code>, <code>$3</code>.  It's important to note, though, that bash requires you to employ curly braces around positional parameters of more than one digit: <code>${10}</code>, <code>${22}</code> (in practice, you will rarely if ever need to explicitly refer to positional parameters this high up).</p>
+
+    <p>Positional parameters expand to values that were sent into the process as arguments when it was created by the parent.  For instance, when you start a <code>grep</code> process using this command:</p>
+
+<pre lang="bash">
+$ <kbd>grep name= registrations.txt</kbd>
+</pre>
+
+    <p>You're effectively running the <code>grep</code> command with the arguments <code>name=</code> and <code>registrations.txt</code>.  If <code>grep</code> were a bash script, the first argument would be available in the script by expanding <code>$1</code> and the second argument by expanding <code>$2</code>.  Positional parameters higher than <code>2</code> will be unset.</p>
+
+    <p>It's good to know that there is also a zero'th positional parameter.  This positional parameter expands to the <em>name</em> of the process.  The name of the process is chosen by the program that creates it, so the zero'th argument can really contain anything and is entirely up to your script's parent.  Most shells will use the absolute path of the file that they ran to start the process as the name of the process, or the command that the user executed to start the process.  Be aware that this is by no means a requirement and you cannot make any reliable assumptions on the contents of the zero'th argument: it is best avoided for all intents and purposes.</p>
+
+    <p>What's nice and extremely convenient, most of what we've thus far learned about variable parameters applies to positional parameters as well: we can expand them and we can apply parameter expansion operators on these expansions to mutate the resulting values:</p>
+
+<pre lang="bash">
+<kbd>#!/usr/bin/env bash</kbd>
+<kbd>echo "The Name Script"</kbd>
+<kbd>echo "usage: names 'My Full Name'"; echo</kbd>
+
+first=${1%% *} last=${1##* } middle=${1#$first} middle=${middle%$last}
+<kbd>echo "Your first name is: $first"</kbd>
+<kbd>echo "Your last name is: $last"</kbd>
+<kbd>echo "Your middle names are: $middle"</kbd>
+</pre>
+
+    <p>If you save this script in a file called <code>names</code> and run it according to the usage description, by passing a single argument to it, you'll see the script analyse your name and inform you which part of your name is your first, last and middle names.  We're using the variables <var>first</var>, <var>last</var> and <var>middle</var> to store these pieces of information for later, when we expand the variables in the <code>echo</code> statements.  Notice how the
+    computation of the <var>middle</var> name requires both the knowledge of the full name (available from the first positional parameter) and the first name (which was previously computed and stored in the variable <var>first</var>).</p>
+
+<pre lang="bash">
+$ <kbd>chmod +x names</kbd>
+$ <kbd>./names 'Maarten Billemont'</kbd>
+The Name Script
+usage: names 'My Full Name'
+
+Your first name is: Maarten
+Your last name is: Billemont
+Your middle names are: 
+$ <kbd>./names 'James Tiberius "Jim" Kirk'</kbd>
+The Name Script
+usage: names 'My Full Name'
+
+Your first name is: James
+Your last name is: Kirk
+Your middle names are:  Tiberius "Jim"
+</pre>
+
+    <p>As a final note, it is important to understand that, unlike most variables, positional parameters are read-only parameters.  On reflection, it likely makes sense to you that one cannot change the arguments to your script from within your script.  As such, this is a syntax error:</p>
+
+<pre lang="bash" class="bad">
+$ <kbd>1='New First Argument'</kbd>
+-bash: 1=New First Argument: command not found
+</pre>
+
+    <p>While the error message is slightly confounding, it indicates that bash doesn't even recougnize this statement as an attempt to assign a value to a variable (since the parameter <code>1</code> is not a variable) and instead thinks you have given it the name of a command you want to run.</p>
+
+    <p>There is, however, a built-in command we can use to change the values of the set of positional parameters.  While this is a common practice in ancient shells that lack bash's more advanced features, you will rarely if ever have a need for this command in bash.  To modify the current set of positional parameters, use the <code>set</code> command and specify the new positional parameters as arguments after the <code>--</code> argument:</p>
+
+<pre lang="bash" class="bad">
+$ <kbd>set -- 'New First Argument' Second Third 'Fourth Argument'</kbd>
+$ <kbd>echo "1: $1, 2: $2, 4: $4"</kbd>
+1: New First Argument, 2: Second, 4: Fourth Argument
+</pre>
+
+    <h2>Special Parameters</h2>
+
+    <h2>Shell Variables</h2>
+
+    <h2>Arrays</h2>
 
 </section>
