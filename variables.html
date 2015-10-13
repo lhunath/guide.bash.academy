@@ -276,34 +276,34 @@ HTTp://guide.basH.academy/variables.HTml</pre>
     Parameter expansions should <strong>always be double-quoted</strong> for consistency and to prevent any potential white-space in them from causing word-splitting in addition to triggering unexpected pathname completion.  While expanding parameters, you can apply a special parameter expansion operator to mutate the expanded value in some way.
     </footer>
 
-    <h3>Exercises!</h3>
+    <h2>Exercises!</h2>
 
-    <h4>PARAM.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
+    <h4>PARAM.1.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>greeting=hello</kbd></samp></pre>
 
-    <h4>PARAM.2. Show the contents of the variable <var>greeting</var>.</h4>
+    <h4>PARAM.1.2. Show the contents of the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "$greeting"</kbd>
 hello</samp></pre>
 
-    <h4>PARAM.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
+    <h4>PARAM.1.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
 <pre class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp>
 <samp><kbd>greeting+=" world"</kbd><em><code>+=</code> appends the string to the end of the current value.</em></samp></pre>
 
-    <h4>PARAM.4. Show the last word in the variable <var>greeting</var>.</h4>
+    <h4>PARAM.1.4. Show the last word in the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting##* }"</kbd>
 world</samp></pre>
 
-    <h4>PARAM.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
+    <h4>PARAM.1.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting^}!"</kbd>
 Hello world!</samp></pre>
 
-    <h4>PARAM.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
+    <h4>PARAM.1.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
 <pre class="exercise"><samp><kbd>greeting=${greeting/ / big }</kbd></samp></pre>
 
-    <h4>PARAM.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
+    <h4>PARAM.1.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
 <pre class="exercise"><samp><kbd>echo "$greeting" &gt; "${greeting// /_}.txt"</kbd></samp></pre>
 
-    <h4>PARAM.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
+    <h4>PARAM.1.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
 <pre class="exercise"><samp><kbd>middle=${greeting% *} middle=${middle#* }; echo "${greeting%% *} ${middle^^} ${greeting##* }"</kbd>
 hello BIG world</samp></pre>
 </section>
@@ -593,7 +593,7 @@ Your last name is: Kirk
 Your middle names are:  Tiberius "Jim"
 </pre>
 
-    <p>As a final note, it is important to understand that, unlike most variables, positional parameters are read-only parameters.  On reflection, it likely makes sense to you that one cannot change the arguments to your script from within your script.  As such, this is a syntax error:</p>
+    <p>It is important to understand that, unlike most variables, positional parameters are read-only parameters.  On reflection, it likely makes sense to you that one cannot change the arguments to your script from within your script.  As such, this is a syntax error:</p>
 
 <pre lang="bash" class="bad">
 $ <kbd>1='New First Argument'</kbd>
@@ -609,6 +609,56 @@ $ <kbd>set -- 'New First Argument' Second Third 'Fourth Argument'</kbd>
 $ <kbd>echo "1: $1, 2: $2, 4: $4"</kbd>
 1: New First Argument, 2: Second, 4: Fourth Argument
 </pre>
+
+    <p>In addition to changing the set of positional parameters, there is also the <code>shift</code> built-in that can be used for "pushing" our set of positional parameters around.  When we shift positional parameters, we essentially push them all toward the beginning, causing the first few positional parameters to get bumped off to make way for the others:</p>
+
+<pre lang="bash">
+<mark>New First Argument</mark> <mark>Second</mark> <mark>Third</mark> <mark>Fourth Argument</mark>
+$ <kbd>shift 2</kbd><em>Push the positional parameters back 2.</em>
+<mark>Third</mark> <mark>Fourth Argument</mark> &lt;----<em>The first two disappeared and the third is now in first spot with the fourth in second place.</em>
+</pre>
+
+    <p>Finally, when starting a new bash shell using the <code>bash</code> command, there is a way to pass in positional parameters.  This is a very useful way of passing a list of arguments to an inline bash script.  You will use this method later when you combine inline bash code with other utilities, but for now this is a great way of experimenting with positional parameters without having to create a separate script to invoke and pass arguments to (such as we did with the
+    <code>names</code> example above).  Here's how to run an inline bash command and pass in a list of arguments to populate the positional parameters:</p>
+
+<pre lang="bash">
+$ <kbd>bash -c 'echo "1: $1, 2: $2, 4: $4"' -- 'New First Argument' Second Third 'Fourth Argument'</kbd>
+1: New First Argument, 2: Second, 4: Fourth Argument
+</pre>
+
+    <p>We run the <code>bash</code> command, passing the <code>-c</code> option followed by an argument that contains some bash shell code.  This will tell bash that instead of starting a new interactive bash shell, you want to just have the shell run the provided bash code and finish.  After the shell code, we specify the arguments to use for populating the positional parameters.  The first argument in our example is <code>--</code>, and while this argument is technically used to populate
+    the zero'th positional parameter, it is a good idea to always use <code>--</code> for the sake of compatibility and to make clear the separation between bash's arguments and the arguments to your shell code.  After this argument, each argument populates the standard positional parameters as you would expect.</p>
+
+    <p>Take note of the fact that all arguments, and in particular the argument containing the bash code, are <strong><code>'single-quoted'</code></strong>.  Whenever code is put in a string (such as in the case of passing it in as an argument), the code <em>should</em> be single-quoted.  Do not use <code>"double quotes"</code> to wrap code strings.  This is important because single quotes are much more reliable at making the wrapped data literal than
+    double quotes.  If we used double-quotes in the example above, the shell that we're typing the <code>bash</code> command into would expand the <code>$1</code>, <code>$2</code> and <code>$4</code> expansions instead, resulting in a broken argument to the <code>-c</code> option.
+
+    <p>To illustrate this point, compare our good example from above:</p>
+<pre lang="bash" class="good">
+$ <kbd>bash -vc <mark>'echo "1: $1, 2: $2, 4: $4"'</mark> -- \</kbd><em>We pass the -v argument to bash to show us the code it is going to run before the result.</em>
+<kbd>'New First Argument' Second Third 'Fourth Argument'</kbd><em>We can use \ at the end of a line to resume on a new line.</em>
+echo "1: $1, 2: $2, 4: $4"<em>Here is the code it is going to run.</em>
+1: New First Argument, 2: Second, 4: Fourth Argument<em>And this is the result.</em>
+</pre>
+
+    <p>to what would happen if we used double quotes around the <code>-c</code> argument instead of single quotes:</p>
+<pre lang="bash" class="bad">
+$ <kbd>bash -vc <mark>"echo "1:</mark> <mark>$1,</mark> <mark>2:</mark> <mark>$2,</mark> <mark>4:</mark> <mark>$4""</mark> -- \</kbd><em>The outer double-quotes conflict with the inner double-quotes, leading to ambiguity.</em>
+<kbd>'New First Argument' Second Third 'Fourth Argument'</kbd>
+echo 1:<em>As a result, the argument to -c is no longer the entire bash code but only the first word of it.</em>
+1:
+$ <kbd>bash -vc <mark>"echo \"1: $1, 2: $2, 4: $4\""</mark> -- \</kbd><em>Even if we fix the quoting ambiguity, the $1, $2 and $4 are now evaluated by the shell we're typing this command into,</em>
+<kbd>'New First Argument' Second Third 'Fourth Argument'</kbd><em>not the shell we pass the arguments to.</em>
+echo "1: , 2: , 4: "<em>Since $1, $2 and $4 are likely empty in your interactive shell, they will expand empty and disappear from the -c argument.</em>
+1: , 2: , 4:
+</pre>
+    <p>We could go as far as to fix all of the issues inside the double quotes by backslash-escaping all of the special characters, including the double quotes and dollar signs.  This would fix the issue, but it makes the shell code look extremely convoluted and hard to read.  Maintaining shell code that has been escaped in a special way like this is a nightmare and begs for accidental mistakes that are hard to spot:</p>
+<pre lang="bash" class="good">
+$ <kbd>bash -vc "echo \"1: \$1, 2: \$2, 4: \$4\"" -- \</kbd>
+<kbd>'New First Argument' Second Third 'Fourth Argument'</kbd>
+echo "1: $1, 2: $2, 4: $4"
+1: New First Argument, 2: Second, 4: Fourth Argument
+</pre>
+
 
     <h2>Special Parameters</h2>
 
@@ -692,5 +742,20 @@ $ <kbd>echo "1: $1, 2: $2, 4: $4"</kbd>
         shell variables lower-case</strong> to avoid ever accidentally overriding a shell-internal variable of the same name.  If you create an environment variable, give it an ALL-UPPERCASE name.</p>
 
     <h2>Arrays</h2>
+
+    <h2>Exercises!</h2>
+
+    <h4>PARAM.2.1. Start a new bash shell that outputs its <em>first</em> argument and pass <kbd>Hello World!</kbd> in as an argument to it.</h4>
+<pre class="exercise"><samp><kbd>bash -c 'echo "$1"' -- 'Hello World!'</kbd></samp></pre>
+
+    <h4>PARAM.2.2. Start a bash shell that outputs the number of arguments passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+<pre class="exercise"><samp><kbd>bash -c 'echo "$#"' -- 1 2 'The Third'</kbd></samp></pre>
+
+    <h4>PARAM.2.3. Start a bash shell that shifts a positional parameter away and then outputs the first. Pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+<pre class="exercise"><samp><kbd>bash -c 'shift; echo "$1"' -- 1 2 'The Third'</kbd></samp></pre>
+
+    <h4>PARAM.2.4. Start a bash shell that outputs the last argument passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+<pre class="exercise"><samp><kbd>bash -c 'echo "${@: -1}"' -- 1 2 'The Third'</kbd></samp></pre>
+
 
 </section>
