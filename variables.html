@@ -276,34 +276,34 @@ HTTp://guide.basH.academy/variables.HTml</pre>
     Parameter expansions should <strong>always be double-quoted</strong> for consistency and to prevent any potential white-space in them from causing word-splitting in addition to triggering unexpected pathname completion.  While expanding parameters, you can apply a special parameter expansion operator to mutate the expanded value in some way.
     </footer>
 
-    <h2>Exercises!</h2>
+    <h2 id="expansion_ex">Exercises!</h2>
 
-    <h4>PARAM.1.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
+    <h4>EXPAN.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>greeting=hello</kbd></samp></pre>
 
-    <h4>PARAM.1.2. Show the contents of the variable <var>greeting</var>.</h4>
+    <h4>EXPAN.2. Show the contents of the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "$greeting"</kbd>
 hello</samp></pre>
 
-    <h4>PARAM.1.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
+    <h4>EXPAN.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
 <pre class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp>
 <samp><kbd>greeting+=" world"</kbd><em><code>+=</code> appends the string to the end of the current value.</em></samp></pre>
 
-    <h4>PARAM.1.4. Show the last word in the variable <var>greeting</var>.</h4>
+    <h4>EXPAN.4. Show the last word in the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting##* }"</kbd>
 world</samp></pre>
 
-    <h4>PARAM.1.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
+    <h4>EXPAN.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting^}!"</kbd>
 Hello world!</samp></pre>
 
-    <h4>PARAM.1.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
+    <h4>EXPAN.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
 <pre class="exercise"><samp><kbd>greeting=${greeting/ / big }</kbd></samp></pre>
 
-    <h4>PARAM.1.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
+    <h4>EXPAN.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
 <pre class="exercise"><samp><kbd>echo "$greeting" &gt; "${greeting// /_}.txt"</kbd></samp></pre>
 
-    <h4>PARAM.1.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
+    <h4>EXPAN.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
 <pre class="exercise"><samp><kbd>middle=${greeting% *} middle=${middle#* }; echo "${greeting%% *} ${middle^^} ${greeting##* }"</kbd>
 hello BIG world</samp></pre>
 </section>
@@ -743,18 +743,18 @@ echo "1: $1, 2: $2, 4: $4"
 
     <h2>Arrays</h2>
 
-    <h2>Exercises!</h2>
+    <h2 id="parameter_ex">Exercises!</h2>
 
-    <h4>PARAM.2.1. Start a new bash shell that outputs its <em>first</em> argument and pass <kbd>Hello World!</kbd> in as an argument to it.</h4>
+    <h4>PARAM.1. Start a new bash shell that outputs its <em>first</em> argument and pass <kbd>Hello World!</kbd> in as an argument to it.</h4>
 <pre class="exercise"><samp><kbd>bash -c 'echo "$1"' -- 'Hello World!'</kbd></samp></pre>
 
-    <h4>PARAM.2.2. Start a bash shell that outputs the number of arguments passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+    <h4>PARAM.2. Start a bash shell that outputs the number of arguments passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
 <pre class="exercise"><samp><kbd>bash -c 'echo "$#"' -- 1 2 'The Third'</kbd></samp></pre>
 
-    <h4>PARAM.2.3. Start a bash shell that shifts a positional parameter away and then outputs the first. Pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+    <h4>PARAM.3. Start a bash shell that shifts a positional parameter away and then outputs the first. Pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
 <pre class="exercise"><samp><kbd>bash -c 'shift; echo "$1"' -- 1 2 'The Third'</kbd></samp></pre>
 
-    <h4>PARAM.2.4. Start a bash shell that outputs the last argument passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+    <h4>PARAM.4. Start a bash shell that outputs the last argument passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
 <pre class="exercise"><samp><kbd>bash -c 'echo "${@: -1}"' -- 1 2 'The Third'</kbd></samp></pre>
 
 

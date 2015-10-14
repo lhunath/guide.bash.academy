@@ -288,7 +288,7 @@ exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
 
     <p>It is vital that you understand simple commands well because they are the foundation of everything you will do in bash.  You might have noticed in the previous section that all other bash commands are composed of at least one simple command: they merely take simple commands and perform special operations with them.</p>
 
-    <h2>Command names and running programs.</h2>
+    <h2>Command names and running programs</h2>
 
 <pre class="syntax">
     [ <var>var</var>=<var>value</var> ... ] <mark><var>name</var></mark> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
@@ -319,7 +319,7 @@ bash: buy: command not found
     To run a command, bash uses the name of your command and performs a search for how to execute that command.  In order, bash will check whether it has a <dfn>function</dfn> or <dfn>builtin</dfn> by that name.  Failing that, it will try to run the name as a program.  If bash finds no way to run your command, it will output an error message.
     </footer>
 
-    <h2>The <code>PATH</code> to a program.</h2>
+    <h2>The <code>PATH</code> to a program</h2>
 
     <p>We have all sorts of programs installed on our computer.  Different programs are installed in different places.  Some programs shipped with our OS, others were added by our distribution and yet others were installed by us or our systems administrator.  On a standard UNIX system, there are <a href="http://www.pathname.com/fhs/">a few standardized locations</a> for programs to go.  Some programs will be installed in <code>/bin</code>, others in <code>/usr/bin</code>,
     yet others in <code>/sbin</code> and so on.  It would be a real bother if we had to remember the exact location of our programs, especially since they may vary between systems.  To the rescue comes the <code>PATH</code> <dfn>environment variable</dfn>.  Your <code>PATH</code> variable contains a set of directories that should be searched for programs.</p>
@@ -377,7 +377,7 @@ $
     When bash needs to run a program, it uses the command name to perform a search.  Bash searches the directories in your <code>PATH</code> <dfn>environment variable</dfn>, one by one, until it finds a directory that contains a program with the name of your command.  To run a program that is not installed in a <code>PATH</code> directory, use the path to that program as your command's name.
     </footer>
 
-    <h3>Exercises!</h3>
+    <h3 id="path_ex">Exercises!</h3>
 
     <h4>PATH.1. Run the <code>ls</code> program.</h4>
 <pre class="exercise"><samp>$ <kbd>ls</kbd></samp></pre>
@@ -812,7 +812,7 @@ echo &gt;&amp;2 "   Success if the program exists in the user's PATH and is exec
     By default, new commands inherit the shell's current file descriptors.  We can use <dfn>redirections</dfn> to change where a command's input comes from and where its output should go to.  File redirection (eg. <code>2&gt;errors.log</code>) allows us to stream file descriptors to files.  We can copy file descriptors (eg. <code>2&gt;&amp;1</code>) to make them share a stream.  There are also many other more advanced redirection operators.
     </footer>
 
-    <h3>Exercises!</h3>
+    <h3 id="redir_ex">Exercises!</h3>
 
     <h4>REDIR.1. Run a command that produces a message on standard output.</h4>
 <pre class="exercise"><samp>$ <kbd>ls /bin/bash</kbd>
