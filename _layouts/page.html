@@ -1,0 +1,19 @@
+---
+layout: default
+---
+<nav>
+    <h1>Sections</h1>
+    <div id="toc"></div>
+
+    <h1>Chapters</h1>
+    <ul>
+        {% for page in site.pages %}
+            {% if page.layout == 'chapter' %}
+                <li><a href="{{ page.url }}#">{{ page.title }}<br>
+                    <sub>{{ page.subtitle }}</sub></a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+
+{{ content }}

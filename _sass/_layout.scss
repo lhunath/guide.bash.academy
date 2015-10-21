@@ -97,7 +97,7 @@ header {
     background-size: cover;
 }
 #variables header {
-    background: linear-gradient(to top, black, transparent), url("../img/commands.jpg");
+    background: linear-gradient(to top, black, transparent), url("../img/variables.jpg");
     background-size: cover;
 }
 header {
@@ -106,15 +106,15 @@ header {
     position: relative;
     height: 80%;
     margin: 0;
-    padding: 15%;
-    box-sizing: border-box;
+    overflow: hidden;
 
     text-shadow: 0 1px 5px black, 0 1px 2px black;
 }
 header>div {
     position: absolute;
-
     bottom: 15%;
+    left: 15%;
+    width: 70%;
 }
 header h1 {
     color: white;
@@ -131,6 +131,23 @@ header h2 {
 header h2 cite {
     font-weight: 100;
     font-size: 0.7em;
+}
+header h3 {
+    box-shadow: 0 0 20px black;
+
+    background:  rgba( 0, 0, 0, 0.6 );
+    position: absolute;
+    bottom: -8px;
+    left: 20%;
+    width: 60%;
+    padding: 1ex 1em 1em;
+
+    color:  #666;
+    border: 1px solid #333;
+    border-radius: 8px;
+
+    margin: 0;
+    font-size: 0.9em;
 }
 header a:link, header a:visited {
     color: #EEE;

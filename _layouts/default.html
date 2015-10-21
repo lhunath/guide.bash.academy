@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html class="no-js">
     {% include head.html %}
-    <body id="{{ page.path | split:'/' | last | split:'.' | first }}">
+    <body id="{{ page.id }}">
 
-        {% include header.html %}
+        {% if page.editable or page.editable == null %}
+        <a class="page-edit fixed" href="http://prose.io/#lhunath/guide.bash.academy/edit/gh-pages/{{ page.path }}">[edit this page]</a>
+        {% endif %}
+
+        <header data-stellar-background-ratio="0.4">
+            <div>
+                <h1>{{ page.title }}</h1>
+                <h2>{{ page.subtitle }}</h2>
+            </div>
+
+            <h3>{{ page.description }}</h3>
+
+            {% if page.editable or page.editable == null %}
+                <a class="page-edit" href="http://prose.io/#lhunath/guide.bash.academy/edit/gh-pages/{{ page.path }}">[edit this page]</a>
+            {% endif %}
+        </header>
+
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
