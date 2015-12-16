@@ -599,8 +599,8 @@ $
 
     <p>Our <code>ls</code> command no longer showed an error message and the results were properly stored in <code>myfiles.ls</code>.  Where has the error message gone?  We've written it to the file <code>/dev/null</code>.  But when we show the contents of that file, we don't see our error message.  Did something go wrong?</p>
 
-    <p>The clue for this little mystery is in the directory name.  The file <code>null</code> is in the <code>/dev</code> directory:  This is a special directory for <dfn>device files</dfn>.  Device files are special files that represent devices in our system.  When we write to or read from them, we're communicating directory with those devices through the kernel.  The <code>null</code> device is a special device that is always empty.  Anything you write to it will be lost
-    and nothing can be read from it.  That makes it a very useful device for discarting information.  We stream our unwanted error message to the <code>null</code> device and it disappears.</p>
+    <p>The clue for this little mystery is in the directory name.  The file <code>null</code> is in the <code>/dev</code> directory:  This is a special directory for <dfn>device files</dfn>.  Device files are special files that represent devices in our system.  When we write to or read from them, we're communicating directly with those devices through the kernel.  The <code>null</code> device is a special device that is always empty.  Anything you write to it will be lost
+    and nothing can be read from it.  That makes it a very useful device for discarding information.  We stream our unwanted error message to the <code>null</code> device and it disappears.</p>
 
     <p>What if we wanted to save all the output that would normally appear on the terminal to our <code>myfiles.ls</code> file; both the results and error messages?  Intuition might suggest:</p>
 
