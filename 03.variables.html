@@ -588,7 +588,7 @@ $ <kbd>1='New First Argument'</kbd>
 -bash: 1=New First Argument: command not found
 </pre>
 
-    <p>While the error message is slightly confounding, it indicates that bash doesn't even recougnize this statement as an attempt to assign a value to a variable (since the parameter <code>1</code> is not a variable) and instead thinks you have given it the name of a command you want to run.</p>
+    <p>While the error message is slightly confounding, it indicates that bash doesn't even recognize this statement as an attempt to assign a value to a variable (since the parameter <code>1</code> is not a variable) and instead thinks you have given it the name of a command you want to run.</p>
 
     <p>There is, however, a built-in command we can use to change the values of the set of positional parameters.  While this is a common practice in ancient shells that lack bash's more advanced features, you will rarely if ever have a need for this in bash.  To modify the current set of positional parameters, use the <code>set</code> command and specify the new positional parameters as arguments after the <code>--</code> argument:</p>
 
