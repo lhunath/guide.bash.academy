@@ -104,52 +104,65 @@ header {
     box-shadow: 0 0 50px black;
 
     position: relative;
+    z-index: 2;
     height: 80%;
     margin: 0;
     padding: 15%;
     box-sizing: border-box;
 
     text-shadow: 0 1px 5px black, 0 1px 2px black;
+
+    &>div {
+        position: absolute;
+
+        bottom: 15%;
+    }
+    & h1 {
+        color: white;
+
+        margin: 0.5em 0;
+        font-size: 3em;
+    }
+    & h2 {
+        color: white;
+
+        margin: 0;
+        font-size: 1em;
+    }
+    & h2 cite {
+        font-weight: 100;
+        font-size: 0.7em;
+    }
+    & a:link, & a:visited {
+        color: #EEE;
+        font-weight: bolder;
+    }
+    & a:hover {
+        color: inherit;
+    }
 }
-header>div {
+.page-edit, .page-edit:link {
     position: absolute;
-
-    bottom: 15%;
-}
-header h1 {
-    color: white;
-
-    margin: 0.5em 0;
-    font-size: 3em;
-}
-header h2 {
-    color: white;
-
-    margin: 0;
-    font-size: 1em;
-}
-header h2 cite {
-    font-weight: 100;
-    font-size: 0.7em;
-}
-header a:link, header a:visited {
-    color: #EEE;
-    font-weight: bolder;
-}
-header a:hover {
-    color: inherit;
-}
-.page-edit {
-    position: absolute;
+    z-index: 1;
 
     bottom: -2em;
-    right: 5em;
+    right: 0;
     margin: 0;
+    padding: 0.5ex;
+    padding-right: 1em;
+
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px 0 0 4px;
+    color: black;
+    text-shadow: initial;
 
     &.fixed {
         position: fixed;
         bottom: auto;
         top: 1em;
+    }
+    header & {
+        background-color: transparent;
     }
 }
 
@@ -164,27 +177,26 @@ section {
     margin: 0 auto;
     padding: 15% 0;
     box-sizing: border-box;
-}
-section h1,
-section h2 {
-    margin: 0 -1em 1em;
-}
-section h2 {
-    margin-top: 5em;
-}
-section h1::before,
-section h2::before {
-    color: #BBB;
 
-    font-size: 0.5em;
-}
-section h1::before {
-    counter-increment: section;
-    content: "⌗" counters(section,".") " ";
-}
-section h2::before {
-    counter-increment: subsection;
-    content: " ❡" counters(subsection, ".") " ";
+    & h1, & h2 {
+        margin: 0 -1em 1em;
+    }
+    & h2 {
+        margin-top: 5em;
+    }
+    & h1::before, & h2::before {
+        color: #BBB;
+
+        font-size: 0.5em;
+    }
+    & h1::before {
+        counter-increment: section;
+        content: "⌗" counters(section,".") " ";
+    }
+    & h2::before {
+        counter-increment: subsection;
+        content: " ❡" counters(subsection, ".") " ";
+    }
 }
 aside {
     background: #FAFAFA;
@@ -195,34 +207,36 @@ aside {
     position: relative;
     margin: 1em 0 1em 7em;
     padding: 10px;
-}
-aside:hover {
-    background: #EEE;
-    border-color: #CCC;
-}
-aside::before {
-    content: "note";
-    color: #CCC;
-    transition: .3s all;
 
-    position: absolute;
-    right: 100%;
-    padding: 0 1ex;
+    &:hover {
+        background: #EEE;
+        border-color: #CCC;
+    }
+    &::before {
+        content: "note";
+        color: #CCC;
+        transition: .3s all;
+
+        position: absolute;
+        right: 100%;
+        padding: 0 1ex;
+    }
+    &.nav::before {
+        content: "navigation";
+    }
+    &:hover::before {
+        color: #AAA;
+    }
+    &.warn::before {
+        content: "warning";
+        color: #A66;
+    }
+    &.rule::before {
+        content: "rule";
+        color: #6A6;
+    }
 }
-aside.nav::before {
-    content: "navigation";
-}
-aside:hover::before {
-    color: #AAA;
-}
-aside.warn::before {
-    content: "warning";
-    color: #A66;
-}
-aside.rule::before {
-    content: "rule";
-    color: #6A6;
-}
+
 footer,
 pre {
     border: 1px dashed #DDD;
@@ -235,20 +249,23 @@ pre {
     position: relative;
     margin: 0 -12.5%;
 }
-dd footer,
-dd pre {
-    margin: 0 -19.5%;
+dd {
+    & footer, & pre {
+        margin: 0 -19.5%;
+    }
 }
-aside footer,
-aside pre {
-    margin: 0 -10px;
+aside {
+    & footer, & pre {
+        margin: 0 -10px;
+    }
 }
+
 table, footer, code, pre, kbd {
     counter-reset: samp;
 
     background: url("../img/stripes.png"); /* Performs better, maybe not as pretty. */
     /*background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
-    background-size:6px 6px;*/
+    background-size:6px 6px;/**/
 }
 table code, table kbd {
     background: none;
@@ -259,10 +276,11 @@ footer {
     font-size: 1.1em;
 
     padding: 1em 20%;
-}
-footer:hover {
-    color: black;
-    box-shadow: 0 0 15px #CCC;
+
+    &:hover {
+        color: black;
+        box-shadow: 0 0 15px #CCC;
+    }
 }
 section>footer::before {
     content: "TL;DR";
@@ -295,9 +313,10 @@ pre:hover kbd {
 }
 var {
     border-bottom: 1px dashed;
-}
-var:hover {
-    color: black;
+
+    &:hover {
+        color: black;
+    }
 }
 pre kbd, pre var, pre samp,
 code kbd, code var, code samp {
@@ -464,95 +483,105 @@ nav {
     height: 100%;
     margin-left: 3em;
     overflow: hidden;
-}
-nav::before {
-    content: "≣";
-    content: "≡";
-    line-height: 0.33;
 
-    position: fixed;
-    top: 0.2em;
-    left: 0.2em;
-    z-index: 10;
+    &:hover {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 0 2px black;
 
-    font-size: 3em;
-}
-nav:hover {
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 2px black;
+        left: 0;
+        margin-left: 0;
+        overflow: auto;
+    }
+    &::before {
+        content: "≣";
+        content: "≡";
+        line-height: 0.33;
 
-    left: 0;
-    margin-left: 0;
-    overflow: auto;
-}
-nav h1,
-nav ul {
-    opacity: 0;
-    transition: 0.3s opacity;
-}
-nav:hover h1,
-nav:hover ul {
-    opacity: 1;
-}
-nav h1 {
-    padding: 0 1ex;
-    margin: 1em 0 0;
-}
-nav ul {
-    display: block;
-    margin: 0;
-    padding: 1em 0;
-}
-nav li a {
-    display: block;
-    padding: 1ex 1em;
-    border-left: 1ex solid transparent;
+        position: fixed;
+        top: 0.2em;
+        left: 0;
+        padding: 0 0.2em 0.2em 0.2em;
+        z-index: 10;
 
-    text-decoration: none;
-}
-nav li a:hover {
-    background: #EEE;
-}
-nav li.toc-active a {
-    border-left: 1ex solid #DDD;
-}
-nav li.toc-h1 {
-    counter-reset: toc-subsection;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 0 4px 4px 0;
+        opacity: 1;
+        transition: 0.3s opacity;
 
-    margin-top: 1ex;
+        font-size: 3em;
+    }
+    &:hover::before {
+        opacity: 0;
+    }
+    & h1,
+    & ul {
+        opacity: 0;
+        transition: 0.3s opacity;
+    }
+    &:hover h1,
+    &:hover ul {
+        opacity: 1;
+    }
+    & h1 {
+        padding: 0 1ex;
+        margin: 1em 0 0;
+    }
+    & ul {
+        display: block;
+        margin: 0;
+        padding: 1em 0;
+    }
+    & li a {
+        display: block;
+        padding: 1ex 1em;
+        border-left: 1ex solid transparent;
 
-    font-size: 1em;
-}
-nav li.toc-h2 a {
-    font-size: 0.7em;
-    text-indent: 1em;
-}
-nav li.toc-h3 a {
-    font-size: 0.6em;
-    text-indent: 2em;
-}
-nav li.toc-h4 a {
-    font-size: 0.5em;
-    text-indent: 3em;
-}
-nav li a::before {
-    color: #BBB;
-    opacity: 0;
-    transition: 0.2s all;
+        text-decoration: none;
+    }
+    & li a:hover {
+        background: #EEE;
+    }
+    & li.toc-active a {
+        border-left: 1ex solid #DDD;
+    }
+    & li.toc-h1 {
+        counter-reset: toc-subsection;
 
-    font-size: 0.5em;
-}
-nav li:hover a::before,
-nav li.toc-active a::before {
-    opacity: 1;
-}
-nav li.toc-h1 a::before {
-    counter-increment: toc-section;
-    content: "⌗" counters(toc-section,".") " ";
-}
-nav li.toc-h2 a::before {
-    counter-increment: toc-subsection;
-    content: " ❡" counters(toc-subsection, ".") " ";
+        margin-top: 1ex;
+
+        font-size: 1em;
+    }
+    & li.toc-h2 a {
+        font-size: 0.7em;
+        text-indent: 1em;
+    }
+    & li.toc-h3 a {
+        font-size: 0.6em;
+        text-indent: 2em;
+    }
+    & li.toc-h4 a {
+        font-size: 0.5em;
+        text-indent: 3em;
+    }
+    & li a::before {
+        color: #BBB;
+        opacity: 0;
+        transition: 0.2s all;
+
+        font-size: 0.5em;
+    }
+    & li:hover a::before,
+    & li.toc-active a::before {
+        opacity: 1;
+    }
+    & li.toc-h1 a::before {
+        counter-increment: toc-section;
+        content: "⌗" counters(toc-section,".") " ";
+    }
+    & li.toc-h2 a::before {
+        counter-increment: toc-subsection;
+        content: " ❡" counters(toc-subsection, ".") " ";
+    }
 }
 table, tr {
     border: 1px solid #DDD;
