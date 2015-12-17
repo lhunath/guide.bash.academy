@@ -158,6 +158,16 @@ header {
         color: inherit;
     }
 }
+.fork {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+
+    & img {
+        border: 0;
+    }
+}
 .page-edit, .page-edit:link {
     position: absolute;
     z-index: 1;
