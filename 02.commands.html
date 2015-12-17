@@ -764,8 +764,8 @@ Since I started learning bash, you suddenly seem so much bigger than you were be
 
 <samp>exec <mark>3&gt;&amp;1-</mark> &gt;mylog; echo moo; exec <mark>&gt;&amp;3-</mark></samp>
 </pre>
-        Replace FD <var>x</var> by FD <var>y</var>.
-        <p>The file descriptor at <var>y</var> is copied to <var>x</var> and <var>y</var> is closed.  Effectively, it replaces <var>x</var> by <var>y</var>.  It is a convenience operator for <code>[<var>x</var>]&gt;&amp;<var>y</var> <var>y</var>&gt;&amp;-</code>.  Again, you will rarely use this operator.</p>
+        Replace FD <var>y</var> with FD <var>x</var>.
+        <p>The file descriptor at <var>y</var> is copied to <var>x</var> and <var>y</var> is closed.  Effectively, it replaces <var>y</var> with <var>x</var>.  It is a convenience operator for <code>[<var>x</var>]&gt;&amp;<var>y</var> <var>y</var>&gt;&amp;-</code>.  Again, you will rarely use this operator.</p>
         </dd>
 
         <dt><dfn>Reading and writing with a file descriptor</dfn></dt>
