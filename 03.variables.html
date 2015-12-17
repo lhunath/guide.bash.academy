@@ -1,25 +1,13 @@
 ---
-layout: default
+id: variables
+layout: chapter
 title: Variables and Expansions
-subtitle: How do I store and work with data?
+subtitle: "How do I store and work with data?"
+status: drafting
+description: "Bash parameters and variables; environment variables, special parameters and array parameters; expanding parameters, expansion operators, command substitution and process substitution; pathname expansion, tilde expansion and brace expansion."
+published: true
 ---
 
-<nav>
-    <h1>Sections</h1>
-    <div id="toc"></div>
-
-    <h1>Chapters</h1>
-    <ul>
-        <li id="chapter_cover"><a href="index.html#">Cover<br>
-            <sub>The Bash Guide</sub></a></li>
-        <li id="chapter_inception"><a href="inception.html#">Inception<br>
-            <sub>What is bash, and where does it live?</sub></a></li>
-        <li id="chapter_commands"><a href="commands.html#">Commands And Arguments<br>
-            <sub>How do I give bash instructions?</sub></a></li>
-        <li id="chapter_variables"><a href="variables.html#">Variables And Expansions<br>
-            <sub>How do I store and work with data?</sub></a></li>
-    </ul>
-</nav>
 
 <section>
     <h1>How do I store and re-use data?</h1>
@@ -276,34 +264,34 @@ HTTp://guide.basH.academy/variables.HTml</pre>
     Parameter expansions should <strong>always be double-quoted</strong> for consistency and to prevent any potential white-space in them from causing word-splitting in addition to triggering unexpected pathname completion.  While expanding parameters, you can apply a special parameter expansion operator to mutate the expanded value in some way.
     </footer>
 
-    <h3>Exercises!</h3>
+    <h2 id="expansion_ex">Exercises!</h2>
 
-    <h4>PARAM.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
+    <h4>EXPAN.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>greeting=hello</kbd></samp></pre>
 
-    <h4>PARAM.2. Show the contents of the variable <var>greeting</var>.</h4>
+    <h4>EXPAN.2. Show the contents of the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "$greeting"</kbd>
 hello</samp></pre>
 
-    <h4>PARAM.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
+    <h4>EXPAN.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
 <pre class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp>
 <samp><kbd>greeting+=" world"</kbd><em><code>+=</code> appends the string to the end of the current value.</em></samp></pre>
 
-    <h4>PARAM.4. Show the last word in the variable <var>greeting</var>.</h4>
+    <h4>EXPAN.4. Show the last word in the variable <var>greeting</var>.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting##* }"</kbd>
 world</samp></pre>
 
-    <h4>PARAM.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
+    <h4>EXPAN.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and an exclamation mark (<code>!</code>) at the end.</h4>
 <pre class="exercise"><samp><kbd>echo "${greeting^}!"</kbd>
 Hello world!</samp></pre>
 
-    <h4>PARAM.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
+    <h4>EXPAN.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
 <pre class="exercise"><samp><kbd>greeting=${greeting/ / big }</kbd></samp></pre>
 
-    <h4>PARAM.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
+    <h4>EXPAN.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
 <pre class="exercise"><samp><kbd>echo "$greeting" &gt; "${greeting// /_}.txt"</kbd></samp></pre>
 
-    <h4>PARAM.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
+    <h4>EXPAN.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
 <pre class="exercise"><samp><kbd>middle=${greeting% *} middle=${middle#* }; echo "${greeting%% *} ${middle^^} ${greeting##* }"</kbd>
 hello BIG world</samp></pre>
 </section>
@@ -315,31 +303,37 @@ hello BIG world</samp></pre>
 
     <h2>Environment Variables</h2>
 
-    <p>Unlike the shell, the environment is something that exists at the process level.  You can think of the environment as a piece of land you buy.  The land can have a house on it, this will be the code running in your process.  You can store variables in the environment and you can store variables in the shell.  The environment is something every process has, while the shell space is only available to bash processes.</p>
+    <p>Unlike shell variables, environment variables exist at the process level.  That means they are not a feature of the bash shell, but rather a feature of any program process on your system.  If we imagine a process as a piece of land you buy, the building we put on the land will be the code running in your process.  You could put a <code>bash</code> house or a <code>grep</code> shack or a <code>firefox</code> tower on the land.  Environment variables are variables
+    stored on your process' land itself, while shell variables are stored inside the bash house built on your land.<br />
+    You can store variables in the environment and you can store variables in the shell.  The environment is something every process has, while the shell space is only available to bash processes.  As a rule, <em>you should put your variables in the shell space</em> unless you explicitly require the behaviour of environment variables.</p>
 
 <pre>
-    ╭─── process ────────────────────╮
-    │             ╭─── bash ───────╮ │
-    │ ENVIRONMENT │ SHELL          │ │
-    │             ╰────────────────╯ │
-    ╰────────────────────────────────╯
+    ╭─── bash ─────────────────────────╮
+    │             ╭──────────────────╮ │
+    │ ENVIRONMENT │ SHELL            │ │
+    │             │ shell_var1=value │ │
+    │             │ shell_var2=value │ │
+    │             ╰──────────────────╯ │
+    │ ENV_VAR1=value                   │
+    │ ENV_VAR2=value                   │
+    ╰──────────────────────────────────╯
 </pre>
 
     <p>When you run a new program from the shell, bash will run this program in a new process.  When it does, this new process will have its own environment.  But unlike shell processes, ordinary processes do not have shell variables.  They only have environment variables.  More importantly, when a new process is created, its environment is populated by making a <strong>copy</strong> of the environment of the creating process:</p>
 
 <pre>
-    ╭─── process ────────────────────╮
-    │             ╭─── bash ───────╮ │
+    ╭─── bash ───────────────────────╮
+    │             ╭────────────────╮ │
     │ ENVIRONMENT │ SHELL          │ │
     │             │ greeting=hello │ │
     │             ╰────────────────╯ │
     │ HOME=/home/lhunath             │
     │ PATH=/bin:/usr/bin             │
     ╰─┬──────────────────────────────╯
-      ╎  ╭─── process ────────────────────╮
-      └╌╌┥             ╭─── ls ───────╮   │
-         │ ENVIRONMENT │              │   │
-         │             ╰──────────────╯   │
+      ╎  ╭─── ls ─────────────────────────╮
+      └╌╌┥                                │
+         │ ENVIRONMENT                    │
+         │                                │
          │ HOME=/home/lhunath             │
          │ PATH=/bin:/usr/bin             │
          ╰────────────────────────────────╯
@@ -349,8 +343,8 @@ hello BIG world</samp></pre>
     changing or creating new variables in the child will in no way affect the parent:</p>
 
 <pre>
-    ╭─── process ────────────────────╮
-    │             ╭─── bash ───────╮ │
+    ╭─── bash ───────────────────────╮
+    │             ╭────────────────╮ │
     │ ENVIRONMENT │ SHELL          │ │
     │             │ greeting=hello │ │
     │             ╰────────────────╯ │
@@ -358,8 +352,8 @@ hello BIG world</samp></pre>
     │ PATH=/bin:/usr/bin             │
     │ NAME=<mark>Bob</mark>                       │
     ╰─┬──────────────────────────────╯
-      ╎  ╭─── process ────────────────────╮
-      └╌╌┥             ╭─── bash ───────╮ │
+      ╎  ╭─── bash ───────────────────────╮
+      └╌╌┥             ╭────────────────╮ │
          │ ENVIRONMENT │ SHELL          │ │
          │             ╰────────────────╯ │
          │ HOME=/home/lhunath             │
@@ -369,8 +363,8 @@ hello BIG world</samp></pre>
 
 $ <kbd>NAME=John</kbd>
 
-    ╭─── process ────────────────────╮
-    │             ╭─── bash ───────╮ │
+    ╭─── bash ───────────────────────╮
+    │             ╭────────────────╮ │
     │ ENVIRONMENT │ SHELL          │ │
     │             │ greeting=hello │ │
     │             ╰────────────────╯ │
@@ -378,8 +372,8 @@ $ <kbd>NAME=John</kbd>
     │ PATH=/bin:/usr/bin             │
     │ NAME=<mark>Bob</mark>                       │
     ╰─┬──────────────────────────────╯
-      ╎  ╭─── process ────────────────────╮
-      └╌╌┥             ╭─── bash ───────╮ │
+      ╎  ╭─── bash ───────────────────────╮
+      └╌╌┥             ╭────────────────╮ │
          │ ENVIRONMENT │ SHELL          │ │
          │             ╰────────────────╯ │
          │ HOME=/home/lhunath             │
@@ -395,8 +389,8 @@ $ <kbd>NAME=John</kbd>
     <var>LSCOLORS</var> can be used by some <code>ls</code> programs to colorize their output of files on your system.</p>
 
 <pre>
-    ╭─── process ────────────────────╮
-    │             ╭─── bash ───────╮ │
+    ╭─── bash ───────────────────────╮
+    │             ╭────────────────╮ │
     │ ENVIRONMENT │ SHELL          │ │
     │             │ greeting=hello │ │
     │             ╰────────────────╯ │
@@ -587,14 +581,14 @@ Your last name is: Kirk
 Your middle names are:  Tiberius "Jim"
 </pre>
 
-    <p>As a final note, it is important to understand that, unlike most variables, positional parameters are read-only parameters.  On reflection, it likely makes sense to you that one cannot change the arguments to your script from within your script.  As such, this is a syntax error:</p>
+    <p>It is important to understand that, unlike most variables, positional parameters are read-only parameters.  On reflection, it likely makes sense to you that one cannot change the arguments to your script from within your script.  As such, this is a syntax error:</p>
 
 <pre lang="bash" class="bad">
 $ <kbd>1='New First Argument'</kbd>
 -bash: 1=New First Argument: command not found
 </pre>
 
-    <p>While the error message is slightly confounding, it indicates that bash doesn't even recougnize this statement as an attempt to assign a value to a variable (since the parameter <code>1</code> is not a variable) and instead thinks you have given it the name of a command you want to run.</p>
+    <p>While the error message is slightly confounding, it indicates that bash doesn't even recognize this statement as an attempt to assign a value to a variable (since the parameter <code>1</code> is not a variable) and instead thinks you have given it the name of a command you want to run.</p>
 
     <p>There is, however, a built-in command we can use to change the values of the set of positional parameters.  While this is a common practice in ancient shells that lack bash's more advanced features, you will rarely if ever have a need for this in bash.  To modify the current set of positional parameters, use the <code>set</code> command and specify the new positional parameters as arguments after the <code>--</code> argument:</p>
 
@@ -604,10 +598,156 @@ $ <kbd>echo "1: $1, 2: $2, 4: $4"</kbd>
 1: New First Argument, 2: Second, 4: Fourth Argument
 </pre>
 
+    <p>In addition to changing the set of positional parameters, there is also the <code>shift</code> built-in that can be used for "pushing" our set of positional parameters around.  When we shift positional parameters, we essentially push them all toward the beginning, causing the first few positional parameters to get bumped off to make way for the others:</p>
+
+<pre lang="bash">
+<mark>New First Argument</mark> <mark>Second</mark> <mark>Third</mark> <mark>Fourth Argument</mark>
+$ <kbd>shift 2</kbd><em>Push the positional parameters back 2.</em>
+<mark>Third</mark> <mark>Fourth Argument</mark> &lt;----<em>The first two disappeared and the third is now in first spot with the fourth in second place.</em>
+</pre>
+
+    <p>Finally, when starting a new bash shell using the <code>bash</code> command, there is a way to pass in positional parameters.  This is a very useful way of passing a list of arguments to an inline bash script.  You will use this method later when you combine inline bash code with other utilities, but for now this is a great way of experimenting with positional parameters without having to create a separate script to invoke and pass arguments to (such as we did with the
+    <code>names</code> example above).  Here's how to run an inline bash command and pass in a list of arguments to populate the positional parameters:</p>
+
+<pre lang="bash">
+$ <kbd>bash -c 'echo "1: $1, 2: $2, 4: $4"' -- 'New First Argument' Second Third 'Fourth Argument'</kbd>
+1: New First Argument, 2: Second, 4: Fourth Argument
+</pre>
+
+    <p>We run the <code>bash</code> command, passing the <code>-c</code> option followed by an argument that contains some bash shell code.  This will tell bash that instead of starting a new interactive bash shell, you want to just have the shell run the provided bash code and finish.  After the shell code, we specify the arguments to use for populating the positional parameters.  The first argument in our example is <code>--</code>, and while this argument is technically used to populate
+    the zero'th positional parameter, it is a good idea to always use <code>--</code> for the sake of compatibility and to make clear the separation between bash's arguments and the arguments to your shell code.  After this argument, each argument populates the standard positional parameters as you would expect.</p>
+
+    <p>Take note of the fact that all arguments, and in particular the argument containing the bash code, are <strong><code>'single-quoted'</code></strong>.  Whenever code is put in a string (such as in the case of passing it in as an argument), the code <em>should</em> be single-quoted.  Do not use <code>"double quotes"</code> to wrap code strings.  This is important because single quotes are much more reliable at making the wrapped data literal than
+    double quotes.  If we used double-quotes in the example above, the shell that we're typing the <code>bash</code> command into would expand the <code>$1</code>, <code>$2</code> and <code>$4</code> expansions instead, resulting in a broken argument to the <code>-c</code> option.
+
+    <p>To illustrate this point, compare our good example from above:</p>
+<pre lang="bash" class="good">
+$ <kbd>bash -vc <mark>'echo "1: $1, 2: $2, 4: $4"'</mark> -- \</kbd><em>We pass the -v argument to bash to show us the code it is going to run before the result.</em>
+<kbd>'New First Argument' Second Third 'Fourth Argument'</kbd><em>We can use \ at the end of a line to resume on a new line.</em>
+echo "1: $1, 2: $2, 4: $4"<em>Here is the code it is going to run.</em>
+1: New First Argument, 2: Second, 4: Fourth Argument<em>And this is the result.</em>
+</pre>
+
+    <p>to what would happen if we used double quotes around the <code>-c</code> argument instead of single quotes:</p>
+<pre lang="bash" class="bad">
+$ <kbd>bash -vc <mark>"echo "1:</mark> <mark>$1,</mark> <mark>2:</mark> <mark>$2,</mark> <mark>4:</mark> <mark>$4""</mark> -- \</kbd><em>The outer double-quotes conflict with the inner double-quotes, leading to ambiguity.</em>
+<kbd>'New First Argument' Second Third 'Fourth Argument'</kbd>
+echo 1:<em>As a result, the argument to -c is no longer the entire bash code but only the first word of it.</em>
+1:
+$ <kbd>bash -vc <mark>"echo \"1: $1, 2: $2, 4: $4\""</mark> -- \</kbd><em>Even if we fix the quoting ambiguity, the $1, $2 and $4 are now evaluated by the shell we're typing this command into,</em>
+<kbd>'New First Argument' Second Third 'Fourth Argument'</kbd><em>not the shell we pass the arguments to.</em>
+echo "1: , 2: , 4: "<em>Since $1, $2 and $4 are likely empty in your interactive shell, they will expand empty and disappear from the -c argument.</em>
+1: , 2: , 4:
+</pre>
+    <p>We could go as far as to fix all of the issues inside the double quotes by backslash-escaping all of the special characters, including the double quotes and dollar signs.  This would fix the issue, but it makes the shell code look extremely convoluted and hard to read.  Maintaining shell code that has been escaped in a special way like this is a nightmare and begs for accidental mistakes that are hard to spot:</p>
+<pre lang="bash" class="good">
+$ <kbd>bash -vc "echo \"1: \$1, 2: \$2, 4: \$4\"" -- \</kbd>
+<kbd>'New First Argument' Second Third 'Fourth Argument'</kbd>
+echo "1: $1, 2: $2, 4: $4"
+1: New First Argument, 2: Second, 4: Fourth Argument
+</pre>
+
+
     <h2>Special Parameters</h2>
 
-    <h2>Shell Variables</h2>
+    <p>Understanding positional parameters makes understanding special parameters much easier: they are very similar.  Special parameters are parameters whose name is a single symbolic character, they are used to request certain state information from the bash shell.  Here are the different kinds of special parameters and the information they hold:</p>
+
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Example</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>"$</strong><var>*</var><strong>"</strong></code></th>
+            <td><kbd>echo "Arguments: $<mark>*</mark>"</kbd></td>
+            <td>
+                Expands a <strong><em>single</em> string</strong>, joining all positional parameters into one, separated by the first character in <var>IFS</var> (by default, a space).<br>
+                <strong>Note:</strong> You should never use this parameter unless you explicitly intend to join all the parameters.  You almost always want to use <code>@</code> instead.
+            </td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>"$</strong><var>@</var><strong>"</strong></code></th>
+            <td><kbd>rm "$<mark>@</mark>"</kbd></td>
+            <td>
+                Expands the positional parameters as a list of separate arguments.
+            </td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>"$</strong><var>#</var><strong>"</strong></code></th>
+            <td><kbd>echo "Count: $<mark>#</mark>"</kbd></td>
+            <td>
+                Expands into a number indicating the amount of positional parameters that are available.
+            </td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>"$</strong><var>?</var><strong>"</strong></code></th>
+            <td><kbd>(( $? == 0 )) || echo "Error: $<mark>?</mark>"</kbd></td>
+            <td>
+                Expands the exit code of the last (synchronous) command that just finished.<br>
+                An exit code of 0 indicates the command succeeded, any other number indicates why the command failed.
+            </td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>"$</strong><var>-</var><strong>"</strong></code></th>
+            <td><kbd>[[ $<mark>-</mark> = *i* ]]</kbd></td>
+            <td>
+                Expands to the set of option flags that are currently active in the shell.<br>
+                Option flags configure the behaviour of the shell, the example tests for the presence of the <code>i</code> flag, indicating the shell is interactive (has a prompt) and is not running a script.
+            </td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>"$</strong><var>$</var><strong>"</strong></code></th>
+            <td><kbd>echo "$<mark>$</mark>" &gt; /var/run/myscript.pid</kbd></td>
+            <td>
+                Expands a number that's the unique process identifier for the shell process (that's parsing the code).
+            </td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>"$</strong><var>!</var><strong>"</strong></code></th>
+            <td><kbd>kill "$<mark>!</mark>"</kbd></td>
+            <td>
+                Expands a number that's the unique process identifier of the last process that was started in the background (asynchronously).<br>
+                The example signals the background process that it's time to terminate.
+            </td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>"$</strong><var>_</var><strong>"</strong></code></th>
+            <td><kbd>mkdir -p ~/workspace/projects/myscripts &amp;&amp; cd "$<mark>_</mark>"</kbd></td>
+            <td>
+                Expands to the last argument of the previous command.
+            </td>
+        </tr>
+    </table>
+
+    <p>Just like positional parameters, special parameters are read-only: you can only use them to expand information, not store information.</p>
+    
+    <h2>Shell Internal Variables</h2>
+
+    <p>You already know what shell variables are.  Were you aware that the bash shell also creates a few variables for you?  These variables are used for various tasks and are handy for looking up certain state information from the shell or changing certain shell behaviours.</p>
+    
+    <p>Internal shell variables are shell variables with ALL-UPPERCASE names.  The same holds true for nearly all environment variables.  It is important to make sure that when we start creating our own shell variables, we don't accidentally use the name of a shell variable we didn't know about, this mistake will result in all kinds of dangerous and unexpected behaviour.  Thankfully, shell variable names are case-sensitive, so the general rule is that <strong>you should make all of your own
+        shell variables lower-case</strong> to avoid ever accidentally overriding a shell-internal variable of the same name.  If you create an environment variable, give it an ALL-UPPERCASE name.</p>
 
     <h2>Arrays</h2>
 
+    <h2 id="parameter_ex">Exercises!</h2>
+
+    <h4>PARAM.1. Start a new bash shell that outputs its <em>first</em> argument and pass <kbd>Hello World!</kbd> in as an argument to it.</h4>
+<pre class="exercise"><samp><kbd>bash -c 'echo "$1"' -- 'Hello World!'</kbd></samp></pre>
+
+    <h4>PARAM.2. Start a bash shell that outputs the number of arguments passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+<pre class="exercise"><samp><kbd>bash -c 'echo "$#"' -- 1 2 'The Third'</kbd></samp></pre>
+
+    <h4>PARAM.3. Start a bash shell that shifts a positional parameter away and then outputs the first. Pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+<pre class="exercise"><samp><kbd>bash -c 'shift; echo "$1"' -- 1 2 'The Third'</kbd></samp></pre>
+
+    <h4>PARAM.4. Start a bash shell that outputs the last argument passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
+<pre class="exercise"><samp><kbd>bash -c 'echo "${@: -1}"' -- 1 2 'The Third'</kbd></samp></pre>
+
+
 </section>
+<aside class="nav">
+    <h1><a href="02.commands.html">Back track: Commands And Arguments</a></h1>
+  <h2><a href="04.conditionals.html">Next up: Tests And Conditionals</a></h2>
+</aside>

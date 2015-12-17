@@ -1,23 +1,13 @@
 ---
-layout: default
+id: commands
+layout: chapter
 title: Commands And Arguments
-subtitle: How do I give bash instructions?
+subtitle: "How do I give bash instructions?"
+status: draft
+description: "About what a command is, and how to issue them; interactive mode and scripts; command syntax, searching commands and programs by name; arguments and word splitting as well as input and output redirection."
+published: true
 ---
 
-<nav>
-    <h1>Sections</h1>
-    <div id="toc"></div>
-
-    <h1>Chapters</h1>
-    <ul>
-        <li id="chapter_cover"><a href="index.html#">Cover<br>
-            <sub>The Bash Guide</sub></a></li>
-        <li id="chapter_inception"><a href="inception.html#">Inception<br>
-            <sub>What is bash, and where does it live?</sub></a></li>
-        <li id="chapter_commands"><a href="commands.html#">Commands And Arguments<br>
-            <sub>How do I give bash instructions?</sub></a></li>
-    </ul>
-</nav>
 
 <section>
     <h1>What are bash commands and how do I write and issue them?</h1>
@@ -288,7 +278,7 @@ exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
 
     <p>It is vital that you understand simple commands well because they are the foundation of everything you will do in bash.  You might have noticed in the previous section that all other bash commands are composed of at least one simple command: they merely take simple commands and perform special operations with them.</p>
 
-    <h2>Command names and running programs.</h2>
+    <h2>Command names and running programs</h2>
 
 <pre class="syntax">
     [ <var>var</var>=<var>value</var> ... ] <mark><var>name</var></mark> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
@@ -319,7 +309,7 @@ bash: buy: command not found
     To run a command, bash uses the name of your command and performs a search for how to execute that command.  In order, bash will check whether it has a <dfn>function</dfn> or <dfn>builtin</dfn> by that name.  Failing that, it will try to run the name as a program.  If bash finds no way to run your command, it will output an error message.
     </footer>
 
-    <h2>The <code>PATH</code> to a program.</h2>
+    <h2>The <code>PATH</code> to a program</h2>
 
     <p>We have all sorts of programs installed on our computer.  Different programs are installed in different places.  Some programs shipped with our OS, others were added by our distribution and yet others were installed by us or our systems administrator.  On a standard UNIX system, there are <a href="http://www.pathname.com/fhs/">a few standardized locations</a> for programs to go.  Some programs will be installed in <code>/bin</code>, others in <code>/usr/bin</code>,
     yet others in <code>/sbin</code> and so on.  It would be a real bother if we had to remember the exact location of our programs, especially since they may vary between systems.  To the rescue comes the <code>PATH</code> <dfn>environment variable</dfn>.  Your <code>PATH</code> variable contains a set of directories that should be searched for programs.</p>
@@ -377,13 +367,13 @@ $
     When bash needs to run a program, it uses the command name to perform a search.  Bash searches the directories in your <code>PATH</code> <dfn>environment variable</dfn>, one by one, until it finds a directory that contains a program with the name of your command.  To run a program that is not installed in a <code>PATH</code> directory, use the path to that program as your command's name.
     </footer>
 
-    <h3>Exercises!</h3>
+    <h3 id="path_ex">Exercises!</h3>
 
     <h4>PATH.1. Run the <code>ls</code> program.</h4>
 <pre class="exercise"><samp>$ <kbd>ls</kbd></samp></pre>
 
-    <h4>PATH.2. Find out where on your system the <code>ls</code> program is installed.</h4>
-<pre class="exercise"><samp>$ <kbd>type ls</kbd>
+    <h4>PATH.2. Find out where bash will find the <code>ls</code> program.</h4>
+<pre class="exercise"><samp>$ <kbd>type ls</kbd><em>Both 'type' and 'command' are acceptable here.  The 'which' program is not.
 ls is /bin/ls</samp></pre>
 
     <h4>PATH.3. Show your system's <var>PATH</var>.</h4>
@@ -609,8 +599,8 @@ $
 
     <p>Our <code>ls</code> command no longer showed an error message and the results were properly stored in <code>myfiles.ls</code>.  Where has the error message gone?  We've written it to the file <code>/dev/null</code>.  But when we show the contents of that file, we don't see our error message.  Did something go wrong?</p>
 
-    <p>The clue for this little mystery is in the directory name.  The file <code>null</code> is in the <code>/dev</code> directory:  This is a special directory for <dfn>device files</dfn>.  Device files are special files that represent devices in our system.  When we write to or read from them, we're communicating directory with those devices through the kernel.  The <code>null</code> device is a special device that is always empty.  Anything you write to it will be lost
-    and nothing can be read from it.  That makes it a very useful device for discarting information.  We stream our unwanted error message to the <code>null</code> device and it disappears.</p>
+    <p>The clue for this little mystery is in the directory name.  The file <code>null</code> is in the <code>/dev</code> directory:  This is a special directory for <dfn>device files</dfn>.  Device files are special files that represent devices in our system.  When we write to or read from them, we're communicating directly with those devices through the kernel.  The <code>null</code> device is a special device that is always empty.  Anything you write to it will be lost
+    and nothing can be read from it.  That makes it a very useful device for discarding information.  We stream our unwanted error message to the <code>null</code> device and it disappears.</p>
 
     <p>What if we wanted to save all the output that would normally appear on the terminal to our <code>myfiles.ls</code> file; both the results and error messages?  Intuition might suggest:</p>
 
@@ -812,7 +802,7 @@ echo &gt;&amp;2 "   Success if the program exists in the user's PATH and is exec
     By default, new commands inherit the shell's current file descriptors.  We can use <dfn>redirections</dfn> to change where a command's input comes from and where its output should go to.  File redirection (eg. <code>2&gt;errors.log</code>) allows us to stream file descriptors to files.  We can copy file descriptors (eg. <code>2&gt;&amp;1</code>) to make them share a stream.  There are also many other more advanced redirection operators.
     </footer>
 
-    <h3>Exercises!</h3>
+    <h3 id="redir_ex">Exercises!</h3>
 
     <h4>REDIR.1. Run a command that produces a message on standard output.</h4>
 <pre class="exercise"><samp>$ <kbd>ls /bin/bash</kbd>
@@ -841,7 +831,7 @@ ls: /bob/bash: No such file or directory
 /bin/bash*</samp></pre>
 
     <h4>REDIR.6. Use a here-string to show the string <kbd>Hello world!</kbd> on the terminal.</h4>
-<pre class="exercise"><samp>$ <kbd>cat &lt;&lt;&lt; 'Hello world!</kbd>
+<pre class="exercise"><samp>$ <kbd>cat &lt;&lt;&lt; 'Hello world!'</kbd>
 Hello world!</samp></pre>
 
     <h4>REDIR.7. Fix this command so that the message is properly saved into the <code>log</code> file and such that FD 3 is properly closed afterwards: <kbd>exec 3&gt;&amp;2 2&gt;log; echo 'Hello!'; exec 2&gt;&amp;3</kbd></h4>
@@ -850,6 +840,6 @@ Hello world!</samp></pre>
 </section>
 
 <aside class="nav">
-    <h1><a href="variables.html">Next up: Variables And Expansions</a></h1>
-    <h2><a href="inception.html">Back track: What is bash, and where does it live?</a></h1>
+    <h1><a href="03.variables.html">Next up: Variables And Expansions</a></h1>
+    <h2><a href="01.inception.html">Back track: What is bash, and where does it live?</a></h1>
 </aside>

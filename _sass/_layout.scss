@@ -97,7 +97,7 @@ header {
     background-size: cover;
 }
 #variables header {
-    background: linear-gradient(to top, black, transparent), url("../img/commands.jpg");
+    background: linear-gradient(to top, black, transparent), url("../img/variables.jpg");
     background-size: cover;
 }
 header {
@@ -107,15 +107,15 @@ header {
     z-index: 2;
     height: 80%;
     margin: 0;
-    padding: 15%;
-    box-sizing: border-box;
+    overflow: hidden;
 
     text-shadow: 0 1px 5px black, 0 1px 2px black;
 
     &>div {
         position: absolute;
-
         bottom: 15%;
+        left: 15%;
+        width: 70%;
     }
     & h1 {
         color: white;
@@ -132,6 +132,23 @@ header {
     & h2 cite {
         font-weight: 100;
         font-size: 0.7em;
+    }
+    & h3 {
+        box-shadow: 0 0 20px black;
+
+        background:  rgba( 0, 0, 0, 0.6 );
+        position: absolute;
+        bottom: -8px;
+        left: 20%;
+        width: 60%;
+        padding: 1ex 1em 1em;
+
+        color:  #666;
+        border: 1px solid #333;
+        border-radius: 8px;
+
+        margin: 0;
+        font-size: 0.9em;
     }
     & a:link, & a:visited {
         color: #EEE;
@@ -337,11 +354,11 @@ pre {
     color: #999;
     border-top-color: #BBB;
     border-bottom-color: #BBB;
+    padding: 1em 20%;
 }
 table,
 pre {
     width: 100%;
-    padding: 1em 20%;
     overflow: auto;
 
     font-size: 0.8em;
@@ -553,15 +570,15 @@ nav {
     }
     & li.toc-h2 a {
         font-size: 0.7em;
-        text-indent: 1em;
+        text-indent: 1.5em;
     }
     & li.toc-h3 a {
         font-size: 0.6em;
-        text-indent: 2em;
+        text-indent: 4em;
     }
     & li.toc-h4 a {
         font-size: 0.5em;
-        text-indent: 3em;
+        text-indent: 6em;
     }
     & li a::before {
         color: #BBB;

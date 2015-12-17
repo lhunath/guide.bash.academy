@@ -1,25 +1,14 @@
 ---
-layout: default
+id: inception
+layout: chapter
 title: Inception
 subtitle: "What is bash, and where does it live?"
+status: draft
+description: "An introduction to bash, installing and starting it; the terminal, the keyboard and the display; programs, processes and how their flow of information is connected."
 published: true
 ---
 
 
-<nav>
-    <h1>Sections</h1>
-    <div id="toc"></div>
-
-    <h1>Chapters</h1>
-    <ul>
-        <li id="chapter_cover"><a href="index.html#">Cover<br>
-            <sub>The Bash Guide</sub></a></li>
-        <li id="chapter_inception"><a href="inception.html#">Inception<br>
-            <sub>What is bash, and where does it live?</sub></a></li>
-        <li id="chapter_commands"><a href="commands.html#">Commands And Arguments<br>
-            <sub>How do I give bash instructions?</sub></a></li>
-    </ul>
-</nav>
 
 <section>
     <h1>What is bash, and what do I need it for?</h1>
@@ -82,14 +71,14 @@ published: true
 
     <p>Apart from the source of the commands bash executes, these two modes of operation are very similar.  For now, suffice it to say that if bash is asking you for a command to run, you're in <dfn>interactive mode</dfn>.  If it's running commands stored in a file, it's running a script in <dfn>non-interactive mode</dfn>.</p>
 
-    <p>Also recal that the bash program generally runs in a text-based interface.  It has no graphical interface for you to interact with, which means that if you're currently in a graphical interface, you'll first need to open a text-based interface before you can perform any meaningful interaction with the bash program.  The standard way of opening a text-based interface involves opening a <dfn>terminal</dfn>.  In the old days, terminals were the hardware devices we used to
+    <p>Also recall that the bash program generally runs in a text-based interface.  It has no graphical interface for you to interact with, which means that if you're currently in a graphical interface, you'll first need to open a text-based interface before you can perform any meaningful interaction with the bash program.  The standard way of opening a text-based interface involves opening a <dfn>terminal</dfn>.  In the old days, terminals were the hardware devices we used to
     connect to a computer and interact with it.  Nowadays, most terminals are "emulated".  That is to say, they are programs on your computer, either graphical or textual, that "emulate" a real terminal in software and create a textual interface for you to use.  There is a wide variety of terminal emulators, and the ones available to you vary depending on what system you're on.  Linux and *BSD users might use <a href="http://rxvt.sourceforge.net/">rxvt</a>, <a
         href="http://invisible-island.net/xterm/">xterm</a>, <a href="https://help.gnome.org/users/gnome-terminal/stable/">gnome-terminal</a> or <a href="http://konsole.kde.org/">konsole</a>.  OS X users might use <a href="http://en.wikipedia.org/wiki/Terminal_(OS_X)">Terminal</a> or <a href="http://www.iterm2.com/#/section/home">iTerm 2</a>.  Windows users can use programs such as <a href="http://en.wikipedia.org/wiki/Command_Prompt">cmd.exe</a>, <a
         href="http://sourceforge.net/projects/console/">Console 2</a> and <a href="https://code.google.com/p/mintty/">mintty</a>.  There are many alternatives for each operating system.  Find one you like and read on as soon as it's installed and you're ready to start it.</a>
 
     <p>Let's start bash!<br>
     First, make sure you're in a text-based interface by opening your terminal or terminal emulator program.  Once you're in a text-based interface, you'll need to find a way to run programs.  Just like graphical interfaces can vary greatly in how you start programs with them, as can text-based interfaces.  Luckily, however, most terminals are configured to start a shell program as soon as it's ready.  Remember how bash is a shell program?  Chances are, your terminal will start with
-    bash already running in it.  Some terminals, however, won't: some systems may default to shells such as <code>cmd.exe</code>, <code>sh</code>, <code>dash</code>, <code>csh</code> or <code>zsh</code>.  Neither of these shells are <code>bash</code>, and their usage is not covered by this guide (if you need help, I again recommend you turn to the powers of the Internet).  To find out whether or not your terminal is currently running a bash shell, let's try running our <strong>first bash
+    bash already running in it.  Some terminals, however, won't: some systems may default to shells such as <code>cmd.exe</code>, <code>sh</code>, <code>dash</code>, <code>csh</code> or <code>zsh</code>.  None of these shells are <code>bash</code>, and their usage is not covered by this guide (if you need help, I again recommend you turn to the powers of the Internet).  To find out whether or not your terminal is currently running a bash shell, let's try running our <strong>first bash
         command</strong>!</p>
 
 <pre lang="bash">
@@ -181,6 +170,6 @@ Hello, Maarten Billemont
 </section>
 
 <aside class="nav">
-    <h1><a href="commands.html">Next up: Commands And Arguments</a></h1>
+    <h1><a href="02.commands.html">Next up: Commands And Arguments</a></h1>
     <h2><a href="index.html">Back track: Cover</a></h1>
 </aside>
