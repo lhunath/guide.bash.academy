@@ -10,6 +10,7 @@ published: true
 
 
 
+
 <section>
     <h1>What are bash commands and how do I write and issue them?</h1>
 
@@ -234,7 +235,7 @@ $ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
         </dd>
         <dt>Coprocesses</dt>
         <dd>
-            <p>A coprocess is some more bash syntax sugar: it allows you to easily run a command asynchronously (without making bash wait for it to end, also said to be "in the background") and also set up some new file descriptor plugs that connect directly to the new command's input and output.  You won't be using coprocess too often, but they're a nice convenience for those times you're doing advanced things.</p>
+            <p>A coprocess is some more bash syntax sugar: it allows you to easily run a command asynchronously (without making bash wait for it to end, also said to be "in the background") and also set up some new file descriptor plugs that connect directly to the new command's input and output.  You won't be using coprocesses too often, but they're a nice convenience for those times you're doing advanced things.</p>
 
 <pre class="syntax">
     <strong>coproc</strong> [ <var>name</var> ] <var>command</var> [ <var>redirection</var> ... ]
