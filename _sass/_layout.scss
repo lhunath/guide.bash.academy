@@ -283,7 +283,9 @@ dd {
 }
 aside {
     & footer, & pre {
-        margin: 0 -10px;
+        padding: 2em;
+        margin: 0;
+        box-sizing: border-box;
     }
 }
 
@@ -451,7 +453,7 @@ pre em, code em {
     position: absolute;
     z-index: -1;
     left: 15%;
-    padding-left: 30em;
+    padding-left: 35em;
     width: 40em;
 
     color: #AAA;
