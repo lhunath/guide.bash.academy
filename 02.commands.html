@@ -305,7 +305,7 @@ $ <kbd>buy beer</kbd>
 bash: buy: command not found
 </pre>
 
-    <p>I'll make only brief mention of <dfn>aliases</dfn>: before bash performs this search, it first checks if you've declared any aliases by the name of the command.  If you did, it will replace the name by the value of the alias before proceeding.  Aliases are only rarely useful, only work in interactive sessions and are almost completely superceded by functions.  You should avoid using them in almost all cases.</p>
+    <p>I'll make only brief mention of <dfn>aliases</dfn>: before bash performs this search, it first checks if you've declared any aliases by the name of the command.  If you did, it will replace the name by the value of the alias before proceeding.  Aliases are only rarely useful, only work in interactive sessions and are almost completely superseded by functions.  You should avoid using them in almost all cases.</p>
 
     <footer>
     To run a command, bash uses the name of your command and performs a search for how to execute that command.  In order, bash will check whether it has a <dfn>function</dfn> or <dfn>builtin</dfn> by that name.  Failing that, it will try to run the name as a program.  If bash finds no way to run your command, it will output an error message.
@@ -424,13 +424,13 @@ $ <kbd>mplayer <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake U
     literally; meaning, use it as-is, ignoring any syntactical meaning.  If we can make the spaces literal, they will no longer tell bash to split the <code>05</code> from the <code>Between</code>, and bash will use it as a normal ordinary space character.</p>
 
     <p>There are two ways in bash to make characters literal: <dfn>quoting</dfn> and <dfn>escaping</dfn>.  Quoting is the practice of wrapping <kbd title="double quote">"</kbd> or <kbd title="single quote">'</kbd> characters around the text that we want to make literal.  Escaping is the practice of placing a single <kbd title="backslash">\</kbd> character in front of the character that we want to make literal.  The example above uses quotes to make the entire filename
-    literal, but not the space inbetween the filenames.  We strongly recommend you use quotes over escaping, since it results in much clearer and more readable code.  More importantly: escaping makes it much more difficult to tell exactly which parts of your code are literal and which aren't.  It also becomes more pecarious to edit the literal text later on without introducing mistakes.  Using escaping rather than quoting, our example would look like this:</p>
+    literal, but not the space inbetween the filenames.  We strongly recommend you use quotes over escaping, since it results in much clearer and more readable code.  More importantly: escaping makes it much more difficult to tell exactly which parts of your code are literal and which aren't.  It also becomes more precarious to edit the literal text later on without introducing mistakes.  Using escaping rather than quoting, our example would look like this:</p>
 
 <pre lang="bash">
 $ <kbd>mplayer <mark>05\ Between\ Angels\ and\ Insects.ogg</mark> <mark>07\ Wake\ Up.ogg</mark></kbd>
 </pre>
 
-    <p>Quoting is one of the most important skills you will need to master as a bash user.  Its importance cannot be understated.  The nice thing about quotes is that while it is sometimes unnecessary, it is rarely ever wrong to quote your data.  These are both perfectly valid:</p>
+    <p>Quoting is one of the most important skills you will need to master as a bash user.  Its importance cannot be overstated.  The nice thing about quotes is that while it is sometimes unnecessary, it is rarely ever wrong to quote your data.  These are both perfectly valid:</p>
 
 <pre lang="bash">
 $ <kbd>ls -l <mark>hello.txt</mark></kbd>
@@ -513,7 +513,7 @@ rm: cannot remove '/home/ lhunath': No such file or directory
 
     <p>We've already been briefly introduced to the concept of <dfn>file descriptors</dfn> and how they can be used to connect processes to each other.  Let's find out how that's done in bash.</p>
 
-    <p>Recall that processes use file descriptors to connect to streams.  Each processes will generally have three standard file descriptors: <dfn>standard input</dfn> (FD 0), <dfn>standard output</dfn> (FD 1) and <dfn>standard error</dfn> (FD 2).  When bash starts a program, it sets up a set of file descriptors for that program first.  It does this by looking at its own file descriptors and setting up an identical set of descriptors for the new process: we say new processes
+    <p>Recall that processes use file descriptors to connect to streams.  Each process will generally have three standard file descriptors: <dfn>standard input</dfn> (FD 0), <dfn>standard output</dfn> (FD 1) and <dfn>standard error</dfn> (FD 2).  When bash starts a program, it sets up a set of file descriptors for that program first.  It does this by looking at its own file descriptors and setting up an identical set of descriptors for the new process: we say new processes
     "<strong>inherit</strong>" bash's file descriptors.  When you open your terminal to a new bash shell, the terminal will have set bash up by connecting bash's input and output to the terminal.  This is how the characters from your keyboard end up in bash and bash's messages end up in your terminal window.  Each time bash starts a program of its own, it gives that program a set of file descriptors that match its own.  This way, a bash command's messages end up on your terminal
     as well and your keyboard input ends up with the program (the command's output and input is connected to your terminal):</p>
 
@@ -665,7 +665,7 @@ ls: b: No such file or directory
     $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 1 target myfiles.ls and FD 2 target FD 1's target</em>
 </pre>
 
-    <p>We now first change FD 1's target to stream to <code>myfiles.ls</code>.  Then, we make FD 2 target the same stream FD 1 is currently using, which is the new stream to <code>myfiles.ls</code>.  Both file descriptors are now targetting <code>myfiles.ls</code> and any output written by <code>ls</code> on either FD 1 or FD 2 will end up in the file.</p>
+    <p>We now first change FD 1's target to stream to <code>myfiles.ls</code>.  Then, we make FD 2 target the same stream FD 1 is currently using, which is the new stream to <code>myfiles.ls</code>.  Both file descriptors are now targeting <code>myfiles.ls</code> and any output written by <code>ls</code> on either FD 1 or FD 2 will end up in the file.</p>
 
     <p>There are quite a few other redirection operators, but they aren't all as useful as the ones you've just learned.  What <em>has</em> certainly proven useful is for people to learn to read their command redirections as plain English.  I'm going to enumerate bash's redirection operators now, along with a short description and a sentence you can use to translate the operation into plain English.</p>
 
@@ -731,7 +731,7 @@ Since I started learning bash, you suddenly seem so much bigger than you were be
 .</mark><em>Our previously chosen <code>.</code> ends the here-document.</em></samp>
 </pre>
         Make FD 0 (standard input) read from the string between the <var>delimiter</var>s.
-        <p>Here documents are a great way to feed large blocks of text to a command's input.  They begin on the line after your delimiter and end when bash encounters a line with <em>just</em> your delimiter on it.  It is important to remember that your terminating delimiter cannot indented, because then it is no longer <em>just</em> your delimiter on that line.</p>
+        <p>Here documents are a great way to feed large blocks of text to a command's input.  They begin on the line after your delimiter and end when bash encounters a line with <em>just</em> your delimiter on it.  It is important to remember that your terminating delimiter cannot be indented, because then it is no longer <em>just</em> your delimiter on that line.</p>
         <e>You can prefix your initial delimiter declaration with a <code>-</code>, this will tell bash to ignore any tabs you put in front of your heredoc.  That way, you can indent the heredoc without the indenting showing in your input string.  It also allows you to indent the terminating delimiter with tabs.</p>
         <p>Finally, it is possible to put <dfn>variable expansions</dfn> within the here document's string.  This allows you to inject variable data into the here document.  We'll learn more about variables and expansions later on, but suffice it to say that if expansion is not desired, you need to put quotes around your <code>'<var>delimiter</var>'</code>'s initial declaration.</p>
         </dd>
@@ -766,8 +766,8 @@ Since I started learning bash, you suddenly seem so much bigger than you were be
 
 <samp>exec <mark>3&gt;&amp;1-</mark> &gt;mylog; echo moo; exec <mark>&gt;&amp;3-</mark></samp>
 </pre>
-        Replace FD <var>x</var> by FD <var>y</var>.
-        <p>The file descriptor at <var>y</var> is copied to <var>x</var> and <var>y</var> is closed.  Effectively, it replaces <var>x</var> by <var>y</var>.  It is a convenience operator for <code>[<var>x</var>]&gt;&amp;<var>y</var> <var>y</var>&gt;&amp;-</code>.  Again, you will rarely use this operator.</p>
+        Replace FD <var>x</var> with FD <var>y</var>.
+        <p>The file descriptor at <var>y</var> is copied to <var>x</var> and <var>y</var> is closed.  Effectively, it replaces <var>x</var> with <var>y</var>.  It is a convenience operator for <code>[<var>x</var>]&gt;&amp;<var>y</var> <var>y</var>&gt;&amp;-</code>.  Again, you will rarely use this operator.</p>
         </dd>
 
         <dt><dfn>Reading and writing with a file descriptor</dfn></dt>
@@ -787,7 +787,7 @@ cat &lt;&amp;5</samp>
         </dd>
     </dl>
 
-    <p>As a final note about redirections, I'd like to point out that for simple commands the redirection operators can appear anywhere in the simple command.  That is, they don't need to appear at the end of it.  While it is a good idea to keep them at the end of your commands if mainly for consistency and to avoid surprize or missing the operator in long commands, there are cases where some people make a habit of placing the redirection operator elsewhere.  In particular, placing
+    <p>As a final note about redirections, I'd like to point out that for simple commands the redirection operators can appear anywhere in the simple command.  That is, they don't need to appear at the end of it.  While it is a good idea to keep them at the end of your commands if mainly for consistency and to avoid surprise or missing the operator in long commands, there are cases where some people make a habit of placing the redirection operator elsewhere.  In particular, placing
     the redirection operator after the <code>echo</code> or <code>printf</code> command name is often done, especially when there is a sequence of them, in the interest of readability:</p>
 
 <pre lang="bash">
@@ -801,7 +801,7 @@ echo &gt;&amp;2 "   Success if the program exists in the user's PATH and is exec
     <p>&nbsp;</p>
 
     <footer>
-    By default, new commands inherit the shell's current file descriptors.  We can use <dfn>redirections</dfn> to change where a command's input comes from and where its output should go to.  File redirection (eg. <code>2&gt;errors.log</code>) allows us to stream file descriptors to files.  We can copy file descriptors (eg. <code>2&gt;&amp;1</code>) to make them share a stream.  There are also many other more advanced redirection operators.
+    By default, new commands inherit the shell's current file descriptors.  We can use <dfn>redirections</dfn> to change where a command's input comes from and where its output should go to.  File redirection (e.g. <code>2&gt;errors.log</code>) allows us to stream file descriptors to files.  We can copy file descriptors (e.g. <code>2&gt;&amp;1</code>) to make them share a stream.  There are also many other more advanced redirection operators.
     </footer>
 
     <h3 id="redir_ex">Exercises!</h3>
