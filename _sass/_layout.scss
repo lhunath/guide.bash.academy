@@ -336,16 +336,15 @@ kbd {
     color: black;
     cursor: pointer;
 }
-kbd, kbd:hover,
-pre:hover kbd {
-    text-decoration: underline;
-}
-var {
+var, kbd {
     border-bottom: 1px dashed;
 
     &:hover {
         color: black;
     }
+}
+kbd:hover {
+    border-bottom: 1px solid;
 }
 pre kbd, pre var, pre samp,
 code kbd, code var, code samp {
