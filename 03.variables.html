@@ -2,9 +2,13 @@
 id: variables
 layout: chapter
 title: Variables and Expansions
-subtitle: "How do I store and work with data?"
+subtitle: How do I store and work with data?
 status: drafting
-description: "Bash parameters and variables; environment variables, special parameters and array parameters; expanding parameters, expansion operators, command substitution and process substitution; pathname expansion, tilde expansion and brace expansion."
+description: >-
+  Bash parameters and variables; environment variables, special parameters and
+  array parameters; expanding parameters, expansion operators, command
+  substitution and process substitution; pathname expansion, tilde expansion and
+  brace expansion.
 published: true
 ---
 
@@ -85,7 +89,7 @@ $ <kbd>echo "PATH currently contains: ${PATH//:/, }"</kbd>
 PATH currently contains: /Users/lhunath/.bin, /usr/local/bin, /usr/bin, /bin, /usr/libexec
 </pre>
 
-    <p>The examples above use the <code>#</code>, <code>%</code> and <code>//</code> operators to perform various operations on the parameter's value before expanding the result.  The parameters themselves aren't changed, only the value that is expanded into place is affected by the operator.  In the first case, we used the <code>%</code> operator to remove the <code title="dot">.</code> and the number after it from <code>time</code>'s value before expanding it.  That left us
+    <p>The examples above use the <code>%</code>, <code>#</code> and <code>//</code> operators to perform various operations on the parameter's value before expanding the result.  The parameters themselves aren't changed, only the value that is expanded into place is affected by the operator.  In the first case, we used the <code>%</code> operator to remove the <code title="dot">.</code> and the number after it from <code>time</code>'s value before expanding it.  That left us
     with just the part in front of the <code>.</code>, which is the seconds.  The second case did something similar, we used the <code>#</code> operator to remove a part from the start of the <code>time</code> value.  Finally, we used the <code>//</code> operator, (which is really a special case of the <code>/</code> operator), to replace every <code title="colon">:</code> character in <code>PATH</code>'s value with <code>, </code>.  The result is a list of directories that is
     easier to read for people than the original colon-separated <code>PATH</code>.
 
