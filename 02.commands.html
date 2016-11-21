@@ -475,7 +475,7 @@ ls: and: No such file or directory
     </aside>
 
     <aside class="warn">
-        <p>The dangers of missing quotes are many, but as a very simple example, consider this:</p>
+        <p>The dangers of missing quotes are many, but as a very simple example, consider what happens when you <em>accidentally</em> put a space in front of your input:</p>
 
 <pre lang="bash" class="bad">
 $ <kbd>read -p 'Which user would you like to remove from your system? ' username</kbd>
@@ -491,13 +491,13 @@ removed directory: '/home'
 rm: cannot remove 'lhunath': No such file or directory
 </pre>
 
-        <p>What happened here, is that on input, you accidentally put a <code>space</code> character before the name of the user to delete.  As a result, the <code>rm</code> command expanded into <code>rm -vr <mark>/home/</mark> <mark>lhunath</mark></code>, which resulted in a situation that is likely to upset both Victor and Bob.  If you had quoted the <code>rm</code> command properly, the bad input would have resulted in an error message and no damage instead:</p>
+<p>What happened here, is that on input, because you accidentally put a <code>space</code> character before the name of the user to delete, the <code>rm</code> command expanded into <code>rm -vr <mark>/home/</mark> <mark>lhunath</mark></code>, which resulted in a situation that is likely to upset both Victor and Bob: the <code>rm</code> command is now first deleting the entire <mark>/home/</mark> directory, including everything in it, and subsequently it will remove the <mark>lhunath</mark>
+file.  If you had quoted the <code>rm</code> command properly, the bad input would have resulted in an error message and no damage instead:</p>
 
 <pre lang="bash" class="good">
 $ <kbd>rm -vr "/home/$username"</kbd>
 rm: cannot remove '/home/ lhunath': No such file or directory
 </pre>
-
     </aside>
 
     <footer>
