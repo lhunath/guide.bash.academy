@@ -369,7 +369,7 @@ pre {
 }
 table,
 pre {
-    width: 100%;
+    /*width: 100%; keep width at auto for pre, alternatively, we have to set it to 125% when we modify the margin. */
     overflow: auto;
 
     font-size: 0.8em;
@@ -453,8 +453,9 @@ pre em, code em {
     z-index: -1;
     left: 15%;
     padding-left: 35em;
-    width: 40em;
+    /*width: 40em; 40em overflows the available space causing scroll bars when they're unnecessary */
 
+    font-family: 'Maven Pro', sans-serif;
     color: #AAA;
 }
 pre em::before, code em::before {
