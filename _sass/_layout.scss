@@ -71,10 +71,13 @@ q::before {
 q::after {
     content: "”";
 }
-h1, h2 {
+h1, h2, dt {
+    margin-top: 3em;
+
     color: #333;
     font-family: "Myriad Pro", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
     font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
 }
 dd {
     margin: 1ex 4%;

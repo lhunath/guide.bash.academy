@@ -52,7 +52,7 @@ Hello, lhunath.  How are you?
     thinking you wanted to execute a program rather than assign a variable value:</p>
 
 <pre lang="bash" class="bad">
-$ <kbd>name = lhunath</kbd><em>Run the command <code>name</code> with arguments <code>=</code> and <code>lhunath</code>.</em>
+$ <kbd>name <mark>=</mark> <mark>lhunath</mark></kbd><em>Run the command <code>name</code> with arguments <code>=</code> and <code>lhunath</code>.</em>
 -bash: name: command not found
 </pre>
 
@@ -79,7 +79,7 @@ $ <kbd>echo "$name's current record is ${time}s."</kbd><em>Braces explicitly tel
 Britta's current record is 23.73s.
 </pre>
 
-    <p>Parameter expansions are great for inserting user or program data into our command instructions, but they also have an extra ace up their sleeve: expansion operators.  While expanding a parameter, it is possible to apply an operator to the expanding value.  This operator can modify the value in one of many useful ways:</p>
+    <p>Parameter expansions are great for inserting user or program data into our command instructions, but they also have an extra ace up their sleeve: expansion operators.  While expanding a parameter, it is possible to apply an operator to the expanding value.  This operator can modify the value in one of many useful ways.  Remember that this operator only changes the value that is expanded; it does not change the original value that's sitting in your variable.</p>
 
 <pre lang="bash">
 $ <kbd>name=Britta time=23.73</kbd>
