@@ -242,7 +242,7 @@ guide.bash.academy/variables.html</pre>
             </td>
         </tr>
         <tr>
-            <td colspan="2">Expand a part of the value, starting at <var>start</var>, <var>length</var> bytes long.</td>
+            <td colspan="2">Expand a part of the value, starting at <var>start</var>, <var>length</var> bytes long.  You can even count <var>start</var> from the end rather than the beginning by using a (space followed by a) negative value.</td>
         </tr>
         <tr>
             <th>
@@ -730,10 +730,179 @@ echo "1: $1, 2: $2, 4: $4"
 
     <p>You already know what shell variables are.  Were you aware that the bash shell also creates a few variables for you?  These variables are used for various tasks and are handy for looking up certain state information from the shell or changing certain shell behaviours.</p>
     
-    <p>Internal shell variables are shell variables with ALL-UPPERCASE names.  The same holds true for nearly all environment variables.  It is important to make sure that when we start creating our own shell variables, we don't accidentally use the name of a shell variable we didn't know about, this mistake will result in all kinds of dangerous and unexpected behaviour.  Thankfully, shell variable names are case-sensitive, so the general rule is that <strong>you should make all of your own
-        shell variables lower-case</strong> to avoid ever accidentally overriding a shell-internal variable of the same name.  If you create an environment variable, give it an ALL-UPPERCASE name.</p>
+    <aside class="rule">
+        <p>Internal shell variables are shell variables with ALL-UPPERCASE names.  The same holds true for nearly all environment variables.  It is important to make sure that when we start creating our own shell variables, we don't accidentally use the name of a shell variable we didn't know about, this mistake will result in all kinds of dangerous and unexpected behaviour.  Thankfully, shell variable names are case-sensitive, so the general rule is that <strong>you should make all of your own
+            shell variables lower-case</strong> to avoid ever accidentally overriding a shell-internal variable or a system-exported variable of the same name.  If you create an environment variable, give it an ALL-UPPERCASE name.</p>
+    </aside>
 
-    <h2>Arrays</h2>
+    <p>While bash actually defines quite a lot of internal shell variables, most of them are not very useful.  Others have use but only in very specific scenarios.  Many of these variables require you to understand more advanced bash concepts.  I will briefly mention a few internal shell variables that are interesting to learn about at this stage.  The full list of internal shell variables can be found in <code>man bash</code>.</p>
+
+    <table>
+        <tr>
+            <th><var>BASH</var></th>
+            <td><code>/usr/local/bin/bash</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              This variable contains the full pathname of the command that started the bash you are currently in.</td>
+        </tr>
+        <tr>
+            <th><var>BASH_VERSION</var></th>
+            <td><code>4.4.0(1)-release</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              A version number that describes the currently active version of bash.</td>
+        </tr>
+        <tr>
+            <th><var>BASH_VERSINFO</var></th>
+            <td><code>[ 4, 4, 0, 1, release, x86_64-apple-darwin16.0.0 ]</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              An array of detailed version information on the currently active version of bash.</td>
+        </tr>
+        <tr>
+            <th><var>BASH_SOURCE</var></th>
+            <td><code>myscript</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              This contains all the filenames of the scripts that are currently running.  The first is the script that's currently running.<br>
+              Usually it is either empty (no scripts running) or contains just the pathname of your script.</td>
+        </tr>
+        <tr>
+            <th><var>BASHPID</var></th>
+            <td><code>5345</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              This contains the process ID of the bash that is parsing the script code.</td>
+        </tr>
+        <tr>
+            <th><var>UID</var></th>
+            <td><code>501</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              Contains the ID number of the user that's running this bash shell.</td>
+        </tr>
+        <tr>
+            <th><var>HOME</var></th>
+            <td><code>/Users/lhunath</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              Contains the pathname of the home directory of the user running the bash shell.</td>
+        </tr>
+        <tr>
+            <th><var>HOSTNAME</var></th>
+            <td><code>myst.local</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              The name of your computer.</td>
+        </tr>
+        <tr>
+            <th><var>LANG</var></th>
+            <td><code>en_CA.UTF-8</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              Used to indicate your preferred language category.</td>
+        </tr>
+        <tr>
+            <th><var>MACHTYPE</var></th>
+            <td><code>x86_64-apple-darwin16.0.0</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              A full description of the type of system you are running.</td>
+        </tr>
+        <tr>
+            <th><var>PWD</var></th>
+            <td><code>/Users/lhunath</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              The full pathname of the directory you are currently in.</td>
+        </tr>
+        <tr>
+            <th><var>OLDPWD</var></th>
+            <td><code>/Users/lhunath</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              The full pathname of the directory you were in before you came to the current directory.</td>
+        </tr>
+        <tr>
+            <th><var>RANDOM</var></th>
+            <td><code>12568</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              Expands a new random number between 0 and 32767, every time.</td>
+        </tr>
+        <tr>
+            <th><var>SECONDS</var></th>
+            <td><code>338217</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              Expands the number of seconds your bash shell has been running for.</td>
+        </tr>
+        <tr>
+            <th><var>LINES</var></th>
+            <td><code>48</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              Contains the height (amount of rows or lines) of your terminal display.</td>
+        </tr>
+        <tr>
+            <th><var>COLUMNS</var></th>
+            <td><code>178</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              Contains the width (amount of single-character spaces) of a single row in your terminal display.</td>
+        </tr>
+        <tr>
+            <th><var>IFS</var></th>
+            <td><code>$' \t\n'</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              The "Internal Field Separator" is a string of characters that bash uses for word-splitting of data.  By default, bash splits on spaces, tabs and newlines.</td>
+        </tr>
+        <tr>
+            <th><var>PATH</var></th>
+            <td><code>/Users/lhunath/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/libexec</code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              The list of paths bash will search for executable programs when you run a command.</td>
+        </tr>
+        <tr>
+            <th><var>PS1</var></th>
+            <td><code>\s-\v\$ </code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              This contains a string that describes what the interactive bash shell's prompt should look like.</td>
+        </tr>
+        <tr>
+            <th><var>PS2</var></th>
+            <td><code>&gt; </code></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+              This contains a string that describes what the interactive bash shell's secondary prompt should look like.
+              The secondary prompt is used when you finish a command line but the command isn't yet complete.</td>
+        </tr>
+    </table>
+
+    <p>As I mentioned, there are many other internal shell variables, but they each serve very specific advanced cases that are uninteresting at this point.  Chances are, if you're looking for some information on how bash is currently operating, you can find it in one of its internal shell variables.</p>
 
     <h2 id="parameter_ex">Exercises!</h2>
 
@@ -748,8 +917,165 @@ echo "1: $1, 2: $2, 4: $4"
 
     <h4>PARAM.4. Start a bash shell that outputs the last argument passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
 <pre class="exercise"><samp><kbd>bash -c 'echo "${@: -1}"' -- 1 2 'The Third'</kbd></samp></pre>
+</section>
 
+<section>
+    <h1>Arrays</h1>
 
+    <p>Last but certainly <em>not least</em>, we arrive at perhaps the most interesting kind of bash parameter: the arrays.</p>
+
+    <h2>What are arrays and why should I use them?</h2>
+
+    <p>An array is a fancy word for a parameter that can hold not one string, but a whole list of strings.  The concept of storing lists of things is not new - we've seen it done before in this very guide, such as <code>PATH</code> storing a list of directory pathnames for bash to find command programs.  Arrays, however, were introduced to address a very important problem that arises when you use simple string variables to store lists of things.</p>
+
+    <p>The problem with storing lists of things inside a simple variable is that when you become interested in the separate elements of this list, you inevitably need to split this single variable apart into those separate elements.  Most of us, however, don't even notice this as a problem: as human beings, we are extremely well adapt at doing this contextually.  When we see a name such as <code>Leonard Cohen</code>, we recougnize that it consists of two separate names that together make a
+    single person's full name.  When we now look at a string such as <code>Leonard Cohen - Adam Cohen - Lorca Cohen</code>, we immediately recougnize it as a list of three distinct names:  we instantly recougnize the pattern in this string that's separating names with a dash.  In fact, we're so good at this, that we don't usually even need to stop and think when we see a list of names such as <code>Susan Q. - Mary T. - Steven S. - Anne-Marie D. - Peter E.</code>.  We're even great at finding
+    the relevant contextual units in larger strings such as poems that consist of lines and paragraphs.</p>
+
+    <p>Unfortunately, though, when we start thinking in terms of having the computer handle data for us, we need to stop thinking about our excellent human abstractions and put on our cognitive baby shoes.  A computer doesn't know that <code>Susan Q. - Mary T. - Steven S. - Anne-Marie D. - Peter E.</code> is a list of names, it certainly doesn't know that these names are delimited by dashes and it most definitely wouldn't be able to guess that <code>Anne-Marie</code> is a single name as
+    opposed to two distinct people in the list.</p>
+    
+    <aside class="rule">
+        <p>When we need to work with lists of things in bash, we should <strong>always</strong> be as explicit as possible about what the different elements in this list are.</p>
+    </aside>
+
+    <p>A good way of being explicit about the separate elements in our list is by using arguments to our commands.  Remember when we learned about quoting?  This is, in fact, a great time to recall our quoting lessons.</p>
+
+<pre lang="bash" class="bad">
+$ <kbd>ls -l <mark>05</mark> <mark>Between</mark> <mark>Angels</mark> <mark>and</mark> <mark>Insects.ogg</mark></kbd>
+</pre>
+
+    <p>In this command, we are passing the <code>ls</code> command a list of many arguments and bash will assume each argument as a separate filename.  This is obviously not the intended effect, but bash is not as good at deriving contextual sense from arbitrary data as we, humans.  It is therefore important that we are explicit about what the elements of our list are:</p>
+
+<pre lang="bash" class="good">
+$ <kbd>ls -l <mark>"05 Between Angels and Insects.ogg"</mark></kbd>
+</pre>
+
+    <p>Now that we have made it clear to bash that our list contains only a single filename, and that filename itself contains several words, the <code>ls</code> command is capable of doing its job properly.</p>
+
+    <p>The very same problem exists with variables.  What if we wanted to create a variable that contains a list of all the files we want to delete?  How do we create such a list in a way that we can then pass each distinct element of that list to an <code>rm</code> command for deletion, without running the risk that bash will misunderstand how our file names need to be interpreted?</p>
+
+    <p>The answer is <em>arrays</em>:</p>
+
+<pre lang="bash">
+$ <kbd>files=( <mark>myscript</mark> <mark>hello.txt</mark> <mark>"05 Between Angels and Insects.ogg"</mark> )</kbd>
+$ <kbd>rm -v "${files[@]}"</kbd>
+</pre>
+
+    <p>To create an array variable, bash introduces a slightly different assignment operator: <code>=( )</code>.  As with the standard <code>=</code>, we put the name of our variable on the left hand side of the operator, however, the list of values to assign to this variable should go nicely inbetween the <code>(</code> and <code>)</code> braces.</p>
+
+    <p>You might recall from our section on variable assignment that it was critical we do not put syntactical spaces around our assignment values: spaces after the <code>=</code> cause
+    bash to split the assignment into a command name and argument pair; unquoted spaces in our assignment value cause bash to split the value into a partial assignment followed by a command name.  With this new array assignment syntax, spaces are freely permitted <em>inside</em> the braces, and in fact, they are used to separate the many elements of your array's list of values.  But just like regular variable assignment, when space needs to be part of the variable's data, it <strong>must be
+        quoted</strong> so that bash interpretes the space as literal.  Notice in the example above that we use <em>syntactical</em> spacing between <code>myscript</code> and <code>hello.txt</code>, allowing bash to understand these two words as being distinct elements of the list, while we use <em>literal</em> spacing inbetween the words <code>05</code> and <code>Between</code> - the space here is part of the filename, it should not cause bash to break the words into separate list
+    elements: the space is literal, and as such, we have quoted it.</p>
+
+    <p>In fact, these syntactical rules are nothing new.  We already know how to pass distinct arguments to our commands, and passing distinct elements to our array assignment operator is no different.</p>
+
+    <p>Finally, after creating a list of files, we expand our parameter for our <code>rm</code> command.  If you recall from the parameter expansion section above, expansion happens by prefixing our parameter name with a <code>$</code>-sign.  Contrary to regular parameter expansion, though, we are not interested in expanding a single argument: what we want to do is expand every element in our list as a separate and distinct argument to the <code>rm</code> command.  To do this, we suffix our
+    parameter name with <code>[@]</code> and we are now <em>required</em> to wrap the whole using curly braces (<code>{ }</code></code>) to ensure bash understands the whole as a single parameter expansion unit.  The expansion of the <code>files</code> parameter using the <code>"${files[@]}"</code> syntax effectively results in this:</p>
+
+<pre lang="bash">
+$ <kbd>rm -v <mark>myscript</mark> <mark>hello.txt</mark> <mark>"05 Between Angels and Insects.ogg"</mark></kbd>
+removed 'myscript'
+removed 'hello.txt'
+removed '05 Between Angels and Insects.ogg'
+</pre>
+
+    <p>Bash neatly expands each separate element of our array list as a separate argument to the <code>rm</code> command!</p>
+
+    <aside class="warn">
+        <p>As with all parameter expansion, it is <strong>critically important</strong> that you wrap all of your array parameter expansions in double quotes.  Failure to double-quote your expansions will, just like with regular parameter expansion, cause bash to word-split all of the values in your neatly distinct list of array items, resulting in a broken list of word arguments to your command:</p>
+
+<pre lang="bash" class="bad">
+$ <kbd>rm -v ${files[@]}</kbd>
+removed 'myscript'
+removed 'hello.txt'
+rm: cannot remove '05': No such file or directory
+rm: cannot remove 'Between': No such file or directory
+rm: cannot remove 'Angels': No such file or directory
+rm: cannot remove 'and': No such file or directory
+rm: cannot remove 'Insects.ogg': No such file or directory
+</pre>
+
+        <p>Just recall the quoting rule we learned previously: <q>If there is whitespace or a symbol in your argument, you <strong>must</strong> quote it.</q></p>
+
+<pre lang="bash" class="good">
+$ <kbd>rm -v "${files[@]}"</kbd>
+</pre>
+    </aside>
+
+    <p>Congratulations!  You now understand the most powerful data structure in the bash shell language.</p>
+
+    <h2>What else can I do with arrays?</h2>
+
+    <p>In addition to array assignment and array expansion, bash provides some other operations that we can perform on arrays:</p>
+
+<pre lang="bash">
+$ <kbd>files+=( selfie.png )</kbd><em>Using the <code>+=( )</code> operator we can append a list of items to the end of an array.</em>
+$ <kbd>files=( *.txt )</kbd><em>Just like in a command's arguments, we can expand glob patterns here.</em>
+$ <kbd>echo "${files[0]}"</kbd><em>To expand a single item from an array, specify that item's ordinal number.</em>
+$ <kbd>echo "$files"</kbd><em>If we forget the array expansion syntax, bash will expand only the first item.</em>
+$ <kbd>unset "files[3]"</kbd><em>To remove a specific item from the array, we use <code>unset</code>.</em>
+<em>Notice though: we do not use a <code>$</code> here, since we are not expanding the value!</em>
+</pre>
+
+    <p>In addition to the <code>[@]</code> suffix for expanding array elements as distinct arguments, bash also has a way of expanding all array elements into a <em>single</em> argument.  This is done using the <code>[*]</code> suffix.  How does bash merge all of our separate elements into a single argument?  There are many ways in which we might expect it to this - does it create a space-separated string?  Does it squeeze all elements together into a long string with nothing delimiting the elements?
+    Perhaps it could create a single string where each element is on a separate line?  The fact is that for all the reasons illustrated above, there isn't a single strategy for merging distinct elements into a single string that doesn't come with problems.  This operator is therefore <em>highly dubious</em> and should be avoided in favour of <code>[@]</code> in nearly all cases!</p>
+
+    <p>The fact is, bash allows you to choose how to merge elements into a single string when you use <code>[*]</code>: by looking at the current value of the <var>IFS</var> internal shell variable.  Bash uses this variable's <em>first</em> character (which, by default, is a space) to separate the elements in the resulting string:</p>
+
+<pre lang="bash">
+$ <kbd>names=( "Susan Quinn" "Anne-Marie Davis" "Mary Tate" )</kbd>
+$ <kbd>echo "Invites sent to: &lt;${names[*]}&gt;."</kbd><em>Results in a single argument where elements are separated by a literal space.</em>
+Invites were sent to: &lt;Susan Quinn Anne-Marie Davis Mary Tate&gt;.
+$ <kbd>( IFS=','; echo "Invites sent to: &lt;${names[*]}&gt;." )</kbd><em>When we change <var>IFS</var> to a <code>,</code>, the distinct elements become more clear.</em>
+Invites were sent to: &lt;Susan Quinn,Anne-Marie Davis,Mary Tate&gt;.
+</pre>
+
+    <p>Since a single string containing multiple distinct elements is almost always flawed and less useful than an array variable with those elements nicely separated, there happens to be very little real use for the <code>[*]</code> suffix.  With one exception:  this operator is quite useful for displaying a list of elements to the user.  When we're trying to show an array's values to a human, we need not be so worried about the syntactical correctness of the output.  The example
+    above, where <var>IFS</var> is changed to <code>,</code> illustrates a common way of displaying the values in an array to the user.</p>
+
+    <aside class="warn">
+        <p>It is important to be extremely careful when modifying internal bash shell variables such as in the example above with <var>IFS</var>:<br>
+        When we change internal shell variables, we need to be cognisant of the fact that we are changing the way in which bash operates.  Changing the value of <var>IFS</var> to a comma (<code>,</code>) for the purpose of expanding files using the <code>[*]</code> suffix is fine, but if you then continue on with your script while leaving <var>IFS</var> set to its non-default value of a "<code>,</code>", many other things in bash that are based on <var>IFS</var>'s value will suddenly
+        malfunction.</p>
+        <p>It is for this reason that you should <em>always scope internal shell configuration changes</em> to as narrow an area of your script as possible.  You may have noticed in the example above that we introduced braces <code>( )</code> around the code.  These braces create a subshell within which the code is executed and when the braces end, the subshell with the non-standard <var>IFS</var> value ends with it.  As a result, the original script's bash shell never had its
+        <var>IFS</var> variable modified and we avoid these unexpected malfunctions.</p>
+    </aside>
+
+    <p>Finally, all of the special parameter expansion operators we learned about previously can also be applied to array expansions, but we're going to re-iterate some of them as their effect is quite interesting in the context of expanding multiple distinct elements.</p>
+
+    <p>For starters, the <code>${parameter[@]/pattern/replacement}</code> operator and all of its variants has its replacement logic applied to each element distinctly, as it's being expanded:</p>
+
+<pre lang="bash">
+$ <kbd>names=( "Susan Quinn" "Anne-Marie Davis" "Mary Tate" )</kbd>
+$ <kbd>echo "${names[@]/ /_}"</kbd><em>Replace spaces by underscores in each name.</em>
+Susan_Quinn Anne-Marie_Davis Mary_Tate
+$ <kbd>( IFS=','; echo "${names[*]/#/Ms }" )</kbd><em>More interestingly: replace the start of each name with <code>Ms </code>,</em>
+Ms Susan Quinn,Ms Anne-Marie Davis,Ms Mary Tate<em>effectively prefixing every element with a string as we expand them.</em>
+</pre>
+
+    <p>The <code>${#parameter}</code> operator combined with the <code>[@]</code> suffix gives us a count of the elements:</p>
+
+<pre lang="bash">
+$ <kbd>echo "${#names[@]}"</kbd>
+3
+$ <kbd>echo "${#names[1]}"</kbd><em>But we can still get the length of a string by specifying directly</em>
+16<em>which string element in the array we want to get the length of.</em>
+</pre>
+
+    <p>And lastly, the <code>${parameter[@]:start:length}</code> operator can be used to obtain slices or "sub-sets" of our array:</p>
+
+<pre lang="bash">
+$ <kbd>echo "${names[@]:1:2}"</kbd>
+Anne-Marie Davis Mary Tate
+$ <kbd>echo "${names[@]: -2}"</kbd><em>Specifying a negative start allows us to count backwards from the end!</em>
+Anne-Marie Davis Mary Tate<em>While omitting the length yields "all remaining elements" from the start.</em>
+</pre>
+
+    <p>Notice that it is important to include a space in front of the negative start value:  if we omit the space, bash gets confused and thinks you are trying to invoke the <code>${parameter:-value}</code> operator, which substitutes a default <code>value</code> whenever parameter's value is empty.  This is obviously not what we want.</p>
+
+    <p>That's it!  You've got a firm grasp of the absolutely most important and useful aspects of the bash shell language:  its parameters and expansions, as well as the many ways in which we can apply operators to expanded values and shape them to our every needs.</p>
 </section>
 <aside class="nav">
     <h1><a href="02.commands.html">Back track: Commands And Arguments</a></h1>

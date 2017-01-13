@@ -99,7 +99,7 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
     The bash shell is a binary program that runs either <dfn>interactively</dfn> or <dfn>non-interactively</dfn>, usually in a text-based interface provided by a <dfn>terminal emulator</dfn> program.
     </footer>
 
-    <h2>What's going on here?  text, terminals, bash, programs, input, output!</h2>
+    <h2>What's going on here?  Text, terminals, bash, programs, input, output!</h2>
 
     <p>Near the end of the last section, you might have noticed we accelerated a bit.<br>
     If you're still a bit dizzy from the speed (and otherwise!), let's take a step back and get a clear picture of what's going on.  Depending on your level of familiarity with the matter, there may be a lot of new concepts here.  Even if these concepts are not new to you, there is a good chance you don't know exactly how to frame them.  If you're going to understand what exactly is going on when you run
@@ -116,6 +116,10 @@ $ <kbd>echo "$BASH_VERSION"</kbd>
     I won't describe these programs in depth, the point here is that terminal programs all inter-connect and work together under the hood.  Since there isn't much of a visual reminder about what's happening, it's important that you develop a good understanding of when programs start, communicate and end, so that you can properly understand the effects and side-effects of sending input to or receiving output from various programs in your text based user interface.</p>
     <p>Briefly, the above example uses the <code>bash</code> program to run the <kbd>ssh</kbd> program, which sets up a connection with another computer.  On the other computer, a new <code>bash</code> shell is started, whose input and output are sent back and forth over the connection.  We then run the <kbd>screen</kbd> program with the remote bash, which is a <dfn>terminal multiplexer</dfn>.  Such a program is a text-based terminal emulator, which can emulate multiple terminals
     using only one terminal display (by using hotkeys to switch between active emulated terminals or displaying multiple of them using split screens).  The <code>screen</code> program starts a <code>bash</code> shell to run in one of its own emulated terminals.  In this third bash shell, we then run the <kbd>mail</kbd> program, which allows us to type in the mail message that we'd like to send.</p>
+
+    <aside>
+        <p>It is worth noting that what we refer to here as "text" is, in this world, more commonly called a "string".  A string is essentially nothing more than a long series of characters.  A name, such as <code>Leonard Cohen</code> is a string, but a long poem is also a string - just a bigger one, a string that contains many lines of text.  Whenever we refer to a <em>string</em> in the future, remember that we're just talking about any kind of text.</p>
+    </aside>
 
     <footer>
     In a terminal, many terminal-based programs can run simultaneously, forming a chain through which your input and their output flows.
