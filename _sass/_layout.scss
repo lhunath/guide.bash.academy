@@ -269,15 +269,44 @@ aside {
 
 footer,
 pre {
-    border: 1px dashed #DDD;
+    border: 1px solid #DDD;
     border-left-width: 0;
     border-right-width: 0;
-    box-shadow: 0 0 1px #CCC;
+    box-shadow: 0 0 5px #CCC;
     transition: .3s all;
 
     display: block;
     position: relative;
     margin: 0 -12.5%;
+}
+footer {
+    background-color: #EEE;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.1em;
+
+    padding: 1em 20%;
+
+    &:hover {
+        color: black;
+        box-shadow: 0 0 15px #666;
+    }
+}
+pre {
+    position: relative;
+    z-index: 0;
+    color: #999;
+    padding: 1em 15%;
+
+    &[lang] {
+        box-shadow: inset 0 0 10px #AAA, 0 0 5px #888;
+        border-color: #666;
+        background: url("../img/stripes_dark.png"); /* Performs better, maybe not as pretty. */
+
+        &:hover {
+            color: #BBB;
+            box-shadow: inset 0 0 10px #DDD, 0 0 15px #666;
+        }
+    }
 }
 dd {
     & footer, & pre {
@@ -295,24 +324,16 @@ aside {
 table, footer, code, pre, kbd {
     counter-reset: samp;
 
-    background: url("../img/stripes.png"); /* Performs better, maybe not as pretty. */
+    background: url("../img/stripes_light.png"); /* Performs better, maybe not as pretty. */
     /*background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
     background-size:6px 6px;/**/
+
+    & & {
+        background: transparent;
+    }
 }
 table code, table kbd {
     background: none;
-}
-footer {
-    background-color: #EEE;
-    font-family: 'Varela Round', sans-serif;
-    font-size: 1.1em;
-
-    padding: 1em 20%;
-
-    &:hover {
-        color: black;
-        box-shadow: 0 0 15px #CCC;
-    }
 }
 section>footer::before {
     content: "TL;DR";
@@ -338,6 +359,10 @@ pre, code, kbd, var, samp {
 kbd {
     color: black;
     cursor: pointer;
+    
+    pre[lang] & {
+        color: white;
+    }
 }
 var, kbd {
     border-bottom: 1px dashed;
@@ -362,24 +387,12 @@ code samp {
     display: inline-block;
     width: 100%;
 }
-pre {
-    position: relative;
-    z-index: 0;
-    color: #999;
-    border-top-color: #BBB;
-    border-bottom-color: #BBB;
-    padding: 1em 20%;
-}
 table,
 pre {
     /*width: 100%; keep width at auto for pre, alternatively, we have to set it to 125% when we modify the margin. */
     overflow: auto;
 
     font-size: 0.8em;
-}
-pre:hover {
-    color: #666;
-    box-shadow: 0 0 15px #CCC;
 }
 code.bad, pre.bad, kbd.bad, var.bad, samp.bad, aside.warn {
     background-color: #E3DDDD;
@@ -410,6 +423,11 @@ pre.exercise::before {
 
     font-size: 0.8em;
 }
+pre[lang]::before {
+    background: black;
+    border-right: 1px dashed #222;
+    border-bottom: 1px dashed #222;
+}
 pre.syntax::before {
     content: "syntax";
 }
@@ -434,9 +452,6 @@ pre.exercise samp {
 pre.exercise:hover samp {
     opacity: 1;
 }
-pre samp:hover, code samp:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
 pre samp::before, code samp::before {
     counter-increment: samp;
     content: "#" counter(samp);
@@ -454,7 +469,7 @@ pre em, code em {
 
     position: absolute;
     z-index: -1;
-    left: 15%;
+    left: 10%;
     padding-left: 35em;
     /*width: 40em; 40em overflows the available space causing scroll bars when they're unnecessary */
 
@@ -465,7 +480,7 @@ pre em::before, code em::before {
     content: "# ";
 }
 pre em:hover, code em:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
 }
 strong {
     color: black;

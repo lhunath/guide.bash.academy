@@ -381,18 +381,18 @@ $
     <h3 id="path_ex">Exercises!</h3>
 
     <h4>PATH.1. Run the <code>ls</code> program.</h4>
-<pre class="exercise"><samp>$ <kbd>ls</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp>$ <kbd>ls</kbd></samp></pre>
 
     <h4>PATH.2. Find out where bash will find the <code>ls</code> program.</h4>
-<pre class="exercise"><samp>$ <kbd>type ls</kbd><em>Both 'type' and 'command' are acceptable here.  The 'which' program is not.
+<pre lang="bash" class="exercise"><samp>$ <kbd>type ls</kbd><em>Both 'type' and 'command' are acceptable here.  The 'which' program is not.
 ls is /bin/ls</em></samp></pre>
 
     <h4>PATH.3. Show your system's <var>PATH</var>.</h4>
-<pre class="exercise"><samp>$ <kbd>echo "$PATH"</kbd>
+<pre lang="bash" class="exercise"><samp>$ <kbd>echo "$PATH"</kbd>
 /bin:/sbin:/usr/bin:/usr/sbin</samp></pre>
 
     <h4>PATH.4. Create a script in your home directory, add it to your <var>PATH</var> and then run the script as an ordinary command.</h4>
-<pre class="exercise"><samp>$ <kbd>ex</kbd><em>You can substitute your favorite editor here.</em>
+<pre lang="bash" class="exercise"><samp>$ <kbd>ex</kbd><em>You can substitute your favorite editor here.</em>
 : <kbd>i</kbd>
 <kbd>#!/usr/bin/env bash
 echo "Hello world!"
@@ -615,7 +615,7 @@ $
 
     <p>What if we wanted to save all the output that would normally appear on the terminal to our <code>myfiles.ls</code> file; both the results and error messages?  Intuition might suggest:</p>
 
-<pre class="bad">
+<pre lang="bash" class="bad">
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;myfiles.ls</mark></kbd><em>Redirect both file descriptors to myfiles.ls?</em>
 
                  ╭──────────╮
@@ -638,7 +638,7 @@ $ <kbd>cat myfiles.ls</kbd><em>Contents may be garbled depending on how streams 
 
     <p>To solve this problem, you need to send both your output and error bytes on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:</p>
 
-<pre class="good">
+<pre lang="bash" class="good">
 $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 2 write to where FD 1 is writing</em>
 
                  ╭──────────╮
@@ -661,7 +661,7 @@ ls: b: No such file or directory
 
     <p>We've seen quite a few redirection operations now, and we've even combined them.  Before you go wild, there is one more important rule you need to understand:  redirections are evaluated from left to right, conveniently the same way as we read them.  This might seem obvious, but neglect for this has caused many of your predecessors to make this mistake:</p>
 
-<pre class="bad">
+<pre lang="bash" class="bad">
     $ <kbd>ls -l a b <mark>2&gt;&amp;1</mark> <mark>&gt;myfiles.ls</mark></kbd><em>Make FD 2 go to FD 1 and FD 1 go to myfiles.ls?</em>
 </pre>
 
@@ -670,7 +670,7 @@ ls: b: No such file or directory
 
     <p>If we fix the order of the redirections:</p>
 
-<pre class="good">
+<pre lang="bash" class="good">
     $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 1 target myfiles.ls and FD 2 target FD 1's target</em>
 </pre>
 
@@ -816,37 +816,37 @@ echo &gt;&amp;2 "   Success if the program exists in the user's PATH and is exec
     <h3 id="redir_ex">Exercises!</h3>
 
     <h4>REDIR.1. Run a command that produces a message on standard output.</h4>
-<pre class="exercise"><samp>$ <kbd>ls /bin/bash</kbd>
+<pre lang="bash" class="exercise"><samp>$ <kbd>ls /bin/bash</kbd>
 /bin/bash*</samp></pre>
 
     <h4>REDIR.2. Run a command that produces a message on standard error.</h4>
-<pre class="exercise"><samp>$ <kbd>ls /bob/bash</kbd>
+<pre lang="bash" class="exercise"><samp>$ <kbd>ls /bob/bash</kbd>
 ls: /bob/bash: No such file or directory</samp></pre>
 
     <h4>REDIR.3. Run a command that produces messages on both standard output and standard error.</h4>
-<pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash</kbd>
+<pre lang="bash" class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash</kbd>
 ls: /bob/bash: No such file or directory
 /bin/bash*</samp></pre>
 
     <h4>REDIR.4. Send only the last command's standard error messages to a file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal.</h4>
-<pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash 2&gt;errors.log</kbd>
+<pre lang="bash" class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash 2&gt;errors.log</kbd>
 /bin/bash*
 $ <kbd>cat errors.log</kbd>
 ls: /bob/bash: No such file or directory</samp></pre>
 
     <h4>REDIR.5. Append the last command's standard output and error messages to the file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal again.</h4>
-<pre class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash &gt;&gt;errors.log 2&gt;&amp;1</kbd>
+<pre lang="bash" class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash &gt;&gt;errors.log 2&gt;&amp;1</kbd>
 $ <kbd>cat errors.log</kbd>
 ls: /bob/bash: No such file or directory
 ls: /bob/bash: No such file or directory
 /bin/bash*</samp></pre>
 
     <h4>REDIR.6. Use a here-string to show the string <kbd>Hello world!</kbd> on the terminal.</h4>
-<pre class="exercise"><samp>$ <kbd>cat &lt;&lt;&lt; 'Hello world!'</kbd>
+<pre lang="bash" class="exercise"><samp>$ <kbd>cat &lt;&lt;&lt; 'Hello world!'</kbd>
 Hello world!</samp></pre>
 
     <h4>REDIR.7. Fix this command so that the message is properly saved into the <code>log</code> file and such that FD 3 is properly closed afterwards: <kbd>exec 3&gt;&amp;2 2&gt;log; echo 'Hello!'; exec 2&gt;&amp;3</kbd></h4>
-<pre class="exercise"><samp>$ <kbd>exec 3&gt;&amp;1 &gt;log; echo 'Hello!'; exec 1&gt;&amp;3 3&gt;&amp;-</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp>$ <kbd>exec 3&gt;&amp;1 &gt;log; echo 'Hello!'; exec 1&gt;&amp;3 3&gt;&amp;-</kbd></samp></pre>
 
 </section>
 

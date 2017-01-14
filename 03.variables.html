@@ -271,32 +271,32 @@ HTTp://guide.basH.academy/variables.HTml</pre>
     <h2 id="expansion_ex">Exercises!</h2>
 
     <h4>EXPAN.1. Assign <kbd>hello</kbd> to the variable <var>greeting</var>.</h4>
-<pre class="exercise"><samp><kbd>greeting=hello</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp><kbd>greeting=hello</kbd></samp></pre>
 
     <h4>EXPAN.2. Show the contents of the variable <var>greeting</var>.</h4>
-<pre class="exercise"><samp><kbd>echo "$greeting"</kbd>
+<pre lang="bash" class="exercise"><samp><kbd>echo "$greeting"</kbd>
 hello</samp></pre>
 
     <h4>EXPAN.3. Assign the string <kbd> world</kbd> to the end of the variable's current contents.</h4>
-<pre class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp>
+<pre lang="bash" class="exercise"><samp><kbd>greeting="$greeting world"</kbd></samp>
 <samp><kbd>greeting+=" world"</kbd><em><code>+=</code> appends the string to the end of the current value.</em></samp></pre>
 
     <h4>EXPAN.4. Show the last word in the variable <var>greeting</var>.</h4>
-<pre class="exercise"><samp><kbd>echo "${greeting##* }"</kbd>
+<pre lang="bash" class="exercise"><samp><kbd>echo "${greeting##* }"</kbd>
 world</samp></pre>
 
     <h4>EXPAN.5. Show the contents of the variable <var>greeting</var> with the first character upper-cased and a period (<code>.</code>) at the end.</h4>
-<pre class="exercise"><samp><kbd>echo "${greeting^}."</kbd>
+<pre lang="bash" class="exercise"><samp><kbd>echo "${greeting^}."</kbd>
 Hello world.</samp></pre>
 
     <h4>EXPAN.6. Replace the first space character in the variable's contents with <var> big </var>.</h4>
-<pre class="exercise"><samp><kbd>greeting=${greeting/ / big }</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp><kbd>greeting=${greeting/ / big }</kbd></samp></pre>
 
     <h4>EXPAN.7. Redirect the contents of the variable <var>greeting</var> into a file whose name is the value of the variable with the spaces replaced by underscores (<code>_</code>) and a <code>.txt</code> at the end.</h4>
-<pre class="exercise"><samp><kbd>echo "$greeting" &gt; "${greeting// /_}.txt"</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp><kbd>echo "$greeting" &gt; "${greeting// /_}.txt"</kbd></samp></pre>
 
     <h4>EXPAN.8. Show the contents of the variable <var>greeting</var> with the middle word fully upper-cased.</h4>
-<pre class="exercise"><samp><kbd>middle=${greeting% *} middle=${middle#* }; echo "${greeting%% *} ${middle^^} ${greeting##* }"</kbd>
+<pre lang="bash" class="exercise"><samp><kbd>middle=${greeting% *} middle=${middle#* }; echo "${greeting%% *} ${middle^^} ${greeting##* }"</kbd>
 hello BIG world</samp></pre>
 </section>
 
@@ -554,14 +554,14 @@ $ <kbd>grep Name registrations.txt</kbd>
     <p>What's nice and extremely convenient: most of what we've learned thus far about variable parameters applies to positional parameters as well: we can expand them and we can apply parameter expansion operators on these expansions to mutate the resulting values:</p>
 
 <pre lang="bash">
-<kbd>#!/usr/bin/env bash</kbd>
-<kbd>echo "The Name Script"</kbd>
-<kbd>echo "usage: names 'My Full Name'"; echo</kbd>
-<kbd></kbd>
-<kbd>first=${1%% *} last=${1##* } middle=${1#$first} middle=${middle%$last}</kbd>
-<kbd>echo "Your first name is: $first"</kbd>
-<kbd>echo "Your last name is: $last"</kbd>
-<kbd>echo "Your middle names are: $middle"</kbd>
+<kbd>#!/usr/bin/env bash
+echo "The Name Script"
+echo "usage: names 'My Full Name'"; echo
+
+first=${1%% *} last=${1##* } middle=${1#$first} middle=${middle%$last}
+echo "Your first name is: $first"
+echo "Your last name is: $last"
+echo "Your middle names are: $middle"</kbd>
 </pre>
 
     <p>If you save this script in a file called <code>names</code> and run it according to the usage description, by passing a single argument to it, you'll see the script analyse your name and inform you which part of your name constitute the first, last and middle names.  We're using the variables <var>first</var>, <var>last</var> and <var>middle</var> to store these pieces of information for later, when we expand the variables in the <code>echo</code> statements.  Notice how the
@@ -731,8 +731,9 @@ echo "1: $1, 2: $2, 4: $4"
     <p>You already know what shell variables are.  Were you aware that the bash shell also creates a few variables for you?  These variables are used for various tasks and are handy for looking up certain state information from the shell or changing certain shell behaviours.</p>
     
     <aside class="rule">
-        <p>Internal shell variables are shell variables with ALL-UPPERCASE names.  The same holds true for nearly all environment variables.  It is important to make sure that when we start creating our own shell variables, we don't accidentally use the name of a shell variable we didn't know about, this mistake will result in all kinds of dangerous and unexpected behaviour.  Thankfully, shell variable names are case-sensitive, so the general rule is that <strong>you should make all of your own
-            shell variables lower-case</strong> to avoid ever accidentally overriding a shell-internal variable or a system-exported variable of the same name.  If you create an environment variable, give it an ALL-UPPERCASE name.</p>
+        <p>Internal shell variables are shell variables with ALL-UPPERCASE names.  The same holds true for nearly all environment variables.  It is important to make sure that when we start creating our own shell variables, we don't accidentally use the name of a shell variable we didn't know about, this mistake will result in all kinds of dangerous and unexpected behaviour.  Thankfully, shell variable names are case-sensitive, so in order to avoid ever accidentally overriding a shell-internal
+        variable or a system-exported variable of the same name, the general rule is:</p>
+        <p><q>You should make all of your own shell variables <em>lower-case</em>.  If you create an environment variable, give it an ALL-UPPERCASE name.</q></p>
     </aside>
 
     <p>While bash actually defines quite a lot of internal shell variables, most of them are not very useful.  Others have use but only in very specific scenarios.  Many of these variables require you to understand more advanced bash concepts.  I will briefly mention a few internal shell variables that are interesting to learn about at this stage.  The full list of internal shell variables can be found in <code>man bash</code>.</p>
@@ -907,16 +908,16 @@ echo "1: $1, 2: $2, 4: $4"
     <h2 id="parameter_ex">Exercises!</h2>
 
     <h4>PARAM.1. Start a new bash shell that outputs its <em>first</em> argument and pass <kbd>Hello World!</kbd> in as an argument to it.</h4>
-<pre class="exercise"><samp><kbd>bash -c 'echo "$1"' -- 'Hello World!'</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp><kbd>bash -c 'echo "$1"' -- 'Hello World!'</kbd></samp></pre>
 
     <h4>PARAM.2. Start a bash shell that outputs the number of arguments passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
-<pre class="exercise"><samp><kbd>bash -c 'echo "$#"' -- 1 2 'The Third'</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp><kbd>bash -c 'echo "$#"' -- 1 2 'The Third'</kbd></samp></pre>
 
     <h4>PARAM.3. Start a bash shell that shifts a positional parameter away and then outputs the first. Pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
-<pre class="exercise"><samp><kbd>bash -c 'shift; echo "$1"' -- 1 2 'The Third'</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp><kbd>bash -c 'shift; echo "$1"' -- 1 2 'The Third'</kbd></samp></pre>
 
     <h4>PARAM.4. Start a bash shell that outputs the last argument passed in and pass in the arguments <kbd>1</kbd>, <kbd>2</kbd> and <kbd>The Third</kbd>.</h4>
-<pre class="exercise"><samp><kbd>bash -c 'echo "${@: -1}"' -- 1 2 'The Third'</kbd></samp></pre>
+<pre lang="bash" class="exercise"><samp><kbd>bash -c 'echo "${@: -1}"' -- 1 2 'The Third'</kbd></samp></pre>
 </section>
 
 <section>

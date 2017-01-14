@@ -4,4 +4,6 @@ some topics that come up in questions and need to be explained well:
 - env, global and local vars, scoping
 - parsing "layers": what is bash syntax, what is command arguments and data/ literal vs. syntactical etc.
 
-"exercises for the reader"?
+
+advanced topic ideas:
+- how prefixing functions with variable assignments makes a "local" variable scope without needing a subshell for it, and how unset'ing that local variable in the function does not affect the global scope.
