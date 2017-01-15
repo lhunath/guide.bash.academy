@@ -30,16 +30,16 @@ published: true
     asking you for the next thing to do.  You'll notice that while your editor is running, you are no longer at the bash prompt.  As soon as your editor exits, your bash prompt re-appears:</p>
 
 <pre lang="bash">
-$ <kbd>ex</kbd><em>bash command to run the "ex" program.</em>
+<span class="prompt">$ </span><kbd>ex</kbd><em>bash command to run the "ex" program.</em>
 : <kbd>i</kbd><em>ex command to "insert" some text.</em>
 <kbd>Hello!
 .</kbd><em>A line with just a dot tells ex to stop inserting text.</em>
 : <kbd>w greeting.txt</kbd><em>ex command to "write" the text to a file.</em>
 "greeting.txt" [New] 1L, 7C written
 : <kbd>q</kbd><em>ex command to "quit" the program.</em>
-$ <kbd>cat greeting.txt</kbd><em>And now we're back in bash!</em>
+<span class="prompt">$ </span><kbd>cat greeting.txt</kbd><em>And now we're back in bash!</em>
 Hello!<em>The "cat" program shows the contents of the file.</em>
-$ 
+<span class="prompt">$ </span>
 </pre>
 
     <p>Notice how in this session, we started out by giving bash the command to start the <kbd>ex</kbd> file editor.  After issuing this command, our prompt changed: any text we enter now is sent to ex, not to bash.  While ex is running, bash is aslumber waiting for your ex session to end.  When you quit ex using the <kbd>q</kbd> command, the <code>ex</code> bash command ends and bash is ready to receive a new command.  To tell you this, it shows you its prompt again, allowing
@@ -60,9 +60,9 @@ $
     <p>Some commands however, span multiple lines.  These are usually block commands or commands with quotes in them:</p>
 
 <pre lang="bash">
-$ <kbd>read -p "Your name? " name</kbd><em>This command is complete and can be started immediately.</em>
+<span class="prompt">$ </span><kbd>read -p "Your name? " name</kbd><em>This command is complete and can be started immediately.</em>
 Your name? <kbd>Maarten Billemont</kbd>
-$ <kbd>if [[ $name = $USER ]]; then</kbd><em>The "if" block started but wasn't finished.</em>
+<span class="prompt">$ </span><kbd>if [[ $name = $USER ]]; then</kbd><em>The "if" block started but wasn't finished.</em>
 &gt; <kbd>    echo "Hello, me."</kbd>
 &gt; <kbd>else</kbd>
 &gt; <kbd>    echo "Hello, $name."</kbd>
@@ -88,10 +88,10 @@ fi</kbd>
     <p>It doesn't matter much what you name the file in which you save the code.  Let's say you saved it in a file called <code>hello.txt</code>, we can now run the commands from that file using bash without it having to ask us for instructions:</p>
 
 <pre lang="bash">
-$ <kbd>bash hello.txt</kbd><em>This starts a new "bash" process.</em>
+<span class="prompt">$ </span><kbd>bash hello.txt</kbd><em>This starts a new "bash" process.</em>
 Your name? <kbd>Maarten Billemont</kbd>
 Hello, Maarten Billemont.<em>Our new "bash" process ends when there is no code left in the file.</em>
-$ <em>Now that the "bash" command is done, our interactive bash comes back.</em>
+<span class="prompt">$ </span><em>Now that the "bash" command is done, our interactive bash comes back.</em>
 </pre>
 
     <p>Notice that two bash processes are involved in this example.  The bash process we start off from is our regular interactive shell.  We tell that bash process to run a command which will cause it to start a new bash process.  This second bash process will execute all the commands it finds in the file <code>hello.txt</code>, non-interactively.  When it's done (there are no commands left in the file), the non-interactive bash process ends and the interactive bash process is
@@ -116,8 +116,8 @@ fi
     <code>env</code> program to find it for us.  That was a little complicated!  But now, what's the difference between our file before and after adding the hashbang?</p>
 
 <pre lang="bash">
-$ <kbd>chmod +x hello.txt</kbd><em>Mark hello.txt as an e<strong>x</strong>ecutable program.</em>
-$ <kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
+<span class="prompt">$ </span><kbd>chmod +x hello.txt</kbd><em>Mark hello.txt as an e<strong>x</strong>ecutable program.</em>
+<span class="prompt">$ </span><kbd>./hello.txt</kbd><em>Tell bash to start the hello.txt program.</em>
 </pre>
 
     <p>Most systems require you to mark a file as <dfn>executable</dfn> before the kernel is willing to allow you to run it as a program.  Once we do that, we can start the <code>hello.txt</code> program like we would any other program.  The kernel will look inside the file, find the hashbang, use that to track down the bash interpreter, and finally use the bash interpreter to start running the instructions in the file.  You have your first real bash program!</p>
@@ -310,7 +310,7 @@ exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
     <p>If bash finds no way to execute a command by the name you gave it, your command will result in an error and bash will show an error message:</p>
 
 <pre lang="bash">
-$ <kbd>buy beer</kbd>
+<span class="prompt">$ </span><kbd>buy beer</kbd>
 bash: buy: command not found
 </pre>
 
@@ -326,7 +326,7 @@ bash: buy: command not found
     yet others in <code>/sbin</code> and so on.  It would be a real bother if we had to remember the exact location of our programs, especially since they may vary between systems.  To the rescue comes the <code>PATH</code> <dfn>environment variable</dfn>.  Your <code>PATH</code> variable contains a set of directories that should be searched for programs.</p>
 
 <pre>
-$ <kbd>ping 127.0.0.1</kbd>
+<span class="prompt">$ </span><kbd>ping 127.0.0.1</kbd>
 
     <strong>PATH=</strong>/bin<strong>:</strong>/sbin<strong>:</strong>/usr/bin<strong>:</strong>/usr/sbin
            │     │
@@ -339,9 +339,9 @@ $ <kbd>ping 127.0.0.1</kbd>
     <p>If you're ever curious about exactly where bash finds the program to run for a command name, you can use the <code>type</code> built-in to find out:</p>
 
 <pre lang="bash">
-$ <kbd>type ping</kbd>
+<span class="prompt">$ </span><kbd>type ping</kbd>
 ping is /sbin/ping
-$ <kbd>type -a echo</kbd><em>The -a switch tells type to show us all the possibilities</em>
+<span class="prompt">$ </span><kbd>type -a echo</kbd><em>The -a switch tells type to show us all the possibilities</em>
 echo is a shell builtin<em>If we just run 'echo', bash will use the first possibility</em>
 echo is /bin/echo<em>We have an echo built-in but also a program called echo!</em>
 </pre>
@@ -352,14 +352,14 @@ echo is /bin/echo<em>We have an echo built-in but also a program called echo!</e
     <p>Sometimes you'll need to run a program that isn't installed in any of the <code>PATH</code> directories.  In that case, you'll have to manually specify the path to where bash can find the program, rather than just its name:</p>
     
 <pre lang="bash">
-$ <kbd>/sbin/ping -c 1 127.0.0.1</kbd>
+<span class="prompt">$ </span><kbd>/sbin/ping -c 1 127.0.0.1</kbd>
 PING 127.0.0.1 (127.0.0.1): 56 data bytes
 64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=0.075 ms
 
 --- 127.0.0.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 0.075/0.075/0.075/0.000 ms
-$ <kbd>./hello.txt</kbd><em>Remember our hello.txt script?</em>
+<span class="prompt">$ </span><kbd>./hello.txt</kbd><em>Remember our hello.txt script?</em>
 Your name? <em>We use the path "." which means "our current directory"</em>
 </pre>
 
@@ -368,8 +368,8 @@ Your name? <em>We use the path "." which means "our current directory"</em>
     <p>You can add more directories to your <code>PATH</code>.  A common practice is to have a <code>/usr/local/bin</code> and a <code>~/bin</code> (where <code>~</code> represents your user's home directory).  Remember that <code>PATH</code> is an <dfn>environment variable</dfn>: you can update it like this:</p>
     
 <pre lang="bash">
-$ <kbd>PATH=~/bin:/usr/local/bin:/bin:/usr/bin</kbd>
-$ 
+<span class="prompt">$ </span><kbd>PATH=~/bin:/usr/local/bin:/bin:/usr/bin</kbd>
+<span class="prompt">$ </span>
 </pre>
 
     <p>This will change the variable in your current bash shell.  As soon as you close the shell, the change will be lost, though.  We'll go more in-depth on how environment variables work and how you should configure them in a later section.</p>
@@ -400,9 +400,9 @@ echo "Hello world!"
 : <kbd>w myscript</kbd>
 "myscript" [New] 2L, 40C written
 : <kbd>q</kbd>
-$ <kbd>chmod +x myscript</kbd>
-$ <kbd>PATH=$PATH:~</kbd>
-$ <kbd>myscript</kbd>
+<span class="prompt">$ </span><kbd>chmod +x myscript</kbd>
+<span class="prompt">$ </span><kbd>PATH=$PATH:~</kbd>
+<span class="prompt">$ </span><kbd>myscript</kbd>
 Hello world!</samp></pre>
 
     <h2>Command arguments and quoting literals</h2>
@@ -420,8 +420,8 @@ Hello world!</samp></pre>
     fact it could contain prose.  For sake of clarity, the rest of this guide will use the term <dfn>arguments</dfn> wherever applicable to avoid the ambiguity of the term <dfn>words</dfn>.  What's important is that the word or argument is a single unit to the shell: it could be a filename, a variable name, the name of a program or the name of a person:</p>
 
 <pre lang="bash">
-$ <kbd>rm <mark>hello.txt</mark></kbd>
-$ <kbd>mplayer <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake Up.ogg'</mark></kbd>
+<span class="prompt">$ </span><kbd>rm <mark>hello.txt</mark></kbd>
+<span class="prompt">$ </span><kbd>mplayer <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake Up.ogg'</mark></kbd>
 </pre>
 
     <p>In the above examples, the words are highlighted.  Notice how they aren't linguistic words, but meaningful units.  In this case, they all refer to file names.  To separate multiple arguments we use blank space.  That can be either or both spaces and tabs.  Usually you will use a single space between arguments.</p>
@@ -436,17 +436,17 @@ $ <kbd>mplayer <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake U
     literal, but not the space inbetween the filenames.  We strongly recommend you use quotes over escaping, since it results in much clearer and more readable code.  More importantly: escaping makes it much more difficult to tell exactly which parts of your code are literal and which aren't.  It also becomes more precarious to edit the literal text later on without introducing mistakes.  Using escaping rather than quoting, our example would look like this:</p>
 
 <pre lang="bash">
-$ <kbd>mplayer <mark>05\ Between\ Angels\ and\ Insects.ogg</mark> <mark>07\ Wake\ Up.ogg</mark></kbd>
+<span class="prompt">$ </span><kbd>mplayer <mark>05\ Between\ Angels\ and\ Insects.ogg</mark> <mark>07\ Wake\ Up.ogg</mark></kbd>
 </pre>
 
     <p>Quoting is one of the most important skills you will need to master as a bash user.  Its importance cannot be overstated.  The nice thing about quotes is that while it is sometimes unnecessary, it is rarely ever wrong to quote your data.  These are both perfectly valid:</p>
 
 <pre lang="bash">
-$ <kbd>ls -l <mark>hello.txt</mark></kbd>
+<span class="prompt">$ </span><kbd>ls -l <mark>hello.txt</mark></kbd>
 -rw-r--r--  1 lhunath  staff  131 29 Apr 17:07 hello.txt
-$ <kbd>ls -l <mark>'hello.txt'</mark></kbd>
+<span class="prompt">$ </span><kbd>ls -l <mark>'hello.txt'</mark></kbd>
 -rw-r--r--  1 lhunath  staff  131 29 Apr 17:07 hello.txt
-$ <kbd>ls -l <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake Up.ogg'</mark></kbd>
+<span class="prompt">$ </span><kbd>ls -l <mark>'05 Between Angels and Insects.ogg'</mark> <mark>'07 Wake Up.ogg'</mark></kbd>
 </pre>
 
     <p>So, if in doubt: quote your data.  And never remove quotes in an attempt to make something work.</p>
@@ -462,7 +462,7 @@ echo <mark>'You have won SECOND PRIZE in a beauty contest.'</mark> \<em>Single q
     <p>Don't be caught off-guard!  This is definitely not correct:</p>
 
 <pre lang="bash">
-$ <kbd>ls -l <mark>05</mark> <mark>Between</mark> <mark>Angels</mark> <mark>and</mark> <mark>Insects.ogg</mark></kbd>
+<span class="prompt">$ </span><kbd>ls -l <mark>05</mark> <mark>Between</mark> <mark>Angels</mark> <mark>and</mark> <mark>Insects.ogg</mark></kbd>
 ls: 05: No such file or directory
 ls: Angels: No such file or directory
 ls: Between: No such file or directory
@@ -487,9 +487,9 @@ ls: and: No such file or directory
         <p>The dangers of missing quotes are many, but as a very simple example, consider what happens when you <em>accidentally</em> put a space in front of your input:</p>
 
 <pre lang="bash" class="bad">
-$ <kbd>read -p 'Which user would you like to remove from your system? ' username</kbd>
+<span class="prompt">$ </span><kbd>read -p 'Which user would you like to remove from your system? ' username</kbd>
 Which user would you like to remove from your system? <kbd> lhunath</kbd>
-$ <kbd>rm -vr /home/$username</kbd>
+<span class="prompt">$ </span><kbd>rm -vr /home/$username</kbd>
 removed '/home/lhunath/somefile'
 removed directory: '/home/lhunath'
 removed '/home/bob/bobsfiles'
@@ -504,7 +504,7 @@ rm: cannot remove 'lhunath': No such file or directory
 file.  If you had quoted the <code>rm</code> command properly, the bad input would have resulted in an error message and no damage instead:</p>
 
 <pre lang="bash" class="good">
-$ <kbd>rm -vr "/home/$username"</kbd>
+<span class="prompt">$ </span><kbd>rm -vr "/home/$username"</kbd>
 rm: cannot remove '/home/ lhunath': No such file or directory
 </pre>
     </aside>
@@ -532,7 +532,7 @@ rm: cannot remove '/home/ lhunath': No such file or directory
                  │         2┝╾─┘
                  ╰──────────╯
 
-$ <kbd>ls -l a b</kbd><em>Imagine we have a file called "a", but not a file called "b".</em>
+<span class="prompt">$ </span><kbd>ls -l a b</kbd><em>Imagine we have a file called "a", but not a file called "b".</em>
 ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
 -rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>Results are emit on FD 1</em>
 
@@ -558,7 +558,7 @@ ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
                  │         2┝╾─┘
                  ╰──────────╯
 
-$ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark></kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
+<span class="prompt">$ </span><kbd>ls -l a b <mark>&gt;myfiles.ls</mark></kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
 ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
 
                  ╭──────────╮
@@ -571,7 +571,7 @@ ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
                  │         2┝╾─┘
                  ╰──────────╯
 
-$ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</em>
+<span class="prompt">$ </span><kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</em>
 -rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>The result is now in myfiles.ls</em>
 </pre>
 
@@ -587,7 +587,7 @@ $ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</
                  │         2┝╾─┘
                  ╰──────────╯
 
-$ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;/dev/null</mark></kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
+<span class="prompt">$ </span><kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;/dev/null</mark></kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
 <em>and FD 2 to the file "/dev/null"</em>
 
                  ╭──────────╮
@@ -600,10 +600,10 @@ $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;/dev/null</mark></kbd><e
                  │         2┝╾───╼ /dev/null
                  ╰──────────╯
 
-$ <kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</em>
+<span class="prompt">$ </span><kbd>cat myfiles.ls</kbd><em>The cat command shows us the contents of a file</em>
 -rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>The result is now in myfiles.ls</em>
-$ <kbd>cat /dev/null</kbd><em>The /dev/null file is empty?</em>
-$ 
+<span class="prompt">$ </span><kbd>cat /dev/null</kbd><em>The /dev/null file is empty?</em>
+<span class="prompt">$ </span>
 </pre>
 
     <p>Notice how you can redirect any FD by prefixing the <code>&gt;</code> operator with the number of the FD.  We used <code>2&gt;</code> to redirect FD 2 to <code>/dev/null</code> while <code>&gt;</code> still redirects FD 1 to <code>myfiles.ls</code>.  If you omit the number, output redirections default to redirecting FD 1 (standard output).</p>
@@ -616,7 +616,7 @@ $
     <p>What if we wanted to save all the output that would normally appear on the terminal to our <code>myfiles.ls</code> file; both the results and error messages?  Intuition might suggest:</p>
 
 <pre lang="bash" class="bad">
-$ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;myfiles.ls</mark></kbd><em>Redirect both file descriptors to myfiles.ls?</em>
+<span class="prompt">$ </span><kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;myfiles.ls</mark></kbd><em>Redirect both file descriptors to myfiles.ls?</em>
 
                  ╭──────────╮
     Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
@@ -628,7 +628,7 @@ $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;myfiles.ls</mark></kbd><
                  │         2┝╾───╼ myfiles.ls
                  ╰──────────╯
 
-$ <kbd>cat myfiles.ls</kbd><em>Contents may be garbled depending on how streams were flushed</em>
+<span class="prompt">$ </span><kbd>cat myfiles.ls</kbd><em>Contents may be garbled depending on how streams were flushed</em>
 -rw-r--r--  1 lhunath  stls: b: No such file or directoryaff  0 30 Apr 14:43 a
 </pre>
 
@@ -639,7 +639,7 @@ $ <kbd>cat myfiles.ls</kbd><em>Contents may be garbled depending on how streams 
     <p>To solve this problem, you need to send both your output and error bytes on the same stream.  And to do that, you're going to need to know how to <dfn>duplicate file descriptors</dfn>:</p>
 
 <pre lang="bash" class="good">
-$ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 2 write to where FD 1 is writing</em>
+<span class="prompt">$ </span><kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>Make FD 2 write to where FD 1 is writing</em>
 
                  ╭──────────╮
     Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
@@ -651,7 +651,7 @@ $ <kbd>ls -l a b <mark>&gt;myfiles.ls</mark> <mark>2&gt;&amp;1</mark></kbd><em>M
                  │         2┝╾─┘
                  ╰──────────╯
 
-$ <kbd>cat myfiles.ls</kbd>
+<span class="prompt">$ </span><kbd>cat myfiles.ls</kbd>
 ls: b: No such file or directory
 -rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a
 </pre>
@@ -831,12 +831,12 @@ ls: /bob/bash: No such file or directory
     <h4>REDIR.4. Send only the last command's standard error messages to a file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal.</h4>
 <pre lang="bash" class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash 2&gt;errors.log</kbd>
 /bin/bash*
-$ <kbd>cat errors.log</kbd>
+<span class="prompt">$ </span><kbd>cat errors.log</kbd>
 ls: /bob/bash: No such file or directory</samp></pre>
 
     <h4>REDIR.5. Append the last command's standard output and error messages to the file called <code>errors.log</code>.  Then show the contents of <code>errors.log</code> on the terminal again.</h4>
 <pre lang="bash" class="exercise"><samp>$ <kbd>ls /bin/bash /bob/bash &gt;&gt;errors.log 2&gt;&amp;1</kbd>
-$ <kbd>cat errors.log</kbd>
+<span class="prompt">$ </span><kbd>cat errors.log</kbd>
 ls: /bob/bash: No such file or directory
 ls: /bob/bash: No such file or directory
 /bin/bash*</samp></pre>

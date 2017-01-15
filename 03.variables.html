@@ -14,6 +14,209 @@ published: true
 
 
 <section>
+    <h1>What is expansion?</h1>
+
+    <p>We now know how to use bash for writing and managing simple commands.  These commands give us access to many powerful operations on our system.  We've learned how commands tell bash to execute programs by creating new processes for them.  We understand command arguments and how to pass information to our command in order to make them do the things we need done.</p>
+
+    <p>And with all of this knowledge, we begin to taste the power of what can be done with the shell.  It's almost like we're communicating directly with our system in a brand new language where commands are tasks and arguments are the specific instructions on how those tasks should be performed.</p>
+
+    <p>One of the main limitations at this point is the fact that passing information to commands as arguments so explicitly is very limiting.  To have to spell out every single file name on which to operate and every bit of data that should be shown on the screen or handled by a program means that we can only write programs when we have a perfect picture of what exactly needs to be done.  What we need is a way of making our commands more dynamic, turning them into a sort of template for how
+    to perform actions that we can re-use time and time again.</p>
+
+    <p>Say we want to delete the files in our <code>Downloads</code> directory.  With the knowledge we've gathered so far, we can look at what files are there and delete them:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>cd ~/Downloads</kbd>
+<span class="prompt">$ </span><kbd>ls</kbd>
+05 Between Angels and Insects.ogg
+07 Wake Up.ogg
+<span class="prompt">$ </span><kbd>rm -v '05 Between Angels and Insects.ogg' '07 Wake Up.ogg'</kbd>
+removed '05 Between Angels and Insects.ogg'
+removed '07 Wake Up.ogg'
+<span class="prompt">$ </span><kbd>ls</kbd>
+</pre>
+
+    <p>Brilliant.  Our <code>ls</code> command gives no more output, that means our directory is empty.<br>
+    But wouldn't it be nice if we didn't have to be quite so explicit about everything?  After all, our <em>intention</em> was to empty our <code>Downloads</code> directory.  And to do so, we had to manually go there, find out which files were present, and issue an <code>rm</code> command enumerating each filename.  Let's improve on this workflow and make our code a little more <em>dynamic</em>.  What we want to achieve is a sort of template for doing a job that we can use again and
+    again.  A job description that describes a way of executing our intent regardless of the specific situation we are currently in.</p>
+
+    <p>To do this, we need to remove all of the situational specifics from our code.  In the example above, the situational specifics are the exact names of the files which we are trying to delete.  Emptying our downloads won't mean deleting these two files every time we do it.  What we want to do, is to delete <em>every file in the <code>Downloads</code> directory</em>, regardless of what their actual names are.  The example above only worked because we had an intermediary step where
+    we, a human, had to look at the names of the files in the directory and re-write them as arguments into an <code>rm</code> command.  How can we automate this process?</p>
+
+    <p>Introducing expansions:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>cd ~/Downloads</kbd>
+<span class="prompt">$ </span><kbd>rm -v <mark>*</mark></kbd>
+removed '05 Between Angels and Insects.ogg'
+removed '07 Wake Up.ogg'
+<span class="prompt">$ </span><kbd>ls</kbd>
+</pre>
+
+    <p>Welcome to <dfn>Pathname Expansion</dfn>.  What happened to the filenames we wanted to delete?  We've replaced them with a pattern that tells bash to <em>expand the pathnames for us</em>.  <dfn>Expansion</dfn> is the practice of replacing a part of our command code with a situationally specific piece of code.  In this case, we want to replace <code>*</code> with the pathname of every single file in our downloads directory.  Replacing patterns with pathnames is therefore known as
+    pathname expansion.</p>
+
+    <p>In our example above, bash notices that you have put a pathname pattern on the command line in the place where it would expect to see arguments.  It has then taken this pathname pattern, and went looking on the file system for every pathname that it could find which matches this pattern of ours.  It so happens, that the pattern <code>*</code> matches the name of every single file in the current directory.  As a result, bash replaces the pattern in our command line with the pathname of every
+    single file in the current directory.  We don't have to do the work ourselves anymore!  Once bash replaces our <code>*</code> with <code>'05 Between Angels and Insects.ogg' '07 Wake Up.ogg'</code>, bash proceeds to invoke the <code>rm</code> command with the full set of arguments: <code>-v '05 Between Angels and Insects.ogg' '07 Wake Up.ogg'</code>.  As a result, our downloads directory is emptied as intended.  Brilliant.</p>
+
+    <aside>
+        <p>It is important to understand that while we see an apparent <code>*</code> argument in our code to <code>rm</code>, we are <em>not actually passing <code>*</code> to <code>rm</code></em>.  In fact, the <code>rm</code> command will never even see our pathname expansion pattern.  The pattern is evaluated and expanded by bash well before <code>rm</code> is even started.  As far as <code>rm</code> knows, it simply receives a <code>-v</code> argument followed by the exact and full name of
+        every single file in the directory.  Expansion is always performed by <em>bash</em> itself, and always <em>before</em> actually running the command!</p>
+    </aside>
+
+    <h2>What kind of pathname expansions can I perform?</h2>
+
+    <p>Bash can perform all sorts of pathname expansions for us.  To perform a pathname expansion, we simply write a syntactical <dfn>glob pattern</dfn> in the place where we want to expand pathnames.  A glob is the name of the type of pattern supperted by the bash shell.  Here are the various basic glob patterns supported by the bash shell:</p>
+
+    <table>
+        <tr>
+            <th>Glob</th>
+            <th>Meaning</th>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>*</strong></code></th>
+            <td>A star or asterix matches any kind of text, even no text at all.</td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>?</strong></code></th>
+            <td>A question mark matches any one single character.</td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>[</strong><var>characters</var><strong>]</strong></code></th>
+            <td>A set of characters within rectangular braces matches a single character, only if it's in the given set.</td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>[:</strong><var>classname</var><strong>:]</strong></code></th>
+            <td>When there is a set of colons directly inside the rectangular braces, you can specify the name of a class of characters instead of having to enumerate each character yourself.<br>
+                Bash knows about various kinds of character classes.  For example, if you use the <code>[:<var>alnum</var>:]</code> pattern, bash will match it against a character only if it is alphanumeric.  Supported character classes include:<br>
+                <var>alnum</var>, <var>alpha</var>, <var>ascii</var>, <var>blank</var>, <var>cntrl</var>, <var>digit</var>, <var>graph</var>, <var>lower</var>, <var>print</var>, <var>punct</var>, <var>space</var>, <var>upper</var>, <var>word</var>, <var>xdigit</var></td>
+        </tr>
+    </table>
+
+    <p>We can combine these glob patterns together to describe all sorts of pathname combinations.  We can also combine it with literal characters to tell bash that part of the pattern should include exact text:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>ls</kbd><em>Without arguments, <code>ls</code> simply lists the full contents of a directory.</em>
+myscript.txt
+mybudget.xsl
+hello.txt
+05 Between Angels and Insects.ogg
+07 Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls *</kbd><em>While the effect is the same, this command actually enumerates every single file</em>
+myscript.txt<em>in the directory to the <code>ls</code> in its arguments!</em>
+mybudget.xsl
+hello.txt
+05 Between Angels and Insects.ogg
+07 Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls *.txt</kbd><em>When we include the literal string <code>.txt</code>, the only pathnames that still match the pattern</em>
+myscript.txt<em>are those that start with any kind of text and end with the literal string <code>.txt</code>.</em>
+hello.txt
+<span class="prompt">$ </span><kbd>ls 0?' '*.ogg</kbd><em>Here we're combining patterns, looking for any pathname start starts with a <code>0</code>,</em>
+05 Between Angels and Insects.ogg<em>followed by any single character, followed by a <strong>literal</strong> space, ending in <code>.ogg</code>.</em>
+07 Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls [0-9]*</kbd><em>In a character set, we can use <code>-</code> to indicate a range of characters.  This will match</em>
+05 Between Angels and Insects.ogg<em>a pathname starting with one character between <code>0</code> and <code>9</code> followed by any other text.</em>
+07 Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls [:digit:]*</kbd><em>Character classes are really nice because they speak for us: they tell us exactly</em>
+05 Between Angels and Insects.ogg<em>what our intent here is.  We want any pathname that starts with a digit.</em>
+07 Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls [:digit:]</kbd><em>Your pattern needs to be complete!  None of our filenames is only just a single digit.</em>
+<span class="prompt">$ </span>
+</pre>
+
+    <p>It is also important to understand that these globs will never jump into subdirectories.  They only match against file names in their own directory.  If we want a glob to go looking at the pathnames in a different directory, we need to explicitly tell it with a literal pathname:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>ls ~/Downloads/*.txt</kbd><em>Enumerate all pathnames in <code>~/Downloads</code> that end with <code>.txt</code>.</em>
+/Users/lhunath/Downloads/myscript.txt
+/Users/lhunath/Downloads/hello.txt
+<span class="prompt">$ </span><kbd>ls ~/*/hello.txt</kbd><em>Globs can even search through many directories!  Here bash will search</em>
+/Users/lhunath/Documents/hello.txt<em>through <strong>all directories</strong> in our home directory for a file that's called <code>hello.txt</code>.</em>
+/Users/lhunath/Downloads/hello.txt
+</pre>
+
+    <p>Pathname expansion is an incredibly powerful tool to avoid having to specify exact pathnames in our arguments, or to go looking through our file system for the files we need.</p>
+
+    <p>Finally, bash has also built support in for more advanced glob patterns.  These globs are called: <dfn>extended globs</dfn>.  By default, support for them is disabled, but we can easily enable it in our current shell with the command:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>shopt -s extglob</kbd>
+</pre>
+
+    <p>Once extended globs are enabled, the above table of glob pattern operators is extended with the following additional operators:</p>
+
+    <table>
+        <tr>
+            <th>Extended Glob</th>
+            <th>Meaning</th>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>+(</strong><var>pattern</var>[ <strong>|</strong> <var>pattern</var> ... ]<strong>)</strong></code></th>
+            <td>Matches when any of the patterns in the list appears, once or many times over.  Reads: <q>at least one of ...</q>.</td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>*(</strong><var>pattern</var>[ <strong>|</strong> <var>pattern</var> ... ]<strong>)</strong></code></th>
+            <td>Matches when any of the patterns in the list appears, once, <em>not at all</em>, or many times over.  Reads: <q>however many of ...</q>.</td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>?(</strong><var>pattern</var>[ <strong>|</strong> <var>pattern</var> ... ]<strong>)</strong></code></th>
+            <td>Matches when any of the patterns in the list appears, once or not at all.  Reads: <q>maybe one of ...</q>.</td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>@(</strong><var>pattern</var>[ <strong>|</strong> <var>pattern</var> ... ]<strong>)</strong></code></th>
+            <td>Matches when any of the patterns in the list appears just once.  Reads: <q>one of ...</q>.</td>
+        </tr>
+        <tr>
+            <th><code class="syntax"><strong>!(</strong><var>pattern</var>[ <strong>|</strong> <var>pattern</var> ... ]<strong>)</strong></code></th>
+            <td>Matches only when none of the patterns in the list appear.  Reads: <q>none of ...</q>.</td>
+        </tr>
+    </table>
+
+    <p>These operators are at first a little more confusing to understand, but they are a great way of adding logic to patterns:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>ls +([:digit:])' '*.ogg</kbd><em>Filenames that start with one or more digits.</em>
+05 Between Angels and Insects.ogg
+07 Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls *.jp?(e)g</kbd><em>Filenames that end either in <code>.jpg</code> or <code>.jpeg</code>.</em>
+img_88751.jpg
+igpd_45qr.jpeg
+<span class="prompt">$ </span><kbd>ls *.@(jpg|jpeg)</kbd><em>Same thing, perhaps written more clearly!</em>
+img_88751.jpg
+igpd_45qr.jpeg
+<span class="prompt">$ </span><kbd>ls !(my*).txt</kbd><em>All the <code>.txt</code> files that do <strong>not</strong> begin with <code>my</code>.</em>
+hello.txt
+<span class="prompt">$ </span><kbd>ls !(my)*.txt</kbd><em>Can you guess why this one matches <code>myscript.txt</code>?</em>
+myscript.txt
+hello.txt
+</pre>
+
+    <p>Extended glob patterns can be extremely useful at times, but they can also be confusing and misleading.  Let's focus on the last example: why does <code>!(my)*.txt</code> expand the pathname <code>myscript.txt</code>?  Isn't <code>!(my)</code> supposed to only match when the pathname does <em>not</em> have a <code>my</code> in this position?  You are correct, it is!  And yet, bash expands a pathname that begins with <code>my</code>!</p>
+
+    <p>The answer here is that as we expect, the <code>!(my)</code> glob does <em>not match</em> against the beginning of <code>myscript.txt</code>; but this simply means that in order for this pathname to be eligible for expansion, the <em>rest of the pattern</em> needs to match against it.  And it so happens that we have a <code>*</code> glob right after the <code>!(my)</code> glob which will happily match the entirety of the filename.  As a result, the <code>!(my)</code> matches against
+    the emptiness in the beginning of the name, the <code>*</code> matches against the <code>myscript</code> part, and the <code>.txt</code> suffix of the pattern matches against the trailing <code>.txt</code> of our pathname.  The pattern matches the name, so the name is expanded!  When we include the <code>*</code> inside the <code>!()</code> pattern, this no longer works and the match fails against this pathname.</p>
+
+    <h2>Tilde Expansion</h2>
+
+    <p>There is a different kind of expansion which we have been silently using in this guide without explicitly explaining it.  It's called the <dfn>Tilde Expansion</dfn> and it involves replacing a tilde (<code>~</code>) in a pathname with the path to the current user's home directory:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>echo "I live in: " ~</kbd><em>Note that pathname expansions must not be quoted or they will become literal!</em>
+I live in: /Users/lhunath
+</pre>
+
+    <p>Tilde expansion is slightly special in bash, compared to pathname expansion, since it happens especially early in the parser phase.  This is merely a detail, but it is important to note that tilde expansion is different from pathname expansion.  We are not performing a search and trying to match filenames against glob patterns.  We are simply replacing a tilde with an explicit pathname.</p>
+
+    <p>In addition to simple tildes, we can also expand the home directory of another user by putting the user's name right after the tilde:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>echo "My boss lives in: " ~root</kbd>
+My boss lives in: /var/root
+</pre>
+
+</section>
+
+<section>
     <h1>How do I store and re-use data?</h1>
 
     <p>We now know how to use bash for writing and managing simple commands.  These commands give us access to many powerful operations on our system.  We've learned how commands tell bash to execute programs by creating new processes for them.  We've even learned to manipulate the basic input and output of these processes such that we can read from and write to arbitrary files.</p>
@@ -39,8 +242,8 @@ published: true
     <p>Using variables is easy.  You store information in them through variable assignment, and access that information at any later time using parameter expansion:</p>
 
 <pre lang="bash">
-$ <kbd>name=lhunath</kbd><em>Assign the value <code>lhunath</code> to the variable <code>name</code></em>
-$ <kbd>echo "Hello, $name.  How are you?"</kbd><em>Expand the value of <code>name</code> into the echo argument</em>
+<span class="prompt">$ </span><kbd>name=lhunath</kbd><em>Assign the value <code>lhunath</code> to the variable <code>name</code></em>
+<span class="prompt">$ </span><kbd>echo "Hello, $name.  How are you?"</kbd><em>Expand the value of <code>name</code> into the echo argument</em>
 Hello, lhunath.  How are you?
 </pre>
 
@@ -52,15 +255,15 @@ Hello, lhunath.  How are you?
     thinking you wanted to execute a program rather than assign a variable value:</p>
 
 <pre lang="bash" class="bad">
-$ <kbd>name <mark>=</mark> <mark>lhunath</mark></kbd><em>Run the command <code>name</code> with arguments <code>=</code> and <code>lhunath</code>.</em>
+<span class="prompt">$ </span><kbd>name <mark>=</mark> <mark>lhunath</mark></kbd><em>Run the command <code>name</code> with arguments <code>=</code> and <code>lhunath</code>.</em>
 -bash: name: command not found
 </pre>
 
     <p>To fix this code, we simply remove the space around the <code>=</code> operator that was causing the word splitting.  If we wanted to assign a value to the variable which begins with a few literal space characters, we'll need to use quotes to signal bash that our space is literal and shouldn't serve to trigger word splitting:</p>
 
 <pre lang="bash" class="good">
-$ <kbd>name=lhunath</kbd>
-$ <kbd>item='    4. Milk'</kbd><em>Use quotes to make the spaces literal.</em>
+<span class="prompt">$ </span><kbd>name=lhunath</kbd>
+<span class="prompt">$ </span><kbd>item='    4. Milk'</kbd><em>Use quotes to make the spaces literal.</em>
 </pre>
 
     <h3>Expansion</h3>
@@ -72,20 +275,20 @@ $ <kbd>item='    4. Milk'</kbd><em>Use quotes to make the spaces literal.</em>
     sometimes they become a necessity:</p>
 
 <pre lang="bash">
-$ <kbd>name=Britta time=23.73</kbd><em>We want to expand <code>time</code> and add an <code>s</code> for seconds</em>
-$ <kbd>echo "$name's current record is $times."</kbd><em>but bash mistakes the name for <code>times</code> which holds nothing</em>
+<span class="prompt">$ </span><kbd>name=Britta time=23.73</kbd><em>We want to expand <code>time</code> and add an <code>s</code> for seconds</em>
+<span class="prompt">$ </span><kbd>echo "$name's current record is $times."</kbd><em>but bash mistakes the name for <code>times</code> which holds nothing</em>
 Britta's current record is .
-$ <kbd>echo "$name's current record is ${time}s."</kbd><em>Braces explicitly tell bash where the name ends</em>
+<span class="prompt">$ </span><kbd>echo "$name's current record is ${time}s."</kbd><em>Braces explicitly tell bash where the name ends</em>
 Britta's current record is 23.73s.
 </pre>
 
     <p>Parameter expansions are great for inserting user or program data into our command instructions, but they also have an extra ace up their sleeve: expansion operators.  While expanding a parameter, it is possible to apply an operator to the expanding value.  This operator can modify the value in one of many useful ways.  Remember that this operator only changes the value that is expanded; it does not change the original value that's sitting in your variable.</p>
 
 <pre lang="bash">
-$ <kbd>name=Britta time=23.73</kbd>
-$ <kbd>echo "$name's current record is ${time%.*} seconds and ${time#*.} hundredths."</kbd>
+<span class="prompt">$ </span><kbd>name=Britta time=23.73</kbd>
+<span class="prompt">$ </span><kbd>echo "$name's current record is ${time%.*} seconds and ${time#*.} hundredths."</kbd>
 Britta's current record is 23 seconds and 73 hundredths.
-$ <kbd>echo "PATH currently contains: ${PATH//:/, }"</kbd>
+<span class="prompt">$ </span><kbd>echo "PATH currently contains: ${PATH//:/, }"</kbd>
 PATH currently contains: /Users/lhunath/.bin, /usr/local/bin, /usr/bin, /bin, /usr/libexec
 </pre>
 
@@ -365,7 +568,7 @@ hello BIG world</samp></pre>
          │ NAME=<mark>Bob</mark>                       │
          ╰────────────────────────────────╯
 
-$ <kbd>NAME=John</kbd>
+<span class="prompt">$ </span><kbd>NAME=John</kbd>
 
     ╭─── bash ───────────────────────╮
     │             ╭────────────────╮ │
@@ -544,7 +747,7 @@ $ <kbd>NAME=John</kbd>
     <p>Positional parameters expand to values that were sent into the process as arguments when it was created by the parent.  For instance, when you start a <code>grep</code> process using this command:</p>
 
 <pre lang="bash">
-$ <kbd>grep Name registrations.txt</kbd>
+<span class="prompt">$ </span><kbd>grep Name registrations.txt</kbd>
 </pre>
 
     <p>You're effectively running the <code>grep</code> command with the arguments <code>Name</code> and <code>registrations.txt</code>.  If <code>grep</code> were a bash script, the first argument would be available in the script by expanding <code>$1</code> and the second argument by expanding <code>$2</code>.  Positional parameters higher than <code>2</code> will be unset.</p>
@@ -568,15 +771,15 @@ echo "Your middle names are: $middle"</kbd>
     computation of the <var>middle</var> name requires both the knowledge of the full name (available from the first positional parameter) and the first name (which was previously computed and stored in the variable <var>first</var>).</p>
 
 <pre lang="bash">
-$ <kbd>chmod +x names</kbd>
-$ <kbd>./names 'Maarten Billemont'</kbd>
+<span class="prompt">$ </span><kbd>chmod +x names</kbd>
+<span class="prompt">$ </span><kbd>./names 'Maarten Billemont'</kbd>
 The Name Script
 usage: names 'My Full Name'
 
 Your first name is: Maarten
 Your last name is: Billemont
 Your middle names are: 
-$ <kbd>./names 'James Tiberius "Jim" Kirk'</kbd>
+<span class="prompt">$ </span><kbd>./names 'James Tiberius "Jim" Kirk'</kbd>
 The Name Script
 usage: names 'My Full Name'
 
@@ -588,7 +791,7 @@ Your middle names are:  Tiberius "Jim"
     <p>It is important to understand that, unlike most variables, positional parameters are read-only parameters.  On reflection, it likely makes sense to you that one cannot change the arguments to your script from within your script.  As such, this is a syntax error:</p>
 
 <pre lang="bash" class="bad">
-$ <kbd>1='New First Argument'</kbd>
+<span class="prompt">$ </span><kbd>1='New First Argument'</kbd>
 -bash: 1=New First Argument: command not found
 </pre>
 
@@ -597,8 +800,8 @@ $ <kbd>1='New First Argument'</kbd>
     <p>There is, however, a built-in command we can use to change the values of the set of positional parameters.  While this is a common practice in ancient shells that lack bash's more advanced features, you will rarely if ever have a need for this in bash.  To modify the current set of positional parameters, use the <code>set</code> command and specify the new positional parameters as arguments after the <code>--</code> argument:</p>
 
 <pre lang="bash">
-$ <kbd>set -- 'New First Argument' Second Third 'Fourth Argument'</kbd>
-$ <kbd>echo "1: $1, 2: $2, 4: $4"</kbd>
+<span class="prompt">$ </span><kbd>set -- 'New First Argument' Second Third 'Fourth Argument'</kbd>
+<span class="prompt">$ </span><kbd>echo "1: $1, 2: $2, 4: $4"</kbd>
 1: New First Argument, 2: Second, 4: Fourth Argument
 </pre>
 
@@ -606,7 +809,7 @@ $ <kbd>echo "1: $1, 2: $2, 4: $4"</kbd>
 
 <pre lang="bash">
 <mark>New First Argument</mark> <mark>Second</mark> <mark>Third</mark> <mark>Fourth Argument</mark>
-$ <kbd>shift 2</kbd><em>Push the positional parameters back 2.</em>
+<span class="prompt">$ </span><kbd>shift 2</kbd><em>Push the positional parameters back 2.</em>
 <mark>Third</mark> <mark>Fourth Argument</mark> &lt;----<em>The first two disappeared and the third is now in first spot with the fourth in second place.</em>
 </pre>
 
@@ -614,7 +817,7 @@ $ <kbd>shift 2</kbd><em>Push the positional parameters back 2.</em>
     <code>names</code> example above).  Here's how to run an inline bash command and pass in a list of arguments to populate the positional parameters:</p>
 
 <pre lang="bash">
-$ <kbd>bash -c 'echo "1: $1, 2: $2, 4: $4"' -- 'New First Argument' Second Third 'Fourth Argument'</kbd>
+<span class="prompt">$ </span><kbd>bash -c 'echo "1: $1, 2: $2, 4: $4"' -- 'New First Argument' Second Third 'Fourth Argument'</kbd>
 1: New First Argument, 2: Second, 4: Fourth Argument
 </pre>
 
@@ -626,7 +829,7 @@ $ <kbd>bash -c 'echo "1: $1, 2: $2, 4: $4"' -- 'New First Argument' Second Third
 
     <p>To illustrate this point, compare our good example from above:</p>
 <pre lang="bash" class="good">
-$ <kbd>bash -vc <mark>'echo "1: $1, 2: $2, 4: $4"'</mark> -- \</kbd><em>We pass the -v argument to bash to show us the code it is going to run before the result.</em>
+<span class="prompt">$ </span><kbd>bash -vc <mark>'echo "1: $1, 2: $2, 4: $4"'</mark> -- \</kbd><em>We pass the -v argument to bash to show us the code it is going to run before the result.</em>
 <kbd>'New First Argument' Second Third 'Fourth Argument'</kbd><em>We can use \ at the end of a line to resume on a new line.</em>
 echo "1: $1, 2: $2, 4: $4"<em>Here is the code it is going to run.</em>
 1: New First Argument, 2: Second, 4: Fourth Argument<em>And this is the result.</em>
@@ -634,18 +837,18 @@ echo "1: $1, 2: $2, 4: $4"<em>Here is the code it is going to run.</em>
 
     <p>to what would happen if we used double quotes around the <code>-c</code> argument instead of single quotes:</p>
 <pre lang="bash" class="bad">
-$ <kbd>bash -vc <mark>"echo "1:</mark> <mark>$1,</mark> <mark>2:</mark> <mark>$2,</mark> <mark>4:</mark> <mark>$4""</mark> -- \</kbd><em>The outer double-quotes conflict with the inner double-quotes, leading to ambiguity.</em>
+<span class="prompt">$ </span><kbd>bash -vc <mark>"echo "1:</mark> <mark>$1,</mark> <mark>2:</mark> <mark>$2,</mark> <mark>4:</mark> <mark>$4""</mark> -- \</kbd><em>The outer double-quotes conflict with the inner double-quotes, leading to ambiguity.</em>
 <kbd>'New First Argument' Second Third 'Fourth Argument'</kbd>
 echo 1:<em>As a result, the argument to -c is no longer the entire bash code but only the first word of it.</em>
 1:
-$ <kbd>bash -vc <mark>"echo \"1: $1, 2: $2, 4: $4\""</mark> -- \</kbd><em>Even if we fix the quoting ambiguity, the $1, $2 and $4 are now evaluated by the shell we're typing this command into,</em>
+<span class="prompt">$ </span><kbd>bash -vc <mark>"echo \"1: $1, 2: $2, 4: $4\""</mark> -- \</kbd><em>Even if we fix the quoting ambiguity, the $1, $2 and $4 are now evaluated by the shell we're typing this command into,</em>
 <kbd>'New First Argument' Second Third 'Fourth Argument'</kbd><em>not the shell we pass the arguments to.</em>
 echo "1: , 2: , 4: "<em>Since $1, $2 and $4 are likely empty in your interactive shell, they will expand empty and disappear from the -c argument.</em>
 1: , 2: , 4:
 </pre>
     <p>We could go as far as to fix all of the issues inside the double quotes by backslash-escaping all of the special characters, including the double quotes and dollar signs.  This would fix the issue, but it makes the shell code look extremely convoluted and hard to read.  Maintaining shell code that has been escaped in a special way like this is a nightmare and begs for accidental mistakes that are hard to spot:</p>
 <pre lang="bash" class="good">
-$ <kbd>bash -vc "echo \"1: \$1, 2: \$2, 4: \$4\"" -- \</kbd>
+<span class="prompt">$ </span><kbd>bash -vc "echo \"1: \$1, 2: \$2, 4: \$4\"" -- \</kbd>
 <kbd>'New First Argument' Second Third 'Fourth Argument'</kbd>
 echo "1: $1, 2: $2, 4: $4"
 1: New First Argument, 2: Second, 4: Fourth Argument
@@ -943,13 +1146,13 @@ echo "1: $1, 2: $2, 4: $4"
     <p>A good way of being explicit about the separate elements in our list is by using arguments to our commands.  Remember when we learned about quoting?  This is, in fact, a great time to recall our quoting lessons.</p>
 
 <pre lang="bash" class="bad">
-$ <kbd>ls -l <mark>05</mark> <mark>Between</mark> <mark>Angels</mark> <mark>and</mark> <mark>Insects.ogg</mark></kbd>
+<span class="prompt">$ </span><kbd>ls -l <mark>05</mark> <mark>Between</mark> <mark>Angels</mark> <mark>and</mark> <mark>Insects.ogg</mark></kbd>
 </pre>
 
     <p>In this command, we are passing the <code>ls</code> command a list of many arguments and bash will assume each argument as a separate filename.  This is obviously not the intended effect, but bash is not as good at deriving contextual sense from arbitrary data as we, humans.  It is therefore important that we are explicit about what the elements of our list are:</p>
 
 <pre lang="bash" class="good">
-$ <kbd>ls -l <mark>"05 Between Angels and Insects.ogg"</mark></kbd>
+<span class="prompt">$ </span><kbd>ls -l <mark>"05 Between Angels and Insects.ogg"</mark></kbd>
 </pre>
 
     <p>Now that we have made it clear to bash that our list contains only a single filename, and that filename itself contains several words, the <code>ls</code> command is capable of doing its job properly.</p>
@@ -959,8 +1162,8 @@ $ <kbd>ls -l <mark>"05 Between Angels and Insects.ogg"</mark></kbd>
     <p>The answer is <em>arrays</em>:</p>
 
 <pre lang="bash">
-$ <kbd>files=( <mark>myscript</mark> <mark>hello.txt</mark> <mark>"05 Between Angels and Insects.ogg"</mark> )</kbd>
-$ <kbd>rm -v "${files[@]}"</kbd>
+<span class="prompt">$ </span><kbd>files=( <mark>myscript</mark> <mark>hello.txt</mark> <mark>"05 Between Angels and Insects.ogg"</mark> )</kbd>
+<span class="prompt">$ </span><kbd>rm -v "${files[@]}"</kbd>
 </pre>
 
     <p>To create an array variable, bash introduces a slightly different assignment operator: <code>=( )</code>.  As with the standard <code>=</code>, we put the name of our variable on the left hand side of the operator, however, the list of values to assign to this variable should go nicely inbetween the <code>(</code> and <code>)</code> braces.</p>
@@ -976,7 +1179,7 @@ $ <kbd>rm -v "${files[@]}"</kbd>
     parameter name with <code>[@]</code> and we are now <em>required</em> to wrap the whole using curly braces (<code>{ }</code></code>) to ensure bash understands the whole as a single parameter expansion unit.  The expansion of the <code>files</code> parameter using the <code>"${files[@]}"</code> syntax effectively results in this:</p>
 
 <pre lang="bash">
-$ <kbd>rm -v <mark>myscript</mark> <mark>hello.txt</mark> <mark>"05 Between Angels and Insects.ogg"</mark></kbd>
+<span class="prompt">$ </span><kbd>rm -v <mark>myscript</mark> <mark>hello.txt</mark> <mark>"05 Between Angels and Insects.ogg"</mark></kbd>
 removed 'myscript'
 removed 'hello.txt'
 removed '05 Between Angels and Insects.ogg'
@@ -988,7 +1191,7 @@ removed '05 Between Angels and Insects.ogg'
         <p>As with all parameter expansion, it is <strong>critically important</strong> that you wrap all of your array parameter expansions in double quotes.  Failure to double-quote your expansions will, just like with regular parameter expansion, cause bash to word-split all of the values in your neatly distinct list of array items, resulting in a broken list of word arguments to your command:</p>
 
 <pre lang="bash" class="bad">
-$ <kbd>rm -v ${files[@]}</kbd>
+<span class="prompt">$ </span><kbd>rm -v ${files[@]}</kbd>
 removed 'myscript'
 removed 'hello.txt'
 rm: cannot remove '05': No such file or directory
@@ -1001,7 +1204,7 @@ rm: cannot remove 'Insects.ogg': No such file or directory
         <p>Just recall the quoting rule we learned previously: <q>If there is whitespace or a symbol in your argument, you <strong>must</strong> quote it.</q></p>
 
 <pre lang="bash" class="good">
-$ <kbd>rm -v "${files[@]}"</kbd>
+<span class="prompt">$ </span><kbd>rm -v "${files[@]}"</kbd>
 </pre>
     </aside>
 
@@ -1012,11 +1215,11 @@ $ <kbd>rm -v "${files[@]}"</kbd>
     <p>In addition to array assignment and array expansion, bash provides some other operations that we can perform on arrays:</p>
 
 <pre lang="bash">
-$ <kbd>files+=( selfie.png )</kbd><em>Using the <code>+=( )</code> operator we can append a list of items to the end of an array.</em>
-$ <kbd>files=( *.txt )</kbd><em>Just like in a command's arguments, we can expand glob patterns here.</em>
-$ <kbd>echo "${files[0]}"</kbd><em>To expand a single item from an array, specify that item's ordinal number.</em>
-$ <kbd>echo "$files"</kbd><em>If we forget the array expansion syntax, bash will expand only the first item.</em>
-$ <kbd>unset "files[3]"</kbd><em>To remove a specific item from the array, we use <code>unset</code>.</em>
+<span class="prompt">$ </span><kbd>files+=( selfie.png )</kbd><em>Using the <code>+=( )</code> operator we can append a list of items to the end of an array.</em>
+<span class="prompt">$ </span><kbd>files=( *.txt )</kbd><em>Just like in a command's arguments, we can expand glob patterns here.</em>
+<span class="prompt">$ </span><kbd>echo "${files[0]}"</kbd><em>To expand a single item from an array, specify that item's ordinal number.</em>
+<span class="prompt">$ </span><kbd>echo "$files"</kbd><em>If we forget the array expansion syntax, bash will expand only the first item.</em>
+<span class="prompt">$ </span><kbd>unset "files[3]"</kbd><em>To remove a specific item from the array, we use <code>unset</code>.</em>
 <em>Notice though: we do not use a <code>$</code> here, since we are not expanding the value!</em>
 </pre>
 
@@ -1026,10 +1229,10 @@ $ <kbd>unset "files[3]"</kbd><em>To remove a specific item from the array, we us
     <p>The fact is, bash allows you to choose how to merge elements into a single string when you use <code>[*]</code>: by looking at the current value of the <var>IFS</var> internal shell variable.  Bash uses this variable's <em>first</em> character (which, by default, is a space) to separate the elements in the resulting string:</p>
 
 <pre lang="bash">
-$ <kbd>names=( "Susan Quinn" "Anne-Marie Davis" "Mary Tate" )</kbd>
-$ <kbd>echo "Invites sent to: &lt;${names[*]}&gt;."</kbd><em>Results in a single argument where elements are separated by a literal space.</em>
+<span class="prompt">$ </span><kbd>names=( "Susan Quinn" "Anne-Marie Davis" "Mary Tate" )</kbd>
+<span class="prompt">$ </span><kbd>echo "Invites sent to: &lt;${names[*]}&gt;."</kbd><em>Results in a single argument where elements are separated by a literal space.</em>
 Invites were sent to: &lt;Susan Quinn Anne-Marie Davis Mary Tate&gt;.
-$ <kbd>( IFS=','; echo "Invites sent to: &lt;${names[*]}&gt;." )</kbd><em>When we change <var>IFS</var> to a <code>,</code>, the distinct elements become more clear.</em>
+<span class="prompt">$ </span><kbd>( IFS=','; echo "Invites sent to: &lt;${names[*]}&gt;." )</kbd><em>When we change <var>IFS</var> to a <code>,</code>, the distinct elements become more clear.</em>
 Invites were sent to: &lt;Susan Quinn,Anne-Marie Davis,Mary Tate&gt;.
 </pre>
 
@@ -1049,28 +1252,28 @@ Invites were sent to: &lt;Susan Quinn,Anne-Marie Davis,Mary Tate&gt;.
     <p>For starters, the <code>${parameter[@]/pattern/replacement}</code> operator and all of its variants has its replacement logic applied to each element distinctly, as it's being expanded:</p>
 
 <pre lang="bash">
-$ <kbd>names=( "Susan Quinn" "Anne-Marie Davis" "Mary Tate" )</kbd>
-$ <kbd>echo "${names[@]/ /_}"</kbd><em>Replace spaces by underscores in each name.</em>
+<span class="prompt">$ </span><kbd>names=( "Susan Quinn" "Anne-Marie Davis" "Mary Tate" )</kbd>
+<span class="prompt">$ </span><kbd>echo "${names[@]/ /_}"</kbd><em>Replace spaces by underscores in each name.</em>
 Susan_Quinn Anne-Marie_Davis Mary_Tate
-$ <kbd>( IFS=','; echo "${names[*]/#/Ms }" )</kbd><em>More interestingly: replace the start of each name with <code>Ms </code>,</em>
+<span class="prompt">$ </span><kbd>( IFS=','; echo "${names[*]/#/Ms }" )</kbd><em>More interestingly: replace the start of each name with <code>Ms </code>,</em>
 Ms Susan Quinn,Ms Anne-Marie Davis,Ms Mary Tate<em>effectively prefixing every element with a string as we expand them.</em>
 </pre>
 
     <p>The <code>${#parameter}</code> operator combined with the <code>[@]</code> suffix gives us a count of the elements:</p>
 
 <pre lang="bash">
-$ <kbd>echo "${#names[@]}"</kbd>
+<span class="prompt">$ </span><kbd>echo "${#names[@]}"</kbd>
 3
-$ <kbd>echo "${#names[1]}"</kbd><em>But we can still get the length of a string by specifying directly</em>
+<span class="prompt">$ </span><kbd>echo "${#names[1]}"</kbd><em>But we can still get the length of a string by specifying directly</em>
 16<em>which string element in the array we want to get the length of.</em>
 </pre>
 
     <p>And lastly, the <code>${parameter[@]:start:length}</code> operator can be used to obtain slices or "sub-sets" of our array:</p>
 
 <pre lang="bash">
-$ <kbd>echo "${names[@]:1:2}"</kbd>
+<span class="prompt">$ </span><kbd>echo "${names[@]:1:2}"</kbd>
 Anne-Marie Davis Mary Tate
-$ <kbd>echo "${names[@]: -2}"</kbd><em>Specifying a negative start allows us to count backwards from the end!</em>
+<span class="prompt">$ </span><kbd>echo "${names[@]: -2}"</kbd><em>Specifying a negative start allows us to count backwards from the end!</em>
 Anne-Marie Davis Mary Tate<em>While omitting the length yields "all remaining elements" from the start.</em>
 </pre>
 

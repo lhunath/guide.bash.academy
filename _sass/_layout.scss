@@ -355,6 +355,10 @@ pre, code, kbd, var, samp {
     white-space: pre;
     font-family: 'Source Code Pro Light', monospace;
     font-size: 0.9em;
+
+    .prompt {
+        color: #3D2;
+    }
 }
 kbd {
     color: black;
@@ -401,6 +405,22 @@ code.bad, pre.bad, kbd.bad, var.bad, samp.bad, aside.warn {
 code.good, pre.good, kbd.good, var.good, samp.good, aside.rule  {
     background-color: #DDE3DD;
     border-color: #6A6;
+}
+pre {
+    &.bad {
+        box-shadow: inset 0 0 15px #A66, 0 0 5px #888;
+
+        &:hover {
+            box-shadow: inset 0 0 15px #D99, 0 0 15px #666;
+        }
+    }
+    &.good {
+        box-shadow: inset 0 0 15px #6A6, 0 0 5px #888;
+
+        &:hover {
+            box-shadow: inset 0 0 15px #9D9, 0 0 15px #666;
+        }
+    }
 }
 pre[lang]::before,
 pre.bad::before,
