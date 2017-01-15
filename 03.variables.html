@@ -203,7 +203,7 @@ hello.txt
     <p>There is a different kind of expansion which we have been silently using in this guide without explicitly explaining it.  It's called the <dfn>Tilde Expansion</dfn> and it involves replacing a tilde (<code>~</code>) in a pathname with the path to the current user's home directory:</p>
 
 <pre lang="bash">
-<span class="prompt">$ </span><kbd>echo "I live in: " ~</kbd><em>Note that pathname expansions must not be quoted or they will become literal!</em>
+<span class="prompt">$ </span><kbd>echo 'I live in: ' ~</kbd><em>Note that expansions must not be quoted or they will become literal!</em>
 I live in: /Users/lhunath
 </pre>
 
@@ -212,7 +212,7 @@ I live in: /Users/lhunath
     <p>In addition to simple tildes, we can also expand the home directory of another user by putting the user's name right after the tilde:</p>
 
 <pre lang="bash">
-<span class="prompt">$ </span><kbd>echo "My boss lives in: " ~root</kbd>
+<span class="prompt">$ </span><kbd>echo 'My boss lives in: ' ~root</kbd>
 My boss lives in: /var/root
 </pre>
 
