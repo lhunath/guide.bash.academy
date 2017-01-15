@@ -37,6 +37,22 @@ $(function(){
         }
     });
 
+    // Remember contribution.
+    if (localStorage.getItem("contributed")) {
+        $('.contribute form').hide();
+        $('.contribute .thanks').show();
+    } else {
+        $('.contribute form').show();
+        $('.contribute .thanks').hide();
+    }
+    $('.contribute .thanks .toggle').click(function() {
+        $('.contribute form').show();
+        $('.contribute .thanks').hide();
+    });
+    $('.contribute form').submit(function() {
+        localStorage.setItem("contributed", true);
+    });
+
     // User's chapter completion checkboxes.
     $('#chapter_list input').each(function() {
         var wasDone = localStorage.getItem($(this).attr('id'));

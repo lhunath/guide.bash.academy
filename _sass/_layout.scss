@@ -86,6 +86,22 @@ dd {
 }
 
 
+/* Forms */
+select, input {
+    background: transparent;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    padding: 1.5px 1ex;
+
+    font: inherit;
+    color: inherit;
+    text-align: center;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.1);
+    }
+}
+
 /* Headers */
 header {
     background: linear-gradient(to top, black, transparent), url("../img/cover.jpg");
@@ -120,23 +136,23 @@ header {
         left: 15%;
         width: 70%;
     }
-    & h1 {
+    h1 {
         color: white;
 
         margin: 0.5em 0;
         font-size: 3em;
     }
-    & h2 {
+    h2 {
         color: white;
 
         margin: 0;
         font-size: 1em;
     }
-    & h2 cite {
+    h2 cite {
         font-weight: 100;
         font-size: 0.7em;
     }
-    & h3 {
+    h3 {
         box-shadow: 0 0 20px black;
 
         background:  rgba( 0, 0, 0, 0.6 );
@@ -153,11 +169,11 @@ header {
         margin: 0;
         font-size: 0.9em;
     }
-    & a:link, & a:visited {
+    a:link, a:visited {
         color: #EEE;
         font-weight: bolder;
     }
-    & a:hover {
+    a:hover {
         color: inherit;
     }
 }
@@ -219,7 +235,7 @@ div.status {
     top: 0;
     right: 0;
 
-    & img {
+    img {
         border: 0;
     }
 }
@@ -260,22 +276,22 @@ section {
     padding: 15% 0;
     box-sizing: border-box;
 
-    & h1, & h2 {
+    h1, h2 {
         margin: 0 -1em 1em;
     }
-    & h2 {
+    h2 {
         margin-top: 5em;
     }
-    & h1::before, & h2::before {
+    h1::before, h2::before {
         color: #BBB;
 
         font-size: 0.5em;
     }
-    & h1::before {
+    h1::before {
         counter-increment: section;
         content: "⌗" counters(section,".") " ";
     }
-    & h2::before {
+    h2::before {
         counter-increment: subsection;
         content: " ❡" counters(subsection, ".") " ";
     }
@@ -361,12 +377,12 @@ pre {
     }
 }
 dd {
-    & footer, & pre {
+    footer, pre {
         margin: 0 -19.5%;
     }
 }
 aside {
-    & footer, & pre {
+    footer, pre {
         padding: 2em;
         margin: 0;
         box-sizing: border-box;
@@ -380,7 +396,7 @@ table, footer, code, pre, kbd {
     /*background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,.3) 2px, rgba(255,255,255,.3) 4px);
     background-size:6px 6px;/**/
 
-    & & {
+    & {
         background: transparent;
     }
 }
@@ -648,8 +664,11 @@ nav {
     &:hover::before {
         opacity: 0;
     }
-    & h1,
-    & ul {
+    p, h1, h2, h3 {
+        margin: 0 2em;
+    }
+    h1,
+    ul {
         opacity: 0;
         transition: 0.3s opacity;
     }
@@ -657,63 +676,67 @@ nav {
     &:hover ul {
         opacity: 1;
     }
-    & h1 {
+    h1 {
         padding: 0 1ex;
         margin: 1em 0 0;
     }
-    & ul {
+    ul {
         display: block;
         margin: 0;
         padding: 1em 0;
     }
-    & li a {
+    li a {
         display: block;
         padding: 1ex 1em;
         border-left: 1ex solid transparent;
 
         text-decoration: none;
+
+        sub {
+            font-weight: lighter;
+        }
     }
-    & li a:hover {
+    li a:hover {
         background: #EEE;
     }
-    & li.toc-active a {
+    li.toc-active a {
         border-left: 1ex solid #DDD;
     }
-    & li.toc-h1 {
+    li.toc-h1 {
         counter-reset: toc-subsection;
 
         margin-top: 1ex;
 
         font-size: 1em;
     }
-    & li.toc-h2 a {
+    li.toc-h2 a {
         font-size: 0.7em;
         text-indent: 1.5em;
     }
-    & li.toc-h3 a {
+    li.toc-h3 a {
         font-size: 0.6em;
         text-indent: 4em;
     }
-    & li.toc-h4 a {
+    li.toc-h4 a {
         font-size: 0.5em;
         text-indent: 6em;
     }
-    & li a::before {
+    li a::before {
         color: #BBB;
         opacity: 0;
         transition: 0.2s all;
 
         font-size: 0.5em;
     }
-    & li:hover a::before,
-    & li.toc-active a::before {
+    li:hover a::before,
+    li.toc-active a::before {
         opacity: 1;
     }
-    & li.toc-h1 a::before {
+    li.toc-h1 a::before {
         counter-increment: toc-section;
         content: "⌗" counters(toc-section,".") " ";
     }
-    & li.toc-h2 a::before {
+    li.toc-h2 a::before {
         counter-increment: toc-subsection;
         content: " ❡" counters(toc-subsection, ".") " ";
     }
@@ -774,7 +797,10 @@ body>footer {
 .asciicast {
     text-align: center;
 }
-
+.footnote {
+    font-size: 0.5em;
+    font-family: 'Quicksand', sans-serif;
+}
 .icon {
     > svg {
         display: inline-block;

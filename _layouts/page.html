@@ -5,8 +5,12 @@ layout: default
     <h1>Sections</h1>
     <div id="toc"></div>
 
+    <div class="footnote">{% include contribute.html %}</div>
+
     <h1>Chapters</h1>
     <ul>
+        <li><a href="/">{{ site.title }}<br>
+            <sub>Back to the front page.</sub></a></li>
         {% for page in site.pages %}
             {% if page.layout == 'chapter' %}
                 <li><a href="{{ page.url }}#">{{ page.title }}<br>
