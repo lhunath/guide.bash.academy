@@ -161,6 +161,58 @@ header {
         color: inherit;
     }
 }
+div.status {
+    padding: 1ex;
+    border-bottom: 1px solid;
+    position: relative;
+
+    text-align: center;
+
+    &.todo {
+        color: #310;
+        background: #FCA;
+
+        &::before {
+            content: "📆";
+        }
+    }
+    &.draft {
+        color: #330;
+        background: #FFA;
+
+        &::before {
+            content: "✍";
+        }
+    }
+    &.alpha {
+        color: #013;
+        background: #ACF;
+
+        &::before {
+            content: "α";
+        }
+    }
+    &.beta {
+        color: #130;
+        background: #CFA;
+
+        &::before {
+            content: "β";
+        }
+    }
+
+    &::before {
+        background: rgba(255, 255, 255, 0.5);
+        border-right: 1px dashed;
+        border-bottom: 1px dashed;
+        border-bottom-right-radius: 8px;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 1ex;
+    }
+}
 .fork {
     position: absolute;
     z-index: 2;
@@ -502,10 +554,6 @@ pre em::before, code em::before {
 pre em:hover, code em:hover {
     background: rgba(255, 255, 255, 0.3);
 }
-strong {
-    color: black;
-    font-style: italic;
-}
 pre em kbd, pre em var, pre em samp, pre em code, code strong, pre strong, kbd strong, var strong, code strong {
     font-family: 'Source Code Pro Bold', monospace;
     font-weight: bolder;
@@ -521,6 +569,26 @@ ins {
 del {
     color: #A66;
     background-color: rgba(170, 100, 100, 0.1);
+}
+mark {
+    border: 1px solid #FD2;
+    background-color: #FD2;
+}
+mark.red {
+    border: 1px solid #F22;
+    background-color: #F22;
+}
+mark.green {
+    border: 1px solid #2F2;
+    background-color: #2F2;
+}
+mark.blue {
+    border: 1px solid #2AF;
+    background-color: #2AF;
+}
+strong {
+    color: black;
+    font-style: italic;
 }
 section img[alt] {
     transition: .3s all;

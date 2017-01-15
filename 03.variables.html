@@ -3,7 +3,7 @@ id: variables
 layout: chapter
 title: Variables and Expansions
 subtitle: How do I store and work with data?
-status: drafting
+status: alpha
 description: >-
   Bash parameters and variables; environment variables, special parameters and
   array parameters; expanding parameters, expansion operators, command
@@ -44,7 +44,9 @@ removed '07 Wake Up.ogg'
     <p>To do this, we need to remove all of the situational specifics from our code.  In the example above, the situational specifics are the exact names of the files which we are trying to delete.  Emptying our downloads won't mean deleting these two files every time we do it.  What we want to do, is to delete <em>every file in the <code>Downloads</code> directory</em>, regardless of what their actual names are.  The example above only worked because we had an intermediary step where
     we, a human, had to look at the names of the files in the directory and re-write them as arguments into an <code>rm</code> command.  How can we automate this process?</p>
 
-    <p>Introducing expansions:</p>
+    <h2>Pathname Expansion</h2>
+
+    <p>The answer comes in the first of many forms of expansion bash provides us with.  Welcome to <dfn>Pathname Expansion</dfn>:</p>
 
 <pre lang="bash">
 <span class="prompt">$ </span><kbd>cd ~/Downloads</kbd>
@@ -55,7 +57,7 @@ removed '07 Wake Up.ogg'
 <span class="prompt">$ </span>
 </pre>
 
-    <p>Welcome to <dfn>Pathname Expansion</dfn>.  What happened to the filenames we wanted to delete?  We've replaced them with a pattern that tells bash to <em>expand the pathnames for us</em>.  <dfn>Expansion</dfn> is the practice of replacing a part of our command code with a situationally specific piece of code.  In this case, we want to replace <code>*</code> with the pathname of every single file in our downloads directory.  Replacing patterns with pathnames is therefore known as
+    <p>What happened to the filenames we wanted to delete?  We've replaced them with a pattern that tells bash to <em>expand the pathnames for us</em>.  <dfn>Expansion</dfn> is the practice of replacing a part of our command code with a situationally specific piece of code.  In this case, we want to replace <code>*</code> with the pathname of every single file in our downloads directory.  Replacing patterns with pathnames is therefore known as
     pathname expansion.</p>
 
     <p>In our example above, bash notices that you have put a pathname pattern on the command line in the place where it would expect to see arguments.  It has then taken this pathname pattern, and went looking on the file system for every pathname that it could find which matches this pattern of ours.  It so happens, that the pattern <code>*</code> matches the name of every single file in the current directory.  As a result, bash replaces the pattern in our command line with the pathname of every
@@ -65,8 +67,6 @@ removed '07 Wake Up.ogg'
         <p>It is important to understand that while we see an apparent <code>*</code> argument in our code to <code>rm</code>, we are <em>not actually passing <code>*</code> to <code>rm</code></em>.  In fact, the <code>rm</code> command will never even see our pathname expansion pattern.  The pattern is evaluated and expanded by bash well before <code>rm</code> is even started.  As far as <code>rm</code> knows, it simply receives a <code>-v</code> argument followed by the exact and full name of
         every single file in the directory.  Expansion is always performed by <em>bash</em> itself, and always <em>before</em> actually running the command!</p>
     </aside>
-
-    <h2>What kind of pathname expansions can I perform?</h2>
 
     <p>Bash can perform all sorts of pathname expansions for us.  To perform a pathname expansion, we simply write a syntactical <dfn>glob pattern</dfn> in the place where we want to expand pathnames.  A glob is the name of the type of pattern supperted by the bash shell.  Here are the various basic glob patterns supported by the bash shell:</p>
 
@@ -113,16 +113,16 @@ hello.txt
 <span class="prompt">$ </span><kbd>ls *.txt</kbd><em>When we include the literal string <code>.txt</code>, the only pathnames that still match the pattern</em>
 myscript.txt<em>are those that start with any kind of text and end with the literal string <code>.txt</code>.</em>
 hello.txt
-<span class="prompt">$ </span><kbd>ls 0?' '*.ogg</kbd><em>Here we're combining patterns, looking for any pathname start starts with a <code>0</code>,</em>
-05 Between Angels and Insects.ogg<em>followed by any single character, followed by a <strong>literal</strong> space, ending in <code>.ogg</code>.</em>
-07 Wake Up.ogg
-<span class="prompt">$ </span><kbd>ls [0-9]*</kbd><em>In a character set, we can use <code>-</code> to indicate a range of characters.  This will match</em>
-05 Between Angels and Insects.ogg<em>a pathname starting with one character between <code>0</code> and <code>9</code> followed by any other text.</em>
-07 Wake Up.ogg
-<span class="prompt">$ </span><kbd>ls [:digit:]*</kbd><em>Character classes are really nice because they speak for us: they tell us exactly</em>
-05 Between Angels and Insects.ogg<em>what our intent here is.  We want any pathname that starts with a digit.</em>
-07 Wake Up.ogg
-<span class="prompt">$ </span><kbd>ls [:digit:]</kbd><em>Your pattern needs to be complete!  None of our filenames is only just a single digit.</em>
+<span class="prompt">$ </span><kbd>ls 0<mark class="green">?</mark>' '<mark class="blue">*</mark>.ogg</kbd><em>Here we're combining patterns, looking for any pathname start starts with a <code>0</code>,</em>
+0<mark class="green">5</mark> <mark class="blue">Between Angels and Insects</mark>.ogg<em>followed by any single character, followed by a <strong>literal</strong> space, ending in <code>.ogg</code>.</em>
+0<mark class="green">7</mark> <mark class="blue">Wake Up</mark>.ogg
+<span class="prompt">$ </span><kbd>ls <mark>[0-9]</mark>*</kbd><em>In a character set, we can use <code>-</code> to indicate a range of characters.  This will match</em>
+<mark>0</mark>5 Between Angels and Insects.ogg<em>a pathname starting with one character between <code>0</code> and <code>9</code> followed by any other text.</em>
+<mark>0</mark>7 Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls <mark>[:digit:][:digit:]</mark>*</kbd><em>Character classes are really nice because they speak for us: they tell us exactly</em>
+<mark>05</mark> Between Angels and Insects.ogg<em>what our intent here is.  We want any pathname that start with two digits.</em>
+<mark>07</mark> Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls [:digit:][:digit:]</kbd><em>Your pattern needs to be complete!  None of our filenames is only just a single digit.</em>
 <span class="prompt">$ </span>
 </pre>
 
@@ -177,15 +177,15 @@ hello.txt
     <p>These operators are at first a little more confusing to understand, but they are a great way of adding logic to patterns:</p>
 
 <pre lang="bash">
-<span class="prompt">$ </span><kbd>ls +([:digit:])' '*.ogg</kbd><em>Filenames that start with one or more digits.</em>
-05 Between Angels and Insects.ogg
-07 Wake Up.ogg
-<span class="prompt">$ </span><kbd>ls *.jp?(e)g</kbd><em>Filenames that end either in <code>.jpg</code> or <code>.jpeg</code>.</em>
-img_88751.jpg
-igpd_45qr.jpeg
-<span class="prompt">$ </span><kbd>ls *.@(jpg|jpeg)</kbd><em>Same thing, perhaps written more clearly!</em>
-img_88751.jpg
-igpd_45qr.jpeg
+<span class="prompt">$ </span><kbd>ls <mark>+([:digit:])</mark>' '*.ogg</kbd><em>Filenames that start with one or more digits.</em>
+<mark>05</mark> Between Angels and Insects.ogg
+<mark>07</mark> Wake Up.ogg
+<span class="prompt">$ </span><kbd>ls *.jp<mark>?(e)</mark>g</kbd><em>Filenames that end either in <code>.jpg</code> or <code>.jpeg</code>.</em>
+img_88751.jp<mark></mark>g
+igpd_45qr.jp<mark>e</mark>g
+<span class="prompt">$ </span><kbd>ls *.<mark>@(jpg|jpeg)</mark></kbd><em>Same thing, perhaps written more clearly!</em>
+img_88751.<mark>jpg</mark>
+igpd_45qr.<mark>jpeg</mark>
 <span class="prompt">$ </span><kbd>ls !(my*).txt</kbd><em>All the <code>.txt</code> files that do <strong>not</strong> begin with <code>my</code>.</em>
 hello.txt
 <span class="prompt">$ </span><kbd>ls !(my)*.txt</kbd><em>Can you guess why this one matches <code>myscript.txt</code>?</em>
@@ -195,8 +195,17 @@ hello.txt
 
     <p>Extended glob patterns can be extremely useful at times, but they can also be confusing and misleading.  Let's focus on the last example: why does <code>!(my)*.txt</code> expand the pathname <code>myscript.txt</code>?  Isn't <code>!(my)</code> supposed to only match when the pathname does <em>not</em> have a <code>my</code> in this position?  You are correct, it is!  And yet, bash expands a pathname that begins with <code>my</code>!</p>
 
-    <p>The answer here is that as we expect, the <code>!(my)</code> glob does <em>not match</em> against the beginning of <code>myscript.txt</code>; but this simply means that in order for this pathname to be eligible for expansion, the <em>rest of the pattern</em> needs to match against it.  And it so happens that we have a <code>*</code> glob right after the <code>!(my)</code> glob which will happily match the entirety of the filename.  As a result, the <code>!(my)</code> matches against
-    the emptiness in the beginning of the name, the <code>*</code> matches against the <code>myscript</code> part, and the <code>.txt</code> suffix of the pattern matches against the trailing <code>.txt</code> of our pathname.  The pattern matches the name, so the name is expanded!  When we include the <code>*</code> inside the <code>!()</code> pattern, this no longer works and the match fails against this pathname.</p>
+    <p>The answer here is that bash will happily match this part of the pattern against the <code>m</code> at the beginning (which is not the same as <code>my</code>) or even empty space at the start of the filename.  This means that in order for the pathname to still be eligible for expansion, the <em>rest of our pattern</em> needs to match against it the remaineder of
+    our pathname.  And it so happens that we have a <code>*</code> glob right after the <code>!(my)</code> glob which will happily match the entirety of the filename.  In this situation, the <code>!(my)</code> part matches against
+    the <code>m</code> character in the beginning of the name, the <code>*</code> matches against the <code>yscript</code> part, and the <code>.txt</code> suffix of the pattern matches against the trailing <code>.txt</code> of our pathname.  The pattern matches the name, so the name is expanded!  When we include the <code>*</code> inside the <code>!()</code> pattern, this no longer works and the match fails against this pathname:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>ls <mark class="green">!(my)</mark><mark class="blue">*</mark>.txt</kbd>
+<mark class="green">m</mark><mark class="blue">yscript</mark>.txt
+<mark class="green">hello</mark>.txt
+<span class="prompt">$ </span><kbd>ls <mark>!(my*)</mark>.txt</kbd>
+<mark>hello</mark>.txt
+</pre>
 
     <h2>Tilde Expansion</h2>
 
@@ -249,7 +258,7 @@ My boss lives in: /var/root
 Hello, lhunath.  How are you?
 </pre>
 
-    <p>As you can see, the assignment creates a variable called <kbd>name</kbd> and puts a value in it. Expansion is done by prefixing the name with a <kbd title="dollar">$</kbd> symbol, which causes our value to get injected into the echo argument.</p>
+    <p>As you can see, the assignment creates a variable called <kbd>name</kbd> and puts a value in it. Expansion of the parameter's value is done by prefixing the name with a <kbd title="dollar">$</kbd> symbol, which causes our value to get injected into the echo argument.</p>
 
     <h3>Assignment</h3>
 
@@ -268,13 +277,18 @@ Hello, lhunath.  How are you?
 <span class="prompt">$ </span><kbd>item='    4. Milk'</kbd><em>Use quotes to make the spaces literal.</em>
 </pre>
 
-    <h3>Expansion</h3>
+    <h3>Parameter Expansion</h3>
 
-    <p>Assigning values to variables is neat but not really immediately useful.  It's being able to re-use those values at any time that makes parameters so interesting.  Re-using parameter values is done by expanding them.  Expansion effectively takes the data out of your parameter and inlines it into the data of your command.  As we saw briefly before, we expand parameters by prefixing their name with a <code>$</code> symbol.  Whenever you see this symbol in bash, it's probably
+    <p>Assigning values to variables is neat but not really immediately useful.  It's being able to re-use those values at any time that makes parameters so interesting.  Re-using parameter values is done by expanding them.  <dfn>Parameter Expansion</dfn> effectively takes the data out of your parameter and inlines it into the data of your command.  As we saw briefly before, we expand parameters by prefixing their name with a <code>$</code> symbol.  Whenever you see this symbol in bash, it's probably
     because something is getting expanded.  It could be a parameter, or the output of a command, or the result of an arithmetic operation.  We'll learn more about the other expansions later on.</p>
     
-    <p>As we've already highlighted (but always bears repeating), your expansions should always be double-quoted to avoid bash's word-splitting unexpectedly tearing it to pieces.  In addition, parameter expansion allows you to wrap curly braces (<kbd>{</kbd> and <kbd>}</kbd>) around your expansion.  These braces are used to tell bash what the beginning and end of your parameter name is.  They are usually optional, as bash can often figure the name out by itself.  Though
-    sometimes they become a necessity:</p>
+    <aside class="rule">
+        <p>We've highlighted this briefly in the previous chapter when we introduced arguments and quoting, but it bears repeating:</p>
+        <q>Parameter expansions should <strong>always</strong> be double-quoted.</q>
+        <p>This prevents bash's word-splitting from unexpectedly tearing it to pieces.</p>
+    </aside>
+    
+    <p>In addition, parameter expansion allows you to wrap curly braces (<kbd>{</kbd> and <kbd>}</kbd>) around your expansion.  These braces are used to tell bash what the beginning and end of your parameter name is.  They are usually optional, as bash can often figure the name out by itself.  Though sometimes they become a necessity:</p>
 
 <pre lang="bash">
 <span class="prompt">$ </span><kbd>name=Britta time=23.73</kbd><em>We want to expand <code>time</code> and add an <code>s</code> for seconds</em>
@@ -284,7 +298,7 @@ Britta's current record is .
 Britta's current record is 23.73s.
 </pre>
 
-    <p>Parameter expansions are great for inserting user or program data into our command instructions, but they also have an extra ace up their sleeve: expansion operators.  While expanding a parameter, it is possible to apply an operator to the expanding value.  This operator can modify the value in one of many useful ways.  Remember that this operator only changes the value that is expanded; it does not change the original value that's sitting in your variable.</p>
+    <p>Parameter expansions are great for inserting user or program data into our command instructions, but they also have an extra ace up their sleeve: parameter expansion operators.  While expanding a parameter, it is possible to apply an operator to the expanding value.  This operator can modify the value in one of many useful ways.  Remember that this operator only changes the value that is expanded; it does not change the original value that's sitting in your variable.</p>
 
 <pre lang="bash">
 <span class="prompt">$ </span><kbd>name=Britta time=23.73</kbd>
@@ -294,8 +308,9 @@ Britta's current record is 23 seconds and 73 hundredths.
 PATH currently contains: /Users/lhunath/.bin, /usr/local/bin, /usr/bin, /bin, /usr/libexec
 </pre>
 
-    <p>The examples above use the <code>%</code>, <code>#</code> and <code>//</code> operators to perform various operations on the parameter's value before expanding the result.  The parameters themselves aren't changed, only the value that is expanded into place is affected by the operator.  In the first case, we used the <code>%</code> operator to remove the <code title="dot">.</code> and the number after it from <code>time</code>'s value before expanding it.  That left us
-    with just the part in front of the <code>.</code>, which is the seconds.  The second case did something similar, we used the <code>#</code> operator to remove a part from the start of the <code>time</code> value.  Finally, we used the <code>//</code> operator, (which is really a special case of the <code>/</code> operator), to replace every <code title="colon">:</code> character in <code>PATH</code>'s value with <code>, </code>.  The result is a list of directories that is
+    <p>The examples above use the <code>%</code>, <code>#</code> and <code>//</code> operators to perform various operations on the parameter's value before expanding the result.  The parameters themselves aren't changed; the operator only affects the value that gets expanded into place.  You'll also notice that we can use glob patterns here, just like we did during pathname expansion, to match against the values in our parameter.</p>
+
+    <p>In the first case, we used the <code>%</code> operator to remove the <code title="dot">.</code> and the number after it from <code>time</code>'s value before expanding it.  That left us with just the part in front of the <code>.</code>, which is the seconds.  The second case did something similar, we used the <code>#</code> operator to remove a part from the start of the <code>time</code> value.  Finally, we used the <code>//</code> operator, (which is really a special case of the <code>/</code> operator), to replace every <code title="colon">:</code> character in <code>PATH</code>'s value with <code>, </code>.  The result is a list of directories that is
     easier to read for people than the original colon-separated <code>PATH</code>.
 
     <table>
@@ -826,8 +841,13 @@ Your middle names are:  Tiberius "Jim"
     <p>We run the <code>bash</code> command, passing the <code>-c</code> option followed by an argument that contains some bash shell code.  This will tell bash that instead of starting a new interactive bash shell, you want to just have the shell run the provided bash code and finish.  After the shell code, we specify the arguments to use for populating the positional parameters.  The first argument in our example is <code>--</code>, and while this argument is technically used to populate
     the zero'th positional parameter, it is a good idea to always use <code>--</code> for the sake of compatibility and to make clear the separation between bash's arguments and the arguments to your shell code.  After this argument, each argument populates the standard positional parameters as you would expect.</p>
 
-    <p>Take note of the fact that all arguments, and in particular the argument containing the bash code, are <strong><code>'single-quoted'</code></strong>.  Whenever code is put in a string (such as in the case of passing it in as an argument), the code <em>should</em> be single-quoted.  Do not use <code>"double quotes"</code> to wrap code strings.  This is important because single quotes are much more reliable at making the wrapped data literal than
-    double quotes.  If we used double-quotes in the example above, the shell that we're typing the <code>bash</code> command into would expand the <code>$1</code>, <code>$2</code> and <code>$4</code> expansions instead, resulting in a broken argument to the <code>-c</code> option.
+    <aside class="rule">
+        <p>Note that our argument containing bash code is <strong><code>'single-quoted'</code></strong>:</p>
+        <q>Whenever we put <em>code</em> in a <em>string</em> (such as in the case of passing it in as an argument), the code <em>should</em> be single-quoted.</q>
+        <p>Do not use <code>"double quotes"</code> to wrap code strings.  This is important because single quotes are much more reliable at making the wrapped data literal than double quotes.</p>
+    </aside>
+
+    <p>If we used double-quotes in the example above, the shell that we're typing the <code>bash</code> command into would expand the <code>$1</code>, <code>$2</code> and <code>$4</code> expansions instead, resulting in a broken argument to the <code>-c</code> option.</p>
 
     <p>To illustrate this point, compare our good example from above:</p>
 <pre lang="bash" class="good">
@@ -1283,7 +1303,3 @@ Anne-Marie Davis Mary Tate<em>While omitting the length yields "all remaining el
 
     <p>That's it!  You've got a firm grasp of the absolutely most important and useful aspects of the bash shell language:  its parameters and expansions, as well as the many ways in which we can apply operators to expanded values and shape them to our every needs.</p>
 </section>
-<aside class="nav">
-    <h1><a href="02.commands.html">Back track: Commands And Arguments</a></h1>
-  <h2><a href="04.conditionals.html">Next up: Tests And Conditionals</a></h2>
-</aside>
