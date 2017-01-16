@@ -8,7 +8,62 @@ description: Exit codes, success and failure, testing files, strings and numbers
 ---
 
 <section>
-    <h1></h1>
+    <h1>What are conditionals and what do I use them for?</h1>
 
-    <p></p>
+    <p>The best way to think about conditionals is essentially just as a <em>choice</em>.</p>
+
+    <p>Whenever a choice comes up, we can take one of various different paths forward.  Either path is available to us, and each path leads somewhere different.  The path that we end up taking, is determined by how our choice turns out.</p>
+
+    <p>These are not choices like you read about in a novel: the novel has already chosen for you.  The story of a novel is fixed, the choices don't open up alternate endings.  Conditionals are choices like in games: every so often, you need to make a critical decision, and each decision changes the game situation in one way or another.  If you finish a game and retry it, making one of the choices differently, the game's situation would be different from that point on.  We call this
+    branching.  Every choice sets us on a new branch that affects our environment in a different way than the others.  Note, though, that these branches are not different because of the <em>choice we made</em> but rather because of the <em>actions we take after making the choice</em>.</p>
+
+    <p>That sounds kind of complicated, but it's really no different from choosing to buy and iPhone or an Android phone.  Choosing to have breakfast in the morning or skip it.  Choosing to take the highway or the side way.  We try to make these choices by considering our options.  Considering what we have and what's best in the given situation.  This is exactly what conditionals are:  we evaluate what we have and we choose where to go with that.</p>
+
+    <p>A script with conditional branches is broad and versitile compared to a linear script without them, in all the ways that games are versitile compared to the linear narative of a book.  So, why do we need conditionals?  We need them to write scripts that can dynamically handle varying situations and depending on what the situation is, change how it operates.</p>
+
+    <p>Let's start you off with a really simple conditional to help us start the day right:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>read -p "Would you like some breakfast? [y/n] "</kbd>
+Would you like some breakfast? [y/n] <kbd>n</kbd>
+<span class="prompt">$ </span><kbd>if [[ $REPLY = y ]]; then</kbd>
+<span class="prompt">&gt; </span><kbd>    echo "Here you go, an egg sandwich."</kbd><em>Branch #1</em>
+<span class="prompt">&gt; </span><kbd>else</kbd>
+<span class="prompt">&gt; </span><kbd>    echo "Here, you should at least have a coffee."</kbd><em>Branch #2</em>
+<span class="prompt">&gt; </span><kbd>fi</kbd>
+Here, you should at least have a coffee.
+</pre>
+
+    <p>What's key with conditionals verses all the code we've written before, is that we now have code that will never get executed unless the situation changes.  Only the code in the second branch was executed, and even though we have actual code in the first branch, bash has never actually executed it.  Only if the situation - in this case, our answer to the preceding question - changes, will the executed branch of our script change and will we see the code in the first branch get executed,
+    but at the same time, that will cause the second branch to become "dead".</p>
+
+    <p>Bash has a few different ways of evaluating conditionals.  Nearly all of them have a key commonality: they are all evaluated based on the exit code of another command.  As such, before diving into this chapter, it is important that you are comfortable with your knowledge on exit codes as discussed in a previous chapter.</p>
+    
+    <p>Usually, we evaluate conditionals explicitly by using compound commands such as the <code>if ...</code> statement in the example above.  Another way is using <dfn>Control Operators</dfn>, which we very briefly touched down on in a previous chapter when we were discussing <dfn>List</dfn> commands.  We will enumerate and discuss each type of conditional in-depth here.</p>
+
+    <h2>The <code>if</code> compound.</h2>
+
+    <p>The <code>if</code> statement is so ubiquitous across programming languages that it is almost guaranteed the first thing that comes to mind when we think about building a choice into our code.  This is no accident:  these statements are clear, simple and explicit.  That also makes them an excellent starting point for us to get familiar with conditionals in bash.</p>
+
+<pre class="syntax">
+    <strong>if</strong> <var>list</var> [ <strong>;</strong>|<strong>&lt;newline&gt;</strong> ] <strong>then</strong> <var>list</var> <strong>;</strong>|<strong>&lt;newline&gt;</strong>
+    [ <strong>elif</strong> <var>list</var> [ <strong>;</strong>|<strong>&lt;newline&gt;</strong> ] <strong>then</strong> <var>list</var> <strong>;</strong>|<strong>&lt;newline&gt;</strong> ] ...
+    [ <strong>else</strong> <var>list</var> <strong>;</strong>|<strong>&lt;newline&gt;</strong> ]
+    <strong>fi</strong>
+
+<samp><u title="start of compound command 'if'">if</u> ! rm hello.txt; then <mark>echo "Couldn't delete hello.txt." &gt;&amp;2; exit 1</mark>; <u title="end of compound command 'if'">fi</u></samp>
+<samp><u title="start of compound command 'if'">if</u> rm hello.txt; then <mark>echo "Successfully deleted hello.txt."</mark>
+else <mark class="red">echo "Couldn't delete hello.txt." &gt;&amp;2; exit 1</mark>; <u title="end of compound command 'if'">fi</u></samp>
+<samp><u title="start of compound command 'if'">if</u> mv hello.txt ~/.Trash/; then <mark>echo "Moved hello.txt into the trash."</mark>
+elif rm hello.txt; then <mark class="blue">echo "Deleted hello.txt."</mark>
+else <mark class="red">echo "Couldn't remove hello.txt." &gt;&amp;2; exit 1</mark>; <u title="end of compound command 'if'">fi</u></samp>
+</pre>
+
+    <p>The syntax for the <code>if</code> compound is, while at first a little verbose, in essence very simple.  We start with the <code>if</code> keyword, followed by a command list.  This command list will be executed by bash, and upon completion, bash will hand the final exit code to the <code>if</code> compound to be evaluated.  If the exit code is zero (<code>0</code> = <dfn>success</dfn>), the <em>first</em> branch will be executed.  Otherwise, the first branch will be skipped.</p>
+
+    <p>If the first branch is skipped, the <code>if</code> compound will pass the opportunity of execution to the next branch.  If one or more <code>elif</code> branches are available, these will in-turn execute and evaluate their own command list, and if successful, execute their branch.  Note that as soon as any branch of the <code>if</code> compound is executed, the remaining branches are automatically skipped: only one single branch is ever executed.  If neither <code>if</code> or
+    <code>elif</code> branches are eligible for execution, the <code>else</code> branch will be executed instead, if it is present.</p>
+
+    <p>Effectively, an <code>if</code> compound is a statement that expresses a series of potential branches to execute, each preceded by a command list that evaluates whether or not that branch should be chosen.  Most <code>if</code> statements will have only a single branch or a primary and an <code>else</code> branch.</p>
+
 </section>
