@@ -13,7 +13,9 @@
                 <h2>{{ page.subtitle }}</h2>
             </div>
 
+            {% if page.description %}
             <h3>{{ page.description }}</h3>
+            {% endif %}
 
             {% if page.editable or page.editable == null %}
                 <a class="page-edit" href="http://prose.io/#lhunath/guide.bash.academy/edit/gh-pages/{{ page.path }}">[edit this page]</a>

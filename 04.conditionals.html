@@ -66,4 +66,52 @@ else <mark class="red">echo "Couldn't remove hello.txt." &gt;&amp;2; exit 1</mar
 
     <p>Effectively, an <code>if</code> compound is a statement that expresses a series of potential branches to execute, each preceded by a command list that evaluates whether or not that branch should be chosen.  Most <code>if</code> statements will have only a single branch or a primary and an <code>else</code> branch.</p>
 
+    <h2>Conditional command lists</h2>
+
+    <p>As stated, the <code>if</code> statement, akin to most other conditional statements, evaluate a <dfn>List</dfn> command's final exit code to determine whether its corresponding conditional branch should be taken or skipped.  Nearly all <code>if</code> and other conditional statements you'll encounter will have nothing more than a <dfn>Simple Command</dfn> as its conditional, but it is nevertheless possible to provide a whole list of simple commands.  When we do so, it is important to understand that only the final exit code after executing the entire list is relevant for the branch's evaluation:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>read -p "Breakfast? [y/n] "; if [[ $REPLY = y ]]; then echo "Here are your eggs."; fi</kbd>
+Breakfast? [y/n] <kbd>y</kbd>
+Here are your eggs.
+<span class="prompt">$ </span><kbd>if read -p "Breakfast? [y/n] "; [[ $REPLY = y ]]; then echo "Here are your eggs."; fi</kbd>
+Breakfast? [y/n] <kbd>y</kbd>
+Here are your eggs.
+</pre>
+
+    <p>Both of these are identical in operation.  In the first, our <code>read</code> command precedes the <code>if</code> statement; in the latter, our <code>read</code> command is embedded in the initial branch conditional.  It is essentially a choice of style or preference that will determine which of these methods you prefer.  Some thoughts on the matter:</p>
+    <ul>
+        <li>Embedding the data-gathering command creates a "wholesome" approach to the conditional: the conditional becomes a unit which consists of all its dependencies.</li>
+        <li>Preceding the data-gathering command to the conditional statement separates the two distinct operations.  It also makes the conditional more symmetric or "balanced" when other <code>elif</code> branches become part of the statement.</li>
+    </ul>
+
+    <h2>Conditional test commands</h2>
+
+    <p>The most common command used as a conditional is the <code>test</code> command, also known as the <code>[</code> command.  These two are synonymous with each other: they are the same command with a different name.  The only difference is that when you use <code>[</code> as the command name, it is imperative to terminate the command with a trailing <code>]</code> argument.</p>
+
+    <p>In modern bash scripts, however, the <code>test</code> command has, for all intents and purposes, been superceded by its two younger brothers: the <code>[[</code> and <code>((</code> keywords.  The <code>test</code> command has been effectively rendered obolete and its flawed and fragile syntax is no match for the special powers granted to both <code>[[</code> and <code>((</code> by the bash parser.</p>
+
+    <p>It may seem strange at first thought, but it is actually quite interesting a revelation to notice that <code>[</code>, <code>[[</code> and <code>((</code>, as we've seen them appear several times in <code>if</code> and other sample statements in this guide, are not some special form of <code>if</code>-syntax - no!  They are simple, ordinary commands, just like any other command.  The <code>[[</code> command name takes a list of arguments and its final argument must be <code>]]</code>.
+    Similarly, <code>[</code> is a command name which takes test arguments and must be closed with a trailing <code>]</code> argument and <code>((</code> takes an arithmetic expression and should be terminated by <code>))</code>.  This is especially noticable when we make a mistake and omit spaces between these command names and their arguments:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>[[ Jack = Jane ]] &amp;&amp; echo "Jack is Jane" || echo "Jack is not Jane"</kbd>
+Jack is not Jane
+<span class="prompt">$ </span><kbd>[[Jack = Jane ]] &amp;&amp; echo "Jack is Jane" || echo "Jack is not Jane"</kbd>
+-bash: [[Jack: command not found
+<span class="prompt">$ </span><kbd>[[ Jack=Jane ]] &amp;&amp; echo "Jack is Jane" || echo "Jack is not Jane"</kbd>
+Jack is Jane
+</pre>
+
+    <p>The first statement was written correctly and we got the expected output.  In the second statement, we forgot to separate the <code>[[</code> command <em>name</em> from the <em>first argument</em>, causing the bash parser to go looking for a command named <code>[[Jack</code>.  After all, when bash parses this command and word-splits the command's name and arguments into tokens, the first space-delimited token is the entire string <code>[[Jack</code>.</p>
+
+    <p>The third command is perhaps more insiduous.  It is always alarming when there are situations where we can write buggy code that does not yield a bash parser error but instead simply behaves "strangely".  These types of bugs are hard to spot and can be hard to understand as well.  In our situation, the first argument to the <code>[[</code> command is the single string <code>Jack=Jane</code>.  Unfortunately, the syntax for performing an equality test using the <code>[[</code> command
+    is <code class="syntax"><strong>[[</strong> <var>arg</var> <strong>=</strong> <var>arg</var> <strong>]]</strong></code>, where bash will then perform the equality test between the two distinct string arguments.  In this third example, however, we do not have three arguments following the <code>[[</code> command: we only have one long argument.  And it just so happens that <code>[[</code> has a short-hand syntax for testing whether a certain string is empty or not: <code class="syntax"><strong>[[</strong> <var>string</var> <strong>]]</strong></code>.  Now, perhaps, it becomes clear that bash has mistaken our intention of comparing two strings using the <code>=</code> operator with a different kind of test that simply checks whether our single argument is an empty string.  Since the string <code>Jack=Jane</code> is <em>not empty</em>, the test succeeds, and as a result, the <code>&amp;&amp;</code> branch is taken.</p>
+
+    <p>The take-away from all this is that it is important to realize that these test commands are their own bash commands and we need to continue applying the standard command-argument spacing rules to them.  This is particularly important to note, since our intuition often tells us differently, especially when we transition to bash from other programming languages where code like this is perfectly valid:</p>
+
+<pre lang="PHP">
+<kbd>if ("Jack"=="Jane")</kbd>
+</pre>
+
 </section>
