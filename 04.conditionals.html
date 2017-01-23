@@ -108,10 +108,6 @@ Jack is Jane
     <p>The third command is perhaps more insiduous.  It is always alarming when there are situations where we can write buggy code that does not yield a bash parser error but instead simply behaves "strangely".  These types of bugs are hard to spot and can be hard to understand as well.  In our situation, the first argument to the <code>[[</code> command is the single string <code>Jack=Jane</code>.  Unfortunately, the syntax for performing an equality test using the <code>[[</code> command
     is <code class="syntax"><strong>[[</strong> <var>arg</var> <strong>=</strong> <var>arg</var> <strong>]]</strong></code>, where bash will then perform the equality test between the two distinct string arguments.  In this third example, however, we do not have three arguments following the <code>[[</code> command: we only have one long argument.  And it just so happens that <code>[[</code> has a short-hand syntax for testing whether a certain string is empty or not: <code class="syntax"><strong>[[</strong> <var>string</var> <strong>]]</strong></code>.  Now, perhaps, it becomes clear that bash has mistaken our intention of comparing two strings using the <code>=</code> operator with a different kind of test that simply checks whether our single argument is an empty string.  Since the string <code>Jack=Jane</code> is <em>not empty</em>, the test succeeds, and as a result, the <code>&amp;&amp;</code> branch is taken.</p>
 
-    <p>The take-away from all this is that it is important to realize that these test commands are their own bash commands and we need to continue applying the standard command-argument spacing rules to them.  This is particularly important to note, since our intuition often tells us differently, especially when we transition to bash from other programming languages where code like this is perfectly valid:</p>
-
-<pre lang="PHP">
-<kbd>if ("Jack"=="Jane")</kbd>
-</pre>
+    <p>The take-away from all this is that it is important to realize that these test commands are their own bash commands and we need to continue applying the standard command-argument spacing rules to them.</p>
 
 </section>
