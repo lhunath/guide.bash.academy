@@ -230,6 +230,33 @@ div.status {
         padding: 1ex;
     }
 }
+section {
+    h1, h2, p {
+        position: relative;
+        padding: 0.5ex;
+
+        .bookmark {
+            position: absolute;
+            margin-left: -2em;
+            padding-right: 1.5em;
+            height: 100%;
+            display: none;
+        }
+
+        &:target, &:active {
+            background: rgba(100, 200, 255, 0.2);
+        }
+    }
+}
+section {
+    h1, h2, p {
+        &:hover {
+            .bookmark {
+                display: block;
+            }
+        }
+    }
+}
 .fork {
     position: absolute;
     z-index: 2;

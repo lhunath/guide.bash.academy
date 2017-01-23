@@ -91,8 +91,8 @@ Here are your eggs.
 
     <p>In modern bash scripts, however, the <code>test</code> command has, for all intents and purposes, been superceded by its two younger brothers: the <code>[[</code> and <code>((</code> keywords.  The <code>test</code> command has been effectively rendered obolete and its flawed and fragile syntax is no match for the special powers granted to both <code>[[</code> and <code>((</code> by the bash parser.</p>
 
-    <p>It may seem strange at first thought, but it is actually quite interesting a revelation to notice that <code>[</code>, <code>[[</code> and <code>((</code>, as we've seen them appear several times in <code>if</code> and other sample statements in this guide, are not some special form of <code>if</code>-syntax - no!  They are simple, ordinary commands, just like any other command.  The <code>[[</code> command name takes a list of arguments and its final argument must be <code>]]</code>.
-    Similarly, <code>[</code> is a command name which takes test arguments and must be closed with a trailing <code>]</code> argument and <code>((</code> takes an arithmetic expression and should be terminated by <code>))</code>.  This is especially noticable when we make a mistake and omit spaces between these command names and their arguments:</p>
+    <p>It may seem strange at first thought, but it is actually quite interesting a revelation to notice that <code>[</code> and <code>[[</code>, as we've seen them appear several times in <code>if</code> and other sample statements in this guide, are not some special form of <code>if</code>-syntax - no!  They are simple, ordinary commands, just like any other command.  The <code>[[</code> command name takes a list of arguments and its final argument must be <code>]]</code>.
+    Similarly, <code>[</code> is a command name which takes test arguments and must be closed with a trailing <code>]</code> argument.  This is especially noticable when we make a mistake and omit spaces between these command names and their arguments:</p>
 
 <pre lang="bash">
 <span class="prompt">$ </span><kbd>[[ Jack = Jane ]] &amp;&amp; echo "Jack is Jane" || echo "Jack is not Jane"</kbd>
