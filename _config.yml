@@ -10,3 +10,4 @@ github_username:  lhunath
 
 # Build settings
 markdown: kramdown
+permalink: pretty
