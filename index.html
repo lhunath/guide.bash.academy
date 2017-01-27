@@ -28,11 +28,12 @@ editable: false
 
     <h2>Chapters</h2>
     <ol id="chapter_list">
-        {% for page in site.pages %}
-            {% if page.layout == 'chapter' %}
-            <li><label for="done_{{ page.id }}"><input type="checkbox" id="done_{{ page.id }}"> I'm done</label>
-                <a href="{{ page.url }}">{{ page.title }}</a><sup>{{ page.status }}</sup>: {{ page.subtitle }}
-                <p>{{ page.description }}</p></li>
+        {% assign chapters = site.pages | sort: 'chapter' %}
+        {% for chapter in chapters %}
+            {% if chapter.layout == 'chapter' %}
+            <li><label for="done_{{ chapter.id }}"><input type="checkbox" id="done_{{ chapter.id }}"> I'm done</label>
+                <a href="{{ chapter.url }}">{{ chapter.title }}</a><sup>{{ chapter.status }}</sup>: {{ chapter.subtitle }}
+                <p>{{ chapter.description }}</p></li>
             {% endif %}
         {% endfor %}
     </ol>
