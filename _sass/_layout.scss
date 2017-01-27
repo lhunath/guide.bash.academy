@@ -231,12 +231,13 @@ div.status {
     }
 }
 section {
-    h1, h2, p {
+    &>h1, &>h2, &>h3, &>p, &>dl>dt, &>aside {
         position: relative;
         padding: 0.5ex;
 
         .bookmark {
             position: absolute;
+            top: 0.5ex;
             margin-left: -2em;
             padding-right: 1.5em;
             height: 100%;
@@ -247,9 +248,12 @@ section {
             background: rgba(100, 200, 255, 0.2);
         }
     }
+    &>aside .bookmark {
+        padding-top: 1.2em;
+    }
 }
 section {
-    h1, h2, p {
+    &>h1, &>h2, &>h3, &>p, &>dl>dt, &>aside {
         &:hover {
             .bookmark {
                 display: block;

@@ -212,7 +212,7 @@ hello.txt
     <p>There is a different kind of expansion which we have been silently using in this guide without explicitly explaining it.  It's called the <dfn>Tilde Expansion</dfn> and it involves replacing a tilde (<code>~</code>) in a pathname with the path to the current user's home directory:</p>
 
 <pre lang="bash">
-<span class="prompt">$ </span><kbd>echo 'I live in: ' ~</kbd><em>Note that expansions must not be quoted or they will become literal!</em>
+<span class="prompt">$ </span><kbd>echo 'I live in: ' ~</kbd><em>Note that expansions must not be quoted or they will become <strong>literal</strong>!</em>
 I live in: /Users/lhunath
 </pre>
 
@@ -224,6 +224,43 @@ I live in: /Users/lhunath
 <span class="prompt">$ </span><kbd>echo 'My boss lives in: ' ~root</kbd>
 My boss lives in: /var/root
 </pre>
+
+    <h2>Command Substitution</h2>
+
+    <p>We now have a pretty good idea of what <dfn>expansion</dfn> means: we replace a syntactical token in our command by the situationally-specific equivalent value of that token.  Thus far, we've only expanded pathnames, either as the result of a pathname expansion pattern or a tilde expansion operation.</p>
+
+    <p>But expansion can be used for so much more.  We can use expansion to expand almost any kind of data into our command's arguments.  <dfn>Command Substitution</dfn> is an extremely popular method of expanding data into command arguments.  With <dfn>Command Substitution</dfn>, we effectively write a command within a command, and we ask bash to expand the inner command into its <em>output</em> and use that output as argument data for the main command:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>echo 'Hello world.' &gt; hello.txt</kbd>
+<span class="prompt">$ </span><kbd>cat hello.txt</kbd>
+Hello world.
+<span class="prompt">$ </span><kbd>echo "The file &lt;hello.txt&gt; contains: <mark>$(cat hello.txt)</mark>"</kbd>
+The file &lt;hello.txt&gt; contains: <mark>Hello world.</mark>
+</pre>
+
+    <p>What have we done here?<br>
+    We start out pretty simple: we create a file called <code>hello.txt</code> and put the string <code>Hello world.</code> into it.  We then use the <code>cat</code> command to output the contents of the file.  We can see the file contains the string we saved into it.</p>
+    <p>But then things get interesting:  what we want to do here is output a message to the user that explains in a nice sentence what the string in our file is.  To do this, we want to make the file's contents a "part of"
+    the sentence that we <code>echo</code> out.  However, while we write the code for this sentence, there is no telling what the contents of the file is, so how can we type out the correct sentence in our script?  The answer is expansion:  We know how to get the contents of a file using <code>cat</code>, so here we <em>expand</em> the output of the <code>cat</code> command <em>into</em> our <code>echo</code> sentence.  Bash will first run <code>cat hello.txt</code>, take the output of this command
+    (which is our string <code>Hello world.</code>) and then expand our <dfn>Command Substitution</dfn> syntax (the <code>$(cat ...)</code> part) into that output.  Only after this expansion, bash will try to run the <code>echo</code> command.  And can you guess what the argument to the <code>echo</code> command has become after our <dfn>Command Substitution</dfn> has expanded in-place?  The answer is:<br>
+    <code>echo "The file &lt;hello.txt&gt; contains: Hello world."</code></p>
+
+    <p>This is the very first kind of value expansion that we've learned about.  Value expansions allow us to expand data into command arguments.  They are extremely useful and you will use them all the time.  Bash has a fairly consistent syntax with regards to value expansions: they all start with a <code>$</code> symbol.</p>
+
+    <p><dfn>Command Substitution</dfn> essentially expands the <em>value of a command that was executed in a subshell</em>.  As such, the syntax is a combination of the value-expansion prefix <code>$</code> followed by the subshell to expand: <code>(...)</code>.  A subshell is essentially a small new bash process that is used to run a command while the main bash shell waits for the result.  We'll learn more about subshells in a future chapter.  Suffice it to say that the syntax for
+    expansions in bash is very consistent and very deliberate, which certainly helps with learning it!</p>
+
+    <aside class="rule">
+        <p>Very observant readers might have noticed that this guide tends to use single quotes to quote its strings but in this latest example switched to double quotes for the sentence that contained the expansion syntax.  This is intentional: all value expansions (ie. all syntax with a <code>$</code> prefix) can only expand inside quoted arguments if the argument was <em>double-quoted</em>.  Single quotes will turn the dollar-syntax into literal characters, causing bash to output the
+        dollar rather than expand its value in-place!  It is thus important to double-quote all our arguments that contain value expansions.</p>
+        <p>
+            <q>Value expansions (<code>$...</code>) must <strong>always</strong> be double-quoted.</q>
+        </p>
+    </aside>
+    <aside class="warn">
+        <p>Never leave a value expansion unquoted.  If you do, bash will tear the value apart using word-splitting, delete all whitespace from it and perform hidden pathname expansion on all the words in it!</p>
+    </aside>
 
 </section>
 
@@ -277,15 +314,22 @@ Hello, lhunath.  How are you?
 <span class="prompt">$ </span><kbd>item='    4. Milk'</kbd><em>Use quotes to make the spaces literal.</em>
 </pre>
 
+    <p>We can even combine this assignment syntax with other value expansions:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>contents="$(cat hello.txt)"</kbd>
+</pre>
+
+    <p>Here, we perform a <dfn>Command Substitution</dfn>, expanding the contents of the <code>hello.txt</code> file into our assignment syntax, which subsequently results in that contents getting assigned to the <var>contents</var> variable.</p>
+
     <h3>Parameter Expansion</h3>
 
     <p>Assigning values to variables is neat but not really immediately useful.  It's being able to re-use those values at any time that makes parameters so interesting.  Re-using parameter values is done by expanding them.  <dfn>Parameter Expansion</dfn> effectively takes the data out of your parameter and inlines it into the data of your command.  As we saw briefly before, we expand parameters by prefixing their name with a <code>$</code> symbol.  Whenever you see this symbol in bash, it's probably
     because something is getting expanded.  It could be a parameter, or the output of a command, or the result of an arithmetic operation.  We'll learn more about the other expansions later on.</p>
     
     <aside class="rule">
-        <p>We've highlighted this briefly in the previous chapter when we introduced arguments and quoting, but it bears repeating:</p>
-        <q>Parameter expansions should <strong>always</strong> be double-quoted.</q>
-        <p>This prevents bash's word-splitting from unexpectedly tearing it to pieces.</p>
+        <p>You might notice a trend here, but it bears consistent repeating:<br>
+        <q>Parameter expansions (and all other value expansions) should <strong>always</strong> be double-quoted.</q></p>
     </aside>
     
     <p>In addition, parameter expansion allows you to wrap curly braces (<kbd>{</kbd> and <kbd>}</kbd>) around your expansion.  These braces are used to tell bash what the beginning and end of your parameter name is.  They are usually optional, as bash can often figure the name out by itself.  Though sometimes they become a necessity:</p>

@@ -175,7 +175,7 @@ fi
 <pre class="syntax">
     [ <var>var</var><strong>=</strong><var>value</var> ... ] <var>name</var> [ <var>arg</var> ... ] [ <var>redirection</var> ... ]
 
-<samp><u title="name">echo</u> <u title="arg #1">"Hello world!"</u></samp>
+<samp><u title="name">echo</u> <u title="arg #1">"Hello world."</u></samp>
 <samp><u title="var #1">IFS=,</u> <u title="name">read</u> <u title="arg #1">-a</u> <u title="arg #2">fields</u> <u title="redirection #1">&lt; file</u></samp>
 </pre>
 
@@ -395,7 +395,7 @@ ls is /bin/ls</em></samp></pre>
 <pre lang="bash" class="exercise"><samp>$ <kbd>ex</kbd><em>You can substitute your favorite editor here.</em>
 : <kbd>i</kbd>
 <kbd>#!/usr/bin/env bash
-echo "Hello world!"
+echo "Hello world."
 .</kbd>
 : <kbd>w myscript</kbd>
 "myscript" [New] 2L, 40C written
@@ -403,7 +403,7 @@ echo "Hello world!"
 <span class="prompt">$ </span><kbd>chmod +x myscript</kbd>
 <span class="prompt">$ </span><kbd>PATH=$PATH:~</kbd>
 <span class="prompt">$ </span><kbd>myscript</kbd>
-Hello world!</samp></pre>
+Hello world.</samp></pre>
 
     <h2>Command arguments and quoting literals</h2>
 
@@ -841,9 +841,9 @@ ls: /bob/bash: No such file or directory
 ls: /bob/bash: No such file or directory
 /bin/bash*</samp></pre>
 
-    <h4>REDIR.6. Use a here-string to show the string <kbd>Hello world!</kbd> on the terminal.</h4>
-<pre lang="bash" class="exercise"><samp>$ <kbd>cat &lt;&lt;&lt; 'Hello world!'</kbd>
-Hello world!</samp></pre>
+    <h4>REDIR.6. Use a here-string to show the string <kbd>Hello world.</kbd> on the terminal.</h4>
+<pre lang="bash" class="exercise"><samp>$ <kbd>cat &lt;&lt;&lt; 'Hello world.'</kbd>
+Hello world.</samp></pre>
 
     <h4>REDIR.7. Fix this command so that the message is properly saved into the <code>log</code> file and such that FD 3 is properly closed afterwards: <kbd>exec 3&gt;&amp;2 2&gt;log; echo 'Hello!'; exec 2&gt;&amp;3</kbd></h4>
 <pre lang="bash" class="exercise"><samp>$ <kbd>exec 3&gt;&amp;1 &gt;log; echo 'Hello!'; exec 1&gt;&amp;3 3&gt;&amp;-</kbd></samp></pre>

@@ -66,27 +66,52 @@ $(function(){
     });
 
     // Add paragraph and heading links.
-    var h1 = 0, h2 = 0, p = 0;
-    $('section h1, section h2, section p').each(function() {
-        var id = '';
+    var h1 = 0, h2 = 0, h3 = 0, p = 0, t = 0, a = 0, scope_hint = '';
+    $('section>h1, section>h2, section>h3, section>p, section>dl>dt, section>aside').each(function() {
+        var id = '', hint = scope_hint;
         if ("h1" == this.tagName.toLowerCase()) {
             ++h1;
             h2 = 0;
+            h3 = 0;
             p = 0;
+            t = 0;
+            a = 0;
             id = 'h' + h1;
+            hint = scope_hint = this.innerText.replace(/ /g, '_')
         }
         else if ("h2" == this.tagName.toLowerCase()) {
             ++h2;
+            h3 = 0;
             p = 0;
+            t = 0;
+            a = 0;
             id = 'h' + h1 + '.' + h2;
+            hint = scope_hint = this.innerText.replace(/ /g, '_')
+        }
+        else if ("h3" == this.tagName.toLowerCase()) {
+            ++h3;
+            p = 0;
+            t = 0;
+            a = 0;
+            id = 'h' + h1 + '.' + h2 + '.' + h3;
+            hint = scope_hint = this.innerText.replace(/ /g, '_')
         }
         else if ("p" == this.tagName.toLowerCase()) {
             ++p;
-            id = 'p' + h1 + '.' + h2 + '_' + p;
+            id = 'p' + h1 + '.' + h2 + '.' + h3 + '_' + p;
+        }
+        else if ("dt" == this.tagName.toLowerCase()) {
+            ++t;
+            id = 't' + h1 + '.' + h2 + '.' + h3 + '_' + t;
+            hint = this.innerText.replace(/ /g, '_')
+        }
+        else if ("aside" == this.tagName.toLowerCase()) {
+            ++a;
+            id = 'a' + h1 + '.' + h2 + '.' + h3 + '_' + a;
         }
 
         $(this).attr('id', id);
-        $('<a>#</a>').prependTo(this).addClass('bookmark').attr('href', '#' + id);
+        $('<a>#</a>').prependTo(this).addClass('bookmark').attr('href', (hint? '?=' + hint: '') + '#' + id);
     });
 });
 
