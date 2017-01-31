@@ -11,11 +11,10 @@ layout: default
     <ul>
         <li><a href="/">{{ site.title }}<br>
             <sub>Back to the front page.</sub></a></li>
-        {% for page in site.pages %}
-            {% if page.layout == 'chapter' %}
-                <li><a href="{{ page.url }}#">{{ page.title }}<br>
-                    <sub>{{ page.subtitle }}</sub></a></li>
-            {% endif %}
+        {% assign chapters = site.pages | where: 'layout', 'chapter' | sort: 'chapter' %}
+        {% for chapter in chapters %}
+            <li><a href="{{ chapter.url }}#">{{ chapter.title }}<br>
+                <sub>{{ chapter.subtitle }}</sub></a></li>
         {% endfor %}
     </ul>
 </nav>
