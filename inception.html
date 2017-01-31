@@ -110,12 +110,12 @@ published: true
     If you're still a bit dizzy from the speed (and otherwise!), let's take a step back and get a clear picture of what's going on.  Depending on your level of familiarity with the matter, there may be a lot of new concepts here.  Even if these concepts are not new to you, there is a good chance you don't know exactly how to frame them.  If you're going to understand what exactly is going on when you run
     code on your computer, it's vital that you have a good understanding of how the different concepts interact.</p>
 
-    <img src="img/terminal-bash.png" alt="The terminal program runs in the GUI, the bash program runs in the terminal.">
+    <img src="/img/terminal-bash.png" alt="The terminal program runs in the GUI, the bash program runs in the terminal.">
 
     <p>When you start a terminal emulator program from your graphical user interface, you'll see a window open up with text in it.  The text that displays in this window is both the output of programs running in the terminal as well as the characters you've sent to those programs using, for instance, your keyboard.  The bash program is only one of many programs that can run in a terminal, so it is important to note that <em>bash is not what's making text appear on your screen</em>.  The
     terminal program takes care of that, taking text from bash and placing it in its window for you to see.  The terminal may do the same for other programs running in the terminal, completely unrelated to bash, such as a mail program or an IRC client.</p>
 
-    <img src="img/terminal-more.png" alt="The terminal program can run other programs which in turn can run other programs, building a chain.">
+    <img src="/img/terminal-more.png" alt="The terminal program can run other programs which in turn can run other programs, building a chain.">
 
     <p>It is sometimes difficult to tell just what programs are currently running in a terminal.  In the example above, text from your keyboard goes through a long chain of programs, passed from one to the other, until it reaches its final destination (the <code>mail</code> program running on another computer at IP address <code>192.168.1.1</code>).<br>
     I won't describe these programs in depth, the point here is that terminal programs all inter-connect and work together under the hood.  Since there isn't much of a visual reminder about what's happening, it's important that you develop a good understanding of when programs start, communicate and end, so that you can properly understand the effects and side-effects of sending input to or receiving output from various programs in your text based user interface.</p>
@@ -135,7 +135,7 @@ published: true
     <p>It may seem obvious at first, but upon second thought it's not immediately clear to most what a program really is.  Additionally, we're going to try and avoid making claims in this guide that aren't explained, at least within our subject scope, such as the fact that programs "connect" with one another.</p>
     <p>In short, a program is a set of pre-written instructions that can be executed by your system's <dfn>kernel</dfn>.  A program gives instructions to the kernel directly.  The kernel is technically also a program, but one that runs constantly and communicates with your hardware instead.</p>
 
-    <img src="img/process.png" alt="A process is a running program that can relays instructions to the kernel and has input and output connectors called FDs.">
+    <img src="/img/process.png" alt="A process is a running program that can relays instructions to the kernel and has input and output connectors called FDs.">
 
     <p>A program generally lives on your disk, waiting to be started.  When you "run" or "execute" a program, your kernel loads its pre-written instructions (its <dfn>code</dfn>) by creating a <dfn>process</dfn> for your program to work in.  As we briefly saw in the previous section, your program can run many times simultaneously, each of those instances are running processes of your program.  If a chocolate cake recipe is a program, then your process of baking a chocolate
     cake with it is the program's process.  A process relays the instructions in your program to the kernel.  A process also
@@ -157,7 +157,7 @@ published: true
     <p>A stream is information (specifically, <dfn>bytes</dfn>) flowing through the links between files, devices and processes in a running system.  They can transport any kind of bytes, and the receiving end can only consume their bytes in the order they were sent.  If I have a program that outputs names connected to another program, the second program can only see the second name after first reading the first name from the stream.  When it's done reading the second name, the next thing in the
     stream is the third name.  Once a name is read from the stream, the program can store it somewhere if it may need it again later.  Reading a name from the stream consumes those bytes from the stream and the stream advances.  The stream cannot be rewound and the name cannot be re-read.</p>
 
-    <img src="img/streams.png" alt="Processes have file descriptors that connect to files, devices and other processes via streams.">
+    <img src="/img/streams.png" alt="Processes have file descriptors that connect to files, devices and other processes via streams.">
 
     <p>In the above example, two bash processes are linked via a stream.  The first bash process reads its input from the keyboard.  It sends output on both standard output and standard error.  Output on standard error is connected to the terminal display, while output on standard output is connected to the second process.  Notice how the first process' <code>FD 1</code> connects to the second process' <code>FD 0</code>.  The second process therefore consumes the first process'
     standard output when it reads from its standard input.  The second process' standard output in turn is connected to the terminal's display.  Running this code in a terminal would show us something like this:</p>
