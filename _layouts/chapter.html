@@ -18,15 +18,16 @@ layout: page
 {{ content }}
 
 <aside class="nav">
-    {% assign nextPage = false %}
-    {% for sitePage in site.pages %}
-        {% if nextPage %}
-            <a href="{{ sitePage.url }}">Next up: {{ sitePage.title }}</a>
+    {% assign found = false %}
+    {% assign chapters = site.pages | where: 'layout', 'chapter' | sort: 'chapter' %}
+    {% for chapter in chapters %}
+        {% if found %}
+            <a href="{{ chapter.url }}">Next up: {{ chapter.title }}</a>
             {% break %}
         {% endif %}
 
-        {% if sitePage.layout == 'chapter' and sitePage == page %}
-            {% assign nextPage = true %}
+        {% if chapter == page %}
+            {% assign found = true %}
         {% endif %}
     {% endfor %}
 </aside>
