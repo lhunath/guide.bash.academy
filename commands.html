@@ -3,9 +3,12 @@ id: commands
 layout: chapter
 chapter: 2
 title: Commands And Arguments
-subtitle: "How do I give bash instructions?"
+subtitle: How do I give bash instructions?
 status: beta
-description: "About what a command is, and how to issue them; interactive mode and scripts; command syntax, searching commands and programs by name; arguments and word splitting as well as input and output redirection."
+description: >-
+  About what a command is, and how to issue them; interactive mode and scripts;
+  command syntax, searching commands and programs by name; arguments and word
+  splitting as well as input and output redirection.
 published: true
 ---
 
@@ -150,9 +153,9 @@ fi
     do.  When <q>Bring the animals book</q> doesn't yet cut it, we need to teach them the steps: <q>Look around, do you see the books behind you?</q>, <q>Great!  Can you find the book with the lion and the cow on it?</q>, <q>That's the one, grab it for me!</q>, <q>Good boy, now bring it to daddy!  Come here, you.</q>, <q>Hi!  Look at you.  Give me the book and sit down, let's read it together.</q>; in a way, writing a bash script is similar to teaching your system how to do a task.
     The difference is your three year old will recognize previous experiences in new requests by himself, your system won't: you'll need to explicitly specify and run previously written job descriptions.</p>
 
-    <p>Some language interpretors (an interpretor is a program, like bash, that can understand a language) try to compensate for this problem by being extremely strict with their grammar and syntax.  The idea is to weed out the ambiguity in your language so as to avoid accidentally doing the wrong thing.  The interpretor enforces correctness to a certain degree: this tends to be a relatively successful strategy and generally results in the least buggy programs.</p>
+    <p>Some language interpreters (an interpreter is a program, like bash, that can understand a language) try to compensate for this problem by being extremely strict with their grammar and syntax.  The idea is to weed out the ambiguity in your language so as to avoid accidentally doing the wrong thing.  The interpreter enforces correctness to a certain degree: this tends to be a relatively successful strategy and generally results in the least buggy programs.</p>
 
-    <p>Sadly, bash is not a strict interpretor.<br>
+    <p>Sadly, bash is not a strict interpreter.<br>
     In fact, bash's latitude is largely at fault for the general ineptitude toward bash scripting with most anyone introduced to the language, novice and professional alike.  The result is not dissimilar to the state of the web around the turn of the century:  Many pages were written so badly that their ability to render properly on any kind of standards-compliant browser was sufficiently compromised to force these browsers to implement all sorts of "smart" hacks in an attempt
     to render the pages as they might have been intended to render, rather than what they were written to render.  Similarly, the gross part of the scripts you are going to run into <em>will be buggy</em>.  Sometimes subtly so, often to the point where simply using it with a file whose name is somewhat unexpected may cause irreversible damage to your system.</p>
     <p><strong>Don't be that person.</strong><br>
