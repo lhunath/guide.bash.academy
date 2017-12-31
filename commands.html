@@ -537,8 +537,8 @@ rm: cannot remove '/home/ lhunath': No such file or directory
                  ╰──────────╯
 
 <span class="prompt">$ </span><kbd>ls -l a b</kbd><em>Imagine we have a file called "a", but not a file called "b".</em>
-ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
--rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>Results are emit on FD 1</em>
+ls: b: No such file or directory<em>Error messages are emitted on FD 2</em>
+-rw-r--r--  1 lhunath  staff  0 30 Apr 14:43 a<em>Results are emitted on FD 1</em>
 
                  ╭──────────╮
     Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
@@ -551,7 +551,7 @@ ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
                  ╰──────────╯
 </pre>
 
-    <p>When <code>bash</code> starts an <code>ls</code> process, it first looks at its own file descriptors.  It then creates file descriptors for the <code>ls</code> process, connected to the same streams as its own: FD 1 and FD 2 leading to the <code>Display</code>, FD 0 coming from the <code>Keyboard</code>.  As a result, <code>ls</code>' error message (emit on FD 2) and its regular output (emit on FD 1) both end up on your terminal display.</p>
+    <p>When <code>bash</code> starts an <code>ls</code> process, it first looks at its own file descriptors.  It then creates file descriptors for the <code>ls</code> process, connected to the same streams as its own: FD 1 and FD 2 leading to the <code>Display</code>, FD 0 coming from the <code>Keyboard</code>.  As a result, <code>ls</code>' error message (emitted on FD 2) and its regular output (emitted on FD 1) both end up on your terminal display.</p>
 
     <p>If we want to gain control over where our commands connect to, we need to employ <dfn>redirection</dfn>: it is the practice of changing the source or destination of a file descriptor.  One thing we could do with redirection is write <code>ls</code>' result to a file instead of to the terminal display:</p>
 
@@ -563,7 +563,7 @@ ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
                  ╰──────────╯
 
 <span class="prompt">$ </span><kbd>ls -l a b <mark>&gt;myfiles.ls</mark></kbd><em>We redirect FD 1 to the file "myfiles.ls"</em>
-ls: b: No such file or directory<em>Error messages are emit on FD 2</em>
+ls: b: No such file or directory<em>Error messages are emitted on FD 2</em>
 
                  ╭──────────╮
     Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
