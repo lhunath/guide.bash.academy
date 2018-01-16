@@ -89,9 +89,9 @@ removed '07 Wake Up.ogg'
             <td>A set of characters within rectangular braces matches a single character, only if it's in the given set.</td>
         </tr>
         <tr>
-            <th><code class="syntax"><strong>[:</strong><var>classname</var><strong>:]</strong></code></th>
+            <th><code class="syntax"><strong>[[:</strong><var>classname</var><strong>:]]</strong></code></th>
             <td>When there is a set of colons directly inside the rectangular braces, you can specify the name of a class of characters instead of having to enumerate each character yourself.<br>
-                Bash knows about various kinds of character classes.  For example, if you use the <code>[:<var>alnum</var>:]</code> pattern, bash will match it against a character only if it is alphanumeric.  Supported character classes include:<br>
+                Bash knows about various kinds of character classes.  For example, if you use the <code>[[:<var>alnum</var>:]]</code> pattern, bash will match it against a character only if it is alphanumeric.  Supported character classes include:<br>
                 <var>alnum</var>, <var>alpha</var>, <var>ascii</var>, <var>blank</var>, <var>cntrl</var>, <var>digit</var>, <var>graph</var>, <var>lower</var>, <var>print</var>, <var>punct</var>, <var>space</var>, <var>upper</var>, <var>word</var>, <var>xdigit</var></td>
         </tr>
     </table>
@@ -120,10 +120,10 @@ hello.txt
 <span class="prompt">$ </span><kbd>ls <mark>[0-9]</mark>*</kbd><em>In a character set, we can use <code>-</code> to indicate a range of characters.  This will match</em>
 <mark>0</mark>5 Between Angels and Insects.ogg<em>a pathname starting with one character between <code>0</code> and <code>9</code> followed by any other text.</em>
 <mark>0</mark>7 Wake Up.ogg
-<span class="prompt">$ </span><kbd>ls <mark>[:digit:][:digit:]</mark>*</kbd><em>Character classes are really nice because they speak for us: they tell us exactly</em>
+<span class="prompt">$ </span><kbd>ls <mark>[[:digit:]][[:digit:]]</mark>*</kbd><em>Character classes are really nice because they speak for us: they tell us exactly</em>
 <mark>05</mark> Between Angels and Insects.ogg<em>what our intent here is.  We want any pathname that start with two digits.</em>
 <mark>07</mark> Wake Up.ogg
-<span class="prompt">$ </span><kbd>ls [:digit:][:digit:]</kbd><em>Your pattern needs to be complete!  None of our filenames is only just a single digit.</em>
+<span class="prompt">$ </span><kbd>ls [[:digit:]][[:digit:]]</kbd><em>Your pattern needs to be complete!  None of our filenames is only just a single digit.</em>
 <span class="prompt">$ </span>
 </pre>
 
