@@ -369,7 +369,7 @@ PATH currently contains: /Users/lhunath/.bin, /usr/local/bin, /usr/bin, /bin, /u
     <table>
         <thead>
             <tr>
-                <th colspan="3"><kbd>url='http://guide.bash.academy/variables.html'</kbd></th>
+                <th colspan="3"><kbd>url='https://guide.bash.academy/variables.html'</kbd></th>
             </tr>
         </thead>
         <tr>
@@ -383,7 +383,7 @@ PATH currently contains: /Users/lhunath/.bin, /usr/local/bin, /usr/bin, /bin, /u
             </th>
             <td><kbd>"${url#<mark>*/</mark>}"</kbd></td>
             <td rowspan="2">
-<pre><mark>http:/</mark>/guide.bash.academy/variables.html
+<pre><mark>https:/</mark>/guide.bash.academy/variables.html
     ↓
 /guide.bash.academy/variables.html</pre>
             </td>
@@ -397,7 +397,7 @@ PATH currently contains: /Users/lhunath/.bin, /usr/local/bin, /usr/bin, /bin, /u
             </th>
             <td><kbd>"${url##<mark>*/</mark>}"</kbd></td>
             <td rowspan="2">
-<pre><mark>http://guide.bash.academy/</mark>variables.html
+<pre><mark>https://guide.bash.academy/</mark>variables.html
     ↓
 variables.html</pre>
             </td>
@@ -411,9 +411,9 @@ variables.html</pre>
             </th>
             <td><kbd>"${url%<mark>/*</mark>}"</kbd></td>
             <td>
-<pre>http://guide.bash.academy<mark>/variables.html</mark>
+<pre>https://guide.bash.academy<mark>/variables.html</mark>
     ↓
-http://guide.bash.academy</pre>
+https://guide.bash.academy</pre>
             </td>
         </tr>
         <tr>
@@ -425,9 +425,9 @@ http://guide.bash.academy</pre>
             </th>
             <td><kbd>"${url%%<mark>/*</mark>}"</kbd></td>
             <td>
-<pre>http:<mark>//guide.bash.academy/variables.html</mark>
+<pre>https:<mark>//guide.bash.academy/variables.html</mark>
     ↓
-http:</pre>
+https:</pre>
             </td>
         </tr>
         <tr>
@@ -439,9 +439,9 @@ http:</pre>
             </th>
             <td><kbd>"${url/<mark>.</mark>/<mark>-</mark>}"</kbd></td>
             <td>
-<pre>http://guide<mark>.</mark>bash.academy/variables.html
+<pre>https://guide<mark>.</mark>bash.academy/variables.html
     ↓
-http://guide-bash.academy/variables.html</pre>
+https://guide-bash.academy/variables.html</pre>
             </td>
         </tr>
         <tr>
@@ -453,9 +453,9 @@ http://guide-bash.academy/variables.html</pre>
             </th>
             <td><kbd>"${url//<mark>.</mark>/<mark>-</mark>}"</kbd></td>
             <td>
-<pre>http://guide<mark>.</mark>bash<mark>.</mark>academy/variables<mark>.</mark>html
+<pre>https://guide<mark>.</mark>bash<mark>.</mark>academy/variables<mark>.</mark>html
     ↓
-http://guide-bash-academy/variables-html</pre>
+https://guide-bash-academy/variables-html</pre>
             </td>
         </tr>
         <tr>
@@ -467,7 +467,7 @@ http://guide-bash-academy/variables-html</pre>
             </th>
             <td><kbd>"${url/#<mark>*:</mark>/<mark>https:</mark>}"</kbd></td>
             <td>
-<pre><mark>http:</mark>//guide.bash.academy/variables.html
+<pre><mark>https:</mark>//guide.bash.academy/variables.html
     ↓
 https://guide.bash.academy/variables.html</pre>
             </td>
@@ -481,9 +481,9 @@ https://guide.bash.academy/variables.html</pre>
             </th>
             <td><kbd>"${url/%<mark>.html</mark>/<mark>.jpg</mark>}"</kbd></td>
             <td>
-<pre>http://guide.bash.academy/variables<mark>.html</mark>
+<pre>https://guide.bash.academy/variables<mark>.html</mark>
     ↓
-http://guide.bash.academy/variables.jpg</pre>
+https://guide.bash.academy/variables.jpg</pre>
             </td>
         </tr>
         <tr>
@@ -495,7 +495,7 @@ http://guide.bash.academy/variables.jpg</pre>
             </th>
             <td><kbd>"${#url}"</kbd></td>
             <td>
-<pre>http://guide.bash.academy/variables.html
+<pre>https://guide.bash.academy/variables.html
     ↓
 40</pre>
             </td>
@@ -509,7 +509,7 @@ http://guide.bash.academy/variables.jpg</pre>
             </th>
             <td><kbd>"${url:<mark>7</mark>}"</kbd></td>
             <td>
-<pre>http://<mark>guide.bash.academy/variables.html</mark>
+<pre>https://<mark>guide.bash.academy/variables.html</mark>
     ↓
 guide.bash.academy/variables.html</pre>
             </td>
@@ -525,7 +525,7 @@ guide.bash.academy/variables.html</pre>
             <td>
 <pre><mark>htt</mark>p://guide.bas<mark>h</mark>.academy/variables.<mark>ht</mark>ml
     ↓
-HTTp://guide.basH.academy/variables.HTml</pre>
+HTTps://guide.basH.academy/variables.HTml</pre>
             </td>
         </tr>
         <tr>
