@@ -89,9 +89,9 @@ removed '07 Wake Up.ogg'
             <td>A set of characters within rectangular braces matches a single character, only if it's in the given set.</td>
         </tr>
         <tr>
-            <th><code class="syntax"><strong>[:</strong><var>classname</var><strong>:]</strong></code></th>
+            <th><code class="syntax"><strong>[[:</strong><var>classname</var><strong>:]]</strong></code></th>
             <td>When there is a set of colons directly inside the rectangular braces, you can specify the name of a class of characters instead of having to enumerate each character yourself.<br>
-                Bash knows about various kinds of character classes.  For example, if you use the <code>[:<var>alnum</var>:]</code> pattern, bash will match it against a character only if it is alphanumeric.  Supported character classes include:<br>
+                Bash knows about various kinds of character classes.  For example, if you use the <code>[[:<var>alnum</var>:]]</code> pattern, bash will match it against a character only if it is alphanumeric.  Supported character classes include:<br>
                 <var>alnum</var>, <var>alpha</var>, <var>ascii</var>, <var>blank</var>, <var>cntrl</var>, <var>digit</var>, <var>graph</var>, <var>lower</var>, <var>print</var>, <var>punct</var>, <var>space</var>, <var>upper</var>, <var>word</var>, <var>xdigit</var></td>
         </tr>
     </table>
@@ -120,10 +120,10 @@ hello.txt
 <span class="prompt">$ </span><kbd>ls <mark>[0-9]</mark>*</kbd><em>In a character set, we can use <code>-</code> to indicate a range of characters.  This will match</em>
 <mark>0</mark>5 Between Angels and Insects.ogg<em>a pathname starting with one character between <code>0</code> and <code>9</code> followed by any other text.</em>
 <mark>0</mark>7 Wake Up.ogg
-<span class="prompt">$ </span><kbd>ls <mark>[:digit:][:digit:]</mark>*</kbd><em>Character classes are really nice because they speak for us: they tell us exactly</em>
+<span class="prompt">$ </span><kbd>ls <mark>[[:digit:]][[:digit:]]</mark>*</kbd><em>Character classes are really nice because they speak for us: they tell us exactly</em>
 <mark>05</mark> Between Angels and Insects.ogg<em>what our intent here is.  We want any pathname that start with two digits.</em>
 <mark>07</mark> Wake Up.ogg
-<span class="prompt">$ </span><kbd>ls [:digit:][:digit:]</kbd><em>Your pattern needs to be complete!  None of our filenames is only just a single digit.</em>
+<span class="prompt">$ </span><kbd>ls [[:digit:]][[:digit:]]</kbd><em>Your pattern needs to be complete!  None of our filenames is only just a single digit.</em>
 <span class="prompt">$ </span>
 </pre>
 
@@ -196,7 +196,7 @@ hello.txt
 
     <p>Extended glob patterns can be extremely useful at times, but they can also be confusing and misleading.  Let's focus on the last example: why does <code>!(my)*.txt</code> expand the pathname <code>myscript.txt</code>?  Isn't <code>!(my)</code> supposed to only match when the pathname does <em>not</em> have a <code>my</code> in this position?  You are correct, it is!  And yet, bash expands a pathname that begins with <code>my</code>!</p>
 
-    <p>The answer here is that bash will happily match this part of the pattern against the <code>m</code> at the beginning (which is not the same as <code>my</code>) or even empty space at the start of the filename.  This means that in order for the pathname to still be eligible for expansion, the <em>rest of our pattern</em> needs to match against it the remaineder of
+    <p>The answer here is that bash will happily match this part of the pattern against the <code>m</code> at the beginning (which is not the same as <code>my</code>) or even empty space at the start of the filename.  This means that in order for the pathname to still be eligible for expansion, the <em>rest of our pattern</em> needs to match against the remainder of
     our pathname.  And it so happens that we have a <code>*</code> glob right after the <code>!(my)</code> glob which will happily match the entirety of the filename.  In this situation, the <code>!(my)</code> part matches against
     the <code>m</code> character in the beginning of the name, the <code>*</code> matches against the <code>yscript</code> part, and the <code>.txt</code> suffix of the pattern matches against the trailing <code>.txt</code> of our pathname.  The pattern matches the name, so the name is expanded!  When we include the <code>*</code> inside the <code>!()</code> pattern, this no longer works and the match fails against this pathname:</p>
 
