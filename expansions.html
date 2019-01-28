@@ -256,7 +256,7 @@ The file &lt;hello.txt&gt; contains: <mark>Hello world.</mark>
         <p>Very observant readers might have noticed that this guide tends to use single quotes to quote its strings but in this latest example switched to double quotes for the sentence that contained the expansion syntax.  This is intentional: all value expansions (ie. all syntax with a <code>$</code> prefix) can only expand inside quoted arguments if the argument was <em>double-quoted</em>.  Single quotes will turn the dollar-syntax into literal characters, causing bash to output the
         dollar rather than expand its value in-place!  It is thus important to double-quote all our arguments that contain value expansions.</p>
         <p>
-            <q>Value expansions (<code>$...</code>) must <strong>always</strong> be double-quoted.</q>
+            <q>Value expansions <code>$(...)</code> must <strong>always</strong> be double-quoted.</q>
         </p>
     </aside>
     <aside class="warn">
