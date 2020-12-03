@@ -599,7 +599,7 @@ pre em, code em {
     transition: 0.2s all;
 
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     left: 10%;
     padding-left: 35em;
     /*width: 40em; 40em overflows the available space causing scroll bars when they're unnecessary */
