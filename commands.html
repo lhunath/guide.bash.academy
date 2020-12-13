@@ -308,7 +308,7 @@ exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
         <dt><dfn>builtin</dfn></dt>
         <dd>Builtins are tiny procedures built into bash.  They are small operations that were programmed into bash and bash doesn't need to run a special program to be able to perform them.  We will look into what builtins bash provides, along with their names and what their effect is.</dd>
         <dt><dfn>program</dfn>, also called an <dfn>external command</dfn></dt>
-        <dd>Your system has a great many programs installed, some of them do little tasks, some of them do big tasks.  Some of them run in the terminal, some of them run invisibly, others run in your graphical interface.  Bash finds programs by looking into your system's configured <code>PATH</code> (which we'll explain in a moment).</dd>
+        <dd>Your system has a great number of programs installed, some of them do little tasks, some of them do big tasks.  Some of them run in the terminal, some of them run invisibly, others run in your graphical interface.  Bash finds programs by looking into your system's configured <code>PATH</code> (which we'll explain in a moment).</dd>
     </dl>
 
     <p>If bash finds no way to execute a command by the name you gave it, your command will result in an error and bash will show an error message:</p>
@@ -340,7 +340,7 @@ bash: buy: command not found
     <p>Bash honors this variable by looking through its listed directories whenever you try to to start a program it doesn't yet know the location of.  Say you're trying to start the <code>ping</code> program which is installed at <code>/sbin/ping</code>.  If your <code>PATH</code> is set to <code>/bin:/sbin:/usr/bin:/usr/sbin</code> then bash will first try to start <code>/bin/ping</code>, which doesn't exist.  Failing that, it will try <code>/sbin/ping</code>.  It finds the
     <code>ping</code> program, records its location in case you need <code>ping</code> again in the future and goes ahead and runs the program for you.</p>
 
-    <p>If you're ever curious about exactly where bash finds the program to run for a command name, you can use the <code>type</code> built-in to find out:</p>
+    <p>If you're ever curious about exactly where bash finds the program to run for a command name, you can use the <code>type</codbuilt-in to find out:</p>
 
 <pre lang="bash">
 <span class="prompt">$ </span><kbd>type ping</kbd>
