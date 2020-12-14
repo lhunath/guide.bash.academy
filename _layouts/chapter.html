@@ -3,16 +3,16 @@ layout: page
 ---
 {% if page.status == 'todo' %}
 <div class="status {{page.status}}">This chapter has not yet been written.  It is pending and will be written as soon as I get to it.<br>
-    If you are interested in getting updates on the progress of this guide, you can <a href="https://github.com/lhunath/bash.academy">star the source repository here</a>.</div>
+    If you are interested in getting updates on the progress of this guide, you can <a href="https://github.com/lhunath/guide.bash.academy">star the source repository here</a>.</div>
 {% elsif page.status == 'draft' %}
 <div class="status {{page.status}}">This chapter is actively being drafted.  It is incomplete, will be updated from time to time and content is likely to move around.<br>
-    If you are interested in getting updates on the progress of this guide, you can <a href="https://github.com/lhunath/bash.academy">star the source repository here</a>.</div>
+    If you are interested in getting updates on the progress of this guide, you can <a href="https://github.com/lhunath/guide.bash.academy">star the source repository here</a>.</div>
 {% elsif page.status == 'alpha' %}
 <div class="status {{page.status}}">This chapter's content target has been reached. It is pending audit and feedback from readers like you.<br>
-    If you are interested in getting updates on the progress of this guide, you can <a href="https://github.com/lhunath/bash.academy">star the source repository here</a>.</div>
+    If you are interested in getting updates on the progress of this guide, you can <a href="https://github.com/lhunath/guide.bash.academy">star the source repository here</a>.</div>
 {% elsif page.status == 'beta' %}
 <div class="status {{page.status}}">This chapter has reached a state of completion. Enjoy, and let us know if you spot anything that can be improved.<br>
-    If you are interested in getting updates on the progress of this guide, you can <a href="https://github.com/lhunath/bash.academy">star the source repository here</a>.</div>
+    If you are interested in getting updates on the progress of this guide, you can <a href="https://github.com/lhunath/guide.bash.academy">star the source repository here</a>.</div>
 {% endif %}
 
 {{ content }}
