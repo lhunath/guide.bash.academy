@@ -258,7 +258,7 @@ read latestAuth &lt;&amp;"${auth[0]}"
 echo "Latest authentication attempt: $latestAuth"</samp>
 </pre>
         
-            <p>The example starts an asynchronous <code>tail</code> command.  While it runs in the background, the rest of the script continues.  First the script reads a line of output from the coprocess called <code>auth</code> (which is the first line the <code>tail</code> command output).  Next, we write a message showing the latest authentication attempt we read from the coprocess.  The script can continue and each time it reads from the coprocess pipe, it will get the next line from the
+            <p>The example starts an asynchronous <code>tail</code> command.  While it runs in the background, the rest of the script continues.  First the script reads a line of output from the coprocess called <code>auth</code> (which is the first line of the <code>tail</code> command output).  Next, we write a message showing the latest authentication attempt we read from the coprocess.  The script can continue and each time it reads from the coprocess pipe, it will get the next line from the
             <code>tail</code> command.</p>
         </dd>
         <dt>Functions</dt>
