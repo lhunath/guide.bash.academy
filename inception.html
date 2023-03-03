@@ -163,7 +163,10 @@ published: true
     <img src="/img/streams.png" alt="Processes have file descriptors that connect to files, devices and other processes via streams.">
 
     <p>In the above example, two bash processes are linked via a stream.  The first bash process reads its input from the keyboard.  It sends output on both standard output and standard error.  Output on standard error is connected to the terminal display, while output on standard output is connected to the second process.  Notice how the first process' <code>FD 1</code> connects to the second process' <code>FD 0</code>.  The second process therefore consumes the first process'
-    standard output when it reads from its standard input.  The second process' standard output in turn is connected to the terminal's display.  Running this code in a terminal would show us something like this:</p>
+    standard output when it reads from its standard input.  The second process' standard output in turn is connected to the terminal's display.  You can test running this code in a terminal by keying-in the following command:</p>
+     <code>$ echo "Your name?" >&2; read name; echo "$name" | while read name; do echo "Hello, $name"; done</code>
+      
+  <p> It would show us something like this:</p>
 
 <pre>
 Your name?
@@ -180,3 +183,4 @@ Hello, Maarten Billemont
     Each time a program is started, the system creates a running <dfn>process</dfn> for it.  Processes have plugs, called <dfn>file descriptors</dfn> which allow them to connect <dfn>streams</dfn> that lead to files, devices or other processes.
     </footer>
 </section>
+  
