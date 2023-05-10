@@ -163,9 +163,12 @@ published: true
     <img src="/img/streams.png" alt="Processes have file descriptors that connect to files, devices and other processes via streams.">
 
     <p>In the above example, two bash processes are linked via a stream.  The first bash process reads its input from the keyboard.  It sends output on both standard output and standard error.  Output on standard error is connected to the terminal display, while output on standard output is connected to the second process.  Notice how the first process' <code>FD 1</code> connects to the second process' <code>FD 0</code>.  The second process therefore consumes the first process'
-    standard output when it reads from its standard input.  The second process' standard output in turn is connected to the terminal's display.  Running this code in a terminal would show us something like this:</p>
+    standard output when it reads from its standard input.  The second process' standard output in turn is connected to the terminal's display.</p>
 
-<pre>
+    <p>To try out this dynamic, you can run the following code in a terminal, where <code>(</code> and <code>)</code> symbols create two sub-shells and the <code>|</code> symbol connects the former's <code>FD 1</code> to the latter's <code>FD 0</code>:</p>
+
+<pre lang="bash">
+<span class="prompt">$ </span><kbd>( echo "Your name?" &gt;&amp;2; read name; echo "$name" ) | ( while read name; do echo "Hello, $name"; done )</kbd>
 Your name?
 <kbd>Maarten Billemont</kbd>
 Hello, Maarten Billemont
