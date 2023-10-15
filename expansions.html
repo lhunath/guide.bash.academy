@@ -287,7 +287,7 @@ The file &lt;hello.txt&gt; contains: <mark>Hello world.</mark>
     <h2>What are bash parameters?</h2>
 
     <p>Simply put, bash parameters are regions in memory where you can temporarily store some information for later use.</p>
-    
+
     <p>Not unlike files, we write to these parameters and read from them when we need to retrieve the information later.  But since we're using the system's memory and not the disk to write this information to, access is much faster.  Using parameters is also much easier and the syntax more powerful than redirecting input and output to and from files.</p>
 
     <p>Bash provides a few different types of parameters: positional parameters, special parameters and shell variables.  The latter are the most interesting type, the former two mainly give us access to certain information bash makes available to us.  We'll introduce the practical aspects and usage of parameters through variables and then explain how positional and special parameters are different.</p>
@@ -335,12 +335,12 @@ Hello, lhunath.  How are you?
 
     <p>Assigning values to variables is neat but not really immediately useful.  It's being able to re-use those values at any time that makes parameters so interesting.  Re-using parameter values is done by expanding them.  <dfn>Parameter Expansion</dfn> effectively takes the data out of your parameter and inlines it into the data of your command.  As we saw briefly before, we expand parameters by prefixing their name with a <code>$</code> symbol.  Whenever you see this symbol in bash, it's probably
     because something is getting expanded.  It could be a parameter, or the output of a command, or the result of an arithmetic operation.  We'll learn more about the other expansions later on.</p>
-    
+
     <aside class="rule">
         <p>You might notice a trend here, but it bears consistent repeating:<br>
         <q>Parameter expansions (and all other value expansions) should <strong>always</strong> be double-quoted.</q></p>
     </aside>
-    
+
     <p>In addition, parameter expansion allows you to wrap curly braces (<kbd>{</kbd> and <kbd>}</kbd>) around your expansion.  These braces are used to tell bash what the beginning and end of your parameter name is.  They are usually optional, as bash can often figure the name out by itself.  Though sometimes they become a necessity:</p>
 
 <pre lang="bash">
@@ -725,9 +725,9 @@ hello BIG world</samp></pre>
          ╰─ screen<em>The user runs the <code>screen</code> program from his login shell</em>
               │
               ╰─ weechat<em>The <code>screen</code> program creates multiple windows</em>
-              │         <em>and allows the user to switch between them.</em> 
-              ╰─ bash   <em>The first runs an IRC client, two others run a</em> 
-              │         <em>non-login bash shell.</em> 
+              │         <em>and allows the user to switch between them.</em>
+              ╰─ bash   <em>The first runs an IRC client, two others run a</em>
+              │         <em>non-login bash shell.</em>
               ╰─ bash
 </pre>
 
@@ -848,7 +848,7 @@ usage: names 'My Full Name'
 
 Your first name is: Maarten
 Your last name is: Billemont
-Your middle names are: 
+Your middle names are:
 <span class="prompt">$ </span><kbd>./names 'James Tiberius "Jim" Kirk'</kbd>
 The Name Script
 usage: names 'My Full Name'
@@ -1003,11 +1003,11 @@ echo "1: $1, 2: $2, 4: $4"
     </table>
 
     <p>Just like positional parameters, special parameters are read-only: you can only use them to expand information, not store information.</p>
-    
+
     <h2>Shell Internal Variables</h2>
 
     <p>You already know what shell variables are.  Were you aware that the bash shell also creates a few variables for you?  These variables are used for various tasks and are handy for looking up certain state information from the shell or changing certain shell behaviours.</p>
-    
+
     <aside class="rule">
         <p>Internal shell variables are shell variables with ALL-UPPERCASE names.  The same holds true for nearly all environment variables.  It is important to make sure that when we start creating our own shell variables, we don't accidentally use the name of a shell variable we didn't know about, this mistake will result in all kinds of dangerous and unexpected behaviour.  Thankfully, shell variable names are case-sensitive, so in order to avoid ever accidentally overriding a shell-internal
         variable or a system-exported variable of the same name, the general rule is:</p>
@@ -1213,7 +1213,7 @@ echo "1: $1, 2: $2, 4: $4"
 
     <p>Unfortunately, though, when we start thinking in terms of having the computer handle data for us, we need to stop thinking about our excellent human abstractions and put on our cognitive baby shoes.  A computer doesn't know that <code>Susan Q. - Mary T. - Steven S. - Anne-Marie D. - Peter E.</code> is a list of names, it certainly doesn't know that these names are delimited by dashes and it most definitely wouldn't be able to guess that <code>Anne-Marie</code> is a single name as
     opposed to two distinct people in the list.</p>
-    
+
     <aside class="rule">
         <p>When we need to work with lists of things in bash, we should <strong>always</strong> be as explicit as possible about what the different elements in this list are.</p>
     </aside>
