@@ -207,7 +207,7 @@ fi
 <samp><u title="command #1">echo Hello</u> | <u title="command #2">rev</u></samp>
 <samp>! <u title="command #1">rm greeting.txt</u></samp>
 </pre>
-        
+
             <p>We rarely use the <code>time</code> keyword, but it is convenient for finding out how long it takes to run our commands.</p>
             <p>The <code>!</code> keyword is a little odd at first, and just like the time keyword it doesn't have much to do with connecting commands.  We'll learn about what it does when we discuss conditionals and testing the success of commands.</p>
             <p>The first <code>command</code> and the second <code>command2</code> can be any type of command from this section.  Bash will create a <dfn>subshell</dfn> for each command and set up the first command's standard output file descriptor such that it points to the second command's standard input file descriptor.  The two commands will run simultaneously and bash will wait for both of them to end.  We'll explain what exactly these "subshells" are in a later chapter.</p>
@@ -224,7 +224,7 @@ fi
 <samp>cd music<u title="sequential control operator">;</u> mplayer *.mp3</samp>
 <samp>rm hello.txt <u title="conditional control operator 'OR'">||</u> echo "Couldn't delete hello.txt." &gt;&amp;2</samp>
 </pre>
-        
+
             <p>The command can be any of the other types of commands from this section.</p>
             <p>After the command comes the <dfn>control operator</dfn> which tells bash how the command should be executed.  The simplest control operator is just starting a new line, which is equivalent to <code>;</code> and tells bash to just run the command and wait for it to end before advancing to the next command in the list.  The second example uses the <code>||</code> control operator which tells bash to run the command before it as it normally would, but after finishing
             that command move to the next command <em>only if the command before it failed</em>.  If the command before it didn't fail, the <code>||</code> operator will make bash skip the command after it.  This is useful for showing error messages when a command fails.  We'll go more in depth on all the control operators in later sections.</p>
@@ -241,7 +241,7 @@ fi
 <samp><u title="start of compound command 'if'">if</u> ! rm hello.txt; then echo "Couldn't delete hello.txt." &gt;&amp;2; exit 1; <u title="end of compound command 'if'">fi</u></samp>
 <samp>rm hello.txt || <u title="start of 'group' compound command">{</u> echo "Couldn't delete hello.txt." &gt;&amp;2; exit 1; <u title="end of 'group' compound command">}</u></samp>
 </pre>
-        
+
             <p>Both examples perform the same operation.  The first example is a compound command, the second is a compound command in a command list.  We discussed the <code>||</code> operator briefly before:  The command on the right side of it is skipped unless the command before it fails.  This is a good example to illustrate an important property of compound commands: they behave as one command in a command list.  The compound command in the second example begins at
             <code>{</code> and continues until the next <code>}</code>, as a result everything inside the braces is considered a single command, meaning we have a command list of two commands: the <code>rm</code> command followed by the <code>{ ... }</code> compound.  If we were to forget the braces, we would get a command list of <em>three</em> commands: the <code>rm</code> command followed by the <code>echo</code> command, followed by the <code>exit</code> command.  The difference is mainly important to
             the <code>||</code> operator in deciding what to do when the preceding <code>rm</code> command is successfully completed.  If the <code>rm</code> succeeds, <code>||</code> will skip the command after it, which, if we leave out the braces, would be only the <code>echo</code> command.  The braces combine the <code>echo</code> and <code>exit</code> commands into a single compound command, allowing <code>||</code> to skip both of them when <code>rm</code> succeeds.</p>
@@ -257,7 +257,7 @@ fi
 read latestAuth &lt;&amp;"${auth[0]}"
 echo "Latest authentication attempt: $latestAuth"</samp>
 </pre>
-        
+
             <p>The example starts an asynchronous <code>tail</code> command.  While it runs in the background, the rest of the script continues.  First the script reads a line of output from the coprocess called <code>auth</code> (which is the first line of the <code>tail</code> command output).  Next, we write a message showing the latest authentication attempt we read from the coprocess.  The script can continue and each time it reads from the coprocess pipe, it will get the next line from the
             <code>tail</code> command.</p>
         </dd>
@@ -271,7 +271,7 @@ echo "Latest authentication attempt: $latestAuth"</samp>
 <samp>exists() { [[ -x $(type -P "$1" 2&gt;/dev/null) ]]; }
 exists gpg || echo "Please install GPG." &lt;&amp;2</samp>
 </pre>
-                            
+
             <p>You begin by specifying a <code>name</code> for your function.  This is the name of your new command, you'll be able to run it later on by writing a simple command with that name.</p>
             <p>After the command name go the <code>()</code> parentheses.  Some languages use these parentheses to declare the arguments the function accepts: <strong>bash does not</strong>.  The parentheses should always be empty.  They simply denote the fact that you're declaring a function.</p>
             <p>Next comes the compound command that will be executed each time you run the function.</p>
@@ -354,7 +354,7 @@ echo is /bin/echo<em>We have an echo built-in but also a program called echo!</e
     you're ever in need of <code>echo</code>'s functionality without being in bash, you'll be able to use the <code>echo</code> program instead.</p>
 
     <p>Sometimes you'll need to run a program that isn't installed in any of the <code>PATH</code> directories.  In that case, you'll have to manually specify the path to where bash can find the program, rather than just its name:</p>
-    
+
 <pre lang="bash">
 <span class="prompt">$ </span><kbd>/sbin/ping -c 1 127.0.0.1</kbd>
 PING 127.0.0.1 (127.0.0.1): 56 data bytes
@@ -370,7 +370,7 @@ Your name? <em>We use the path "." which means "our current directory"</em>
     <aside>Bash only performs a <code>PATH</code> search on command names that do not contain a <kbd title="slash">/</kbd> character.  Command names with a slash are always considered direct pathnames to the program to execute.</aside>
 
     <p>You can add more directories to your <code>PATH</code>.  A common practice is to have a <code>/usr/local/bin</code> and a <code>~/bin</code> (where <code>~</code> represents your user's home directory).  Remember that <code>PATH</code> is an <dfn>environment variable</dfn>: you can update it like this:</p>
-    
+
 <pre lang="bash">
 <span class="prompt">$ </span><kbd>PATH=~/bin:/usr/local/bin:/bin:/usr/bin</kbd>
 <span class="prompt">$ </span>
@@ -542,7 +542,7 @@ ls: b: No such file or directory<em>Error messages are emitted on FD 2</em>
 
                  ╭──────────╮
     Keyboard ╾┬─╼┥0  bash  1┝╾─┬─╼ Display
-              │  │         2┝╾─┤ 
+              │  │         2┝╾─┤
               │  ╰─────┬────╯  │
               │        ╎       │
               │  ╭─────┴────╮  │

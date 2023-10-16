@@ -18,14 +18,14 @@ published: true
     <h1>What is bash, and what do I need it for?</h1>
 
     <p>Welcome to the bash guide.  You're reading this guide, which means you probably have a vague idea about what bash is and what you might want to do with it.</p>
-    
-    <p>If you've already got a fair notion of what bash is, I'd like to advise you to try and forget everything you think you know before you continue.  There is a dreadful amount of misinformation floating around with regards to bash, its syntax and its place in your computer system.  This guide will be maximally effective if you reset that prior knowledge and begin a clean slate.</p>
+
+    <p>If you've already got a fair notion of what bash is, I'd like to advise you to try and forget everything you think you know before you continue.  There is an enormous amount of misinformation floating around with regards to bash, its syntax and its place in your computer system.  This guide will be maximally effective if you reset that prior knowledge and begin a clean slate.</p>
 
     <h2>So what <em>is</em> bash?</h2>
 
     <p>Short answer: Bash is a <dfn>program</dfn> on your computer like any other, but designed to be easy for you to talk to.</p>
 
-    <p>Every program on your computer has the ability to do a vast amount of different things.  Read files, start other programs, do math, control devices.  The main difference between bash and most other programs is that unlike them, bash was not programmed to perform a certain task.  Bash was programmed to take <dfn>commands</dfn> from you, the user.  To do so efficiently, a "language" was created which allows users to "speak" to the bash program and tell it what to do.  This language is
+    <p>Every program on your computer has the ability to do a vast range of different things.  Read files, start other programs, do math, control devices.  The main difference between bash and most other programs is that unlike them, bash was not programmed to perform a certain task.  Bash was programmed to take <dfn>commands</dfn> from you, the user.  To do so efficiently, a "language" was created which allows users to "speak" to the bash program and tell it what to do.  This language is
     the bash shell language and you are about to become intimately familiar with it.</p>
 
     <p>In essence, a <dfn>shell</dfn> program is one that provides users with an interface to interact with other programs.  There is a large variety of shell programs, each with their own language.  Some popular ones are the <dfn>C shell (csh)</dfn>, <dfn>Z shell (zsh)</dfn>, <dfn>Korn shell (ksh)</dfn>, <dfn>Bourne shell</dfn>, <dfn>Debian's Almquist shell (dash)</dfn>, etc.  Bash (also called the <dfn>Bourne Again shell</dfn>) is currently the most popular and ubiquitously
@@ -59,7 +59,7 @@ published: true
     <p>We learned that bash is little more than a program on your computer waiting for you to start it and give it commands to perform.  We learned that interacting with bash generally happens through a text-based interface where you "speak" by writing commands using the bash shell language and receive feedback in the form of textual output or the results of running other programs.</p>
 
     <p>Before we dive right into the thick of it, let's first get our bearings.  It's important that you understand where the bash program lives, how it's invoked, and what its environment is.  How far does its reach extend and whom are its friends upon which it can call for help in performing the tasks you will instruct it to do.</p>
-    
+
     <h2>Where do I find bash?  How do I start using it?</h2>
 
     <p>Assuming that your operating system came with bash installed, you'll find bash as a simple executable program located in one of your system's standard binary directories.  A binary is an executable program that contains "binary code" which is executed directly by the system's kernel.  If you're running a system that does not ship with bash pre-installed, such as FreeBSD or Windows, you'll need to either use a distribution platform to download and install it, or obtain bash's source code and build the binary yourself.  FreeBSD users can use <code>ports</code>, Windows users can use
@@ -142,7 +142,7 @@ published: true
 
     <p>A program generally lives on your disk, waiting to be started.  When you "run" or "execute" a program, your kernel loads its pre-written instructions (its <dfn>code</dfn>) by creating a <dfn>process</dfn> for your program to work in.  As we briefly saw in the previous section, your program can run many times simultaneously, each of those instances are running processes of your program.  If a chocolate cake recipe is a program, then your process of baking a chocolate
     cake with it is the program's process.  A process relays the instructions in your program to the kernel.  A process also
-    has a few hooks to the outside world via something called <dfn>file descriptors</dfn>.  These are essentially plugs we use to connect processes to files, devices or other processes.  Most chocolate cake recipes won't, but some might have, for instance, a table for looking up the amount of ingredients based on the desired amount of servings.  These recipes take input and their output will differ depending on the input given.  File descriptors are identified by numbers, though the first three also have standard names:</p>
+    has a few hooks to the outside world via something called <dfn>file descriptors</dfn>.  These are essentially plugs we use to connect processes to files, devices or other processes.  Most chocolate cake recipes won't, but some might have, for instance, a table for looking up the amounts of ingredients based on the desired number of servings.  These recipes take input and their output will differ depending on the input given.  File descriptors are identified by numbers, though the first three also have standard names:</p>
     <dl>
         <dt><dfn>standard input</dfn></dt>
         <dd><strong>File descriptor 0</strong> is also called <dfn>standard input</dfn>.  This is where most processes receive their input from.  By default, processes in your terminal will have their standard input "connected" to your keyboard.  More specifically, to the input your terminal program receives.</dd>
